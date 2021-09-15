@@ -9,39 +9,83 @@
     android:layout_gravity="center"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/imageView"
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:background="@drawable/radius"
         android:layout_width="864px"
         android:layout_height="1020px"
         android:layout_marginTop="183px"
-        android:backgroundTint="#ffffff"
-        android:background="@drawable/radius"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></ImageView>
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:scaleType="fitXY" />
+
+    </FrameLayout>
 
     <TextView
-        android:gravity="center"
         android:id="@+id/textView"
         android:layout_width="774px"
-        android:textFontWeight="400"
         android:layout_height="54px"
         android:layout_marginTop="129px"
-        android:text="사랑하는 사람과의 위치를 언제든지 확인하세요"
-        android:textSize="39px"
+        android:gravity="center"
+        android:text="사랑하는 사람의 위치를 언제든지 확인하세요"
+        android:textFontWeight="400"
+        android:textSize="41px"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
+
+    <ImageView
+        android:id="@+id/ellipse1"
+        android:layout_width="30px"
+        android:layout_height="30px"
+        android:layout_marginStart="435px"
+        android:layout_marginLeft="435px"
+        app:layout_constraintBottom_toTopOf="@+id/startButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:srcCompat="@drawable/ellipse" />
+
+    <ImageView
+        android:id="@+id/ellipse2"
+        android:layout_width="30px"
+        android:layout_height="30px"
+        app:srcCompat="@drawable/ellipse"
+        app:layout_constraintBottom_toTopOf="@+id/startButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <ImageView
+        android:id="@+id/ellipse3"
+        android:layout_width="30px"
+        android:layout_height="30px"
+        android:layout_marginEnd="435px"
+        android:layout_marginRight="435px"
+        app:layout_constraintBottom_toTopOf="@+id/startButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:srcCompat="@drawable/ellipse" />
+
 
     <Button
+        android:id="@+id/startButton"
         android:layout_width="960px"
         android:layout_height="141px"
-        android:textAllCaps="false"
         android:layout_marginBottom="90px"
+        android:background="@drawable/radius"
         android:backgroundTint="#F6F6F6"
         android:text="With Me 시작하기"
+        android:textAllCaps="false"
         android:textColor="#000000"
-        android:background="@drawable/radius"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
