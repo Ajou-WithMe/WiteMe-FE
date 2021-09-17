@@ -10,6 +10,6 @@
         android:layout_width="864px"
         android:layout_height="1020px"
         android:backgroundTint="#aaaaaa"
-        android:background="@drawable/radius" />
+        android:background="@drawable/radius_1" />
 
 </LinearLayout>

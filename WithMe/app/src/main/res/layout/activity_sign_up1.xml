@@ -6,4 +6,35 @@
     android:layout_height="match_parent"
     tools:context=".SignUpActivity1">
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="672px"
+        android:layout_height="69px"
+        android:layout_marginTop="402px"
+        android:text="회원가입 방식을 선택해주세요"
+        android:textColor="#222222"
+        android:textSize="53px"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/emailLogin"
+        android:layout_width="906px"
+        android:layout_height="141px"
+        android:layout_marginBottom="831px"
+        android:backgroundTint="#e9e9e9"
+        android:background="@drawable/radius_2"
+        android:drawableLeft="@drawable/email_logo"
+        android:paddingLeft="63px"
+        android:textSize="42px"
+        android:text="이메일 로그인"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+    </Button>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

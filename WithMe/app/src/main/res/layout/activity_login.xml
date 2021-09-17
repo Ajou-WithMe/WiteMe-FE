@@ -17,21 +17,23 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/with_me_logo_yellow" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <TextView
+        android:layout_width="417px"
+        android:layout_height="69px"
+        android:text="With Me 시작하기"
+        android:textSize="54px"
+        android:textColor="#333333"
         android:layout_marginTop="390px"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/with_me_start" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/signUpButton"
         android:layout_width="960px"
         android:layout_height="141px"
         android:layout_marginBottom="90px"
-        android:background="@drawable/radius"
+        android:background="@drawable/radius_1"
         android:backgroundTint="#F6F6F6"
         android:text="With Me가 처음이신가요?"
         android:textAllCaps="false"

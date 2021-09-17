@@ -11,7 +11,7 @@
 
     <FrameLayout
         android:id="@+id/frameLayout"
-        android:background="@drawable/radius"
+        android:background="@drawable/radius_1"
         android:layout_width="864px"
         android:layout_height="1020px"
         android:layout_marginTop="183px"
@@ -81,7 +81,7 @@
         android:layout_width="960px"
         android:layout_height="141px"
         android:layout_marginBottom="90px"
-        android:background="@drawable/radius"
+        android:background="@drawable/radius_1"
         android:backgroundTint="#F6F6F6"
         android:text="With Me 시작하기"
         android:textAllCaps="false"

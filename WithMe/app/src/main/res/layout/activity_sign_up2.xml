@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    tools:context=".SignUpActivity2">
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="882px"
+        android:layout_height="69px"
+        android:layout_marginStart="57px"
+        android:layout_marginLeft="57px"
+        android:layout_marginTop="324px"
+        android:text="아이디로 사용할 이름을 입력해주세요"
+        android:textColor="#000000"
+        android:textSize="54px"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="756px"
+        android:layout_height="54px"
+        android:layout_marginStart="60px"
+        android:layout_marginLeft="60px"
+        android:layout_marginTop="24px"
+        android:text="본인인증을 위해 이메일 인증을 꼭 해주세요!"
+        android:textColor="#595956"
+        android:textSize="41px"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <TextView
+        android:id="@+id/warningMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60px"
+        android:layout_marginLeft="60px"
+        android:layout_marginTop="534px"
+        android:textColor="#FF0000"
+        android:textSize="37px"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextEmail"
+        android:layout_width="960px"
+        android:layout_height="141px"
+        android:layout_marginTop="594px"
+        android:background="@drawable/edittext_rounded_corner_rectangle"
+        android:hint="withme123@naver.com"
+        android:padding="30px"
+        android:textSize="42px"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/emailAuthentication"
+        android:clickable="false"
+        android:layout_width="960px"
+        android:layout_height="140px"
+        android:layout_marginTop="771px"
+        android:textSize="42px"
+        android:backgroundTint="#E9E9E9"
+        android:text="이메일로 인증번호 받기"
+        android:background="@drawable/radius_1"
+        android:textColor='#000000'
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/layoutAuthenticate"
+        android:layout_width="960px"
+        android:layout_height="141px"
+        android:layout_marginTop="948px"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:layout_width="711px"
+            android:layout_height="141px"
+            android:textSize="37px"
+            android:inputType="textPersonName"
+            android:id="@+id/emailCodeText"
+            android:background="@drawable/edittext_rounded_corner_rectangle"
+            android:padding="30px"
+            android:text="" />
+
+        <Button
+            android:id="@+id/authenticate"
+            android:clickable="false"
+            android:minHeight="141px"
+            android:textSize="42px"
+            android:layout_marginLeft="27px"
+            android:layout_gravity="center"
+            android:backgroundTint="#E9E9E9"
+            android:layout_width="216px"
+            android:layout_height="wrap_content"
+            android:background="@drawable/radius_1"
+            android:text="인증"
+            android:textColor="#000000" />
+
+    </LinearLayout>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
