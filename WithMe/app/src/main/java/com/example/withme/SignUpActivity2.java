@@ -2,6 +2,7 @@ package com.example.withme;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,6 +26,7 @@ public class SignUpActivity2 extends AppCompatActivity implements TextWatcher {
     private String emailValidation = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
     private String email;
 
+    Retrofit retrofit;
     static int value;
     String GmailCode;
     int mailSend = 0;
@@ -44,8 +46,7 @@ public class SignUpActivity2 extends AppCompatActivity implements TextWatcher {
         authenticate = (Button)findViewById(R.id.authenticate);
         layoutAuthenticate = (LinearLayout) findViewById(R.id.layoutAuthenticate);
 
-        // 인증번호 받는 부분은 GONE으로 안보이게 숨긴다.
-//        layoutAuthenticate.setVisibility(View.GONE);
+        Intent intent = new Intent(this, SignUpActivity3.class);
 
         // 이메일 인증하는 부분
         // 인증코드 시간 초가 흐르는데, 이때 인증을 마치지 못하면 인증 코드를 지우게 만든다.
@@ -57,6 +58,7 @@ public class SignUpActivity2 extends AppCompatActivity implements TextWatcher {
                 } else {
                     emailCodeText.setBackgroundResource(R.drawable.edittext_bg_selector_not_validate);
                     Toast.makeText(getApplicationContext(), "인증번호를 다시 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    startActivity(intent);
                 }
             }
         });
@@ -87,10 +89,7 @@ public class SignUpActivity2 extends AppCompatActivity implements TextWatcher {
             emailAuthentication.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    emailAuthentication.setVisibility(View.GONE);
-
-                    // 인증번호 받는 부분 다시 생기게 함!
-//                    layoutAuthenticate.setVisibility(View.VISIBLE);
+                    emailAuthentication.setText("이메일로 인증번호 다시 받기");
 
                     if(mailSend == 0) {
                         value = 300;

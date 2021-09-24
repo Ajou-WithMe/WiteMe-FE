@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".SignUpActivity3">
+
+    <TextView
+        android:layout_width="561px"
+        android:layout_height="69px"
+        android:layout_marginStart="60px"
+        android:layout_marginLeft="60px"
+        android:layout_marginTop="324px"
+        android:text="비밀번호를 설정해주세요"
+        android:textColor="#222222"
+        android:textSize="53px"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="774px"
+        android:layout_height="54px"
+        android:layout_marginStart="60px"
+        android:layout_marginLeft="60px"
+        android:layout_marginTop="417px"
+        android:text="자주 사용하는 숫자 여섯자리를 입력해주세요"
+        android:textColor="#595956"
+        android:textSize="41px"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/firstPhoneNumber"
+        android:layout_width="129px"
+        android:layout_height="141px"
+        android:layout_marginStart="60px"
+        android:layout_marginLeft="60px"
+        android:layout_marginTop="594px"
+        android:textSize="54px"
+        android:textColor="#000000"
+        android:maxLength="1"
+        android:background="@drawable/edittext_rounded_corner_password"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center"/>
+
+    <EditText
+        android:id="@+id/SecondPhoneNumber"
+        android:layout_width="129px"
+        android:layout_height="141px"
+        android:layout_marginStart="36px"
+        android:layout_marginLeft="36px"
+        android:layout_marginTop="594px"
+        android:textSize="54px"
+        android:textColor="#000000"
+        android:maxLength="1"
+        android:background="@drawable/edittext_rounded_corner_password"
+        app:layout_constraintStart_toEndOf="@+id/firstPhoneNumber"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center"/>
+
+    <EditText
+        android:id="@+id/ThirdPhoneNumber"
+        android:layout_width="129px"
+        android:layout_height="141px"
+        android:layout_marginStart="36px"
+        android:layout_marginLeft="36px"
+        android:layout_marginTop="594px"
+        android:textSize="54px"
+        android:textColor="#000000"
+        android:maxLength="1"
+        android:background="@drawable/edittext_rounded_corner_password"
+        app:layout_constraintStart_toEndOf="@+id/SecondPhoneNumber"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center"/>
+
+    <EditText
+        android:id="@+id/FourthPhoneNumber"
+        android:layout_width="129px"
+        android:layout_height="141px"
+        android:layout_marginStart="36px"
+        android:layout_marginLeft="36px"
+        android:layout_marginTop="594px"
+        android:textSize="54px"
+        android:textColor="#000000"
+        android:maxLength="1"
+        android:background="@drawable/edittext_rounded_corner_password"
+        app:layout_constraintStart_toEndOf="@+id/ThirdPhoneNumber"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center"/>
+
+    <EditText
+        android:id="@+id/FifthPhoneNumber"
+        android:layout_width="129px"
+        android:layout_height="141px"
+        android:layout_marginStart="36px"
+        android:layout_marginLeft="36px"
+        android:layout_marginTop="594px"
+        android:textSize="54px"
+        android:textColor="#000000"
+        android:maxLength="1"
+        android:background="@drawable/edittext_rounded_corner_password"
+        app:layout_constraintStart_toEndOf="@+id/FourthPhoneNumber"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center"/>
+
+    <EditText
+        android:id="@+id/SixthPhoneNumber"
+        android:layout_width="129px"
+        android:layout_height="141px"
+        android:layout_marginStart="36px"
+        android:layout_marginLeft="36px"
+        android:layout_marginTop="594px"
+        android:textSize="54px"
+        android:textColor="#000000"
+        android:maxLength="1"
+        android:background="@drawable/edittext_rounded_corner_password"
+        app:layout_constraintStart_toEndOf="@+id/FifthPhoneNumber"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center"/>
+
+    <Button
+        android:id="@+id/password"
+        android:layout_width="960px"
+        android:layout_height="141px"
+        android:layout_marginTop="855px"
+        android:background="@drawable/radius_1"
+        android:backgroundTint="#E9E9E9"
+        android:text="비밀번호 변경하기"
+        android:textColor="#BDBDBD"
+        android:textSize="42px"
+        android:clickable="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
