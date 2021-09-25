@@ -11,12 +11,12 @@ import retrofit2.http.Body;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
-public interface Retrofit {
+public interface RetrofitAPI {
 
     @POST("/location")
     Call<Location> postData(@Body HashMap<String, Object> param);
 
     @POST("/user/signup/certification")
-    Call<ResponseBody> post_Data(@Query("email") String postEmail);
+    Call<PostEmail> postEmail(@Body HashMap<String, Object> param);
 
 }

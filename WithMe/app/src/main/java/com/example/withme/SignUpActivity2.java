@@ -9,12 +9,21 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.HashMap;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SignUpActivity2 extends AppCompatActivity implements TextWatcher {
 
@@ -26,11 +35,9 @@ public class SignUpActivity2 extends AppCompatActivity implements TextWatcher {
     private String emailValidation = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
     private String email;
 
-    Retrofit retrofit;
     static int value;
     String GmailCode;
     int mailSend = 0;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +61,11 @@ public class SignUpActivity2 extends AppCompatActivity implements TextWatcher {
             @Override
             public void onClick(View v) {
                 if (emailCodeText.getText().toString().equals(GmailCode)) {
-                    Toast.makeText(getApplicationContext(), "OK", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(), "OK", Toast.LENGTH_SHORT).show();
+                    startActivity(intent);
                 } else {
                     emailCodeText.setBackgroundResource(R.drawable.edittext_bg_selector_not_validate);
                     Toast.makeText(getApplicationContext(), "인증번호를 다시 입력해주세요.", Toast.LENGTH_SHORT).show();
-                    startActivity(intent);
                 }
             }
         });
@@ -81,14 +88,41 @@ public class SignUpActivity2 extends AppCompatActivity implements TextWatcher {
             editTextEmail.setBackgroundResource(R.drawable.edittext_bg_selector);
             warningMessage.setText("");
 
-            emailAuthentication.setBackgroundColor(Color.parseColor("#FED537"));
+            emailAuthentication.setBackgroundResource(R.drawable.radius_3);
             emailAuthentication.setClickable(true);
-            authenticate.setBackgroundColor(Color.parseColor("#FED537"));
+            authenticate.setBackgroundResource(R.drawable.radius_3);
             authenticate.setClickable(true);
 
             emailAuthentication.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+//                    Log.e("email", email);
+                    HashMap<String, Object> input = new HashMap<>();
+                    input.put("email", email);
+
+                    Retrofit retrofit = new retrofit2.Retrofit.Builder()
+                            .baseUrl("http://withme-lb-1691720831.ap-northeast-2.elb.amazonaws.com")
+                            .addConverterFactory(GsonConverterFactory.create()) //gson converter 생성, gson은 JSON을 자바 클래스로 바꾸는데 사용된다.
+                            .build();
+                    RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+
+                    retrofitAPI.postEmail(input).enqueue(new Callback<PostEmail>() {
+                        @Override
+                        public void onResponse(Call<PostEmail> call, Response<PostEmail> response) {
+                            PostEmail data = response.body();
+                            if(response.isSuccessful()) {
+                                Log.e("Test", "Post 성공");
+                                Log.e("Test", String.valueOf(data.getStatus()));
+                                Log.e("Test", data.getData());
+                                GmailCode = data.getData();
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<PostEmail> call, Throwable t) {
+                            Log.e("Failure", "Post 실패");
+                        }
+                    });
+
                     emailAuthentication.setText("이메일로 인증번호 다시 받기");
 
                     if(mailSend == 0) {
@@ -138,6 +172,7 @@ public class SignUpActivity2 extends AppCompatActivity implements TextWatcher {
             } else {
                 emailCodeText.setHint("0" + min + " : " + sec);
             }
+            emailCodeText.setHintTextColor(Color.parseColor("#FF302B"));
         }
     }
 

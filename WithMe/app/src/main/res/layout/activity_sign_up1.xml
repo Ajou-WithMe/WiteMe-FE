@@ -19,11 +19,38 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        android:id="@+id/kakaoLogin"
+        android:layout_width="906px"
+        android:layout_height="141px"
+        android:layout_marginBottom="1020px"
+        android:backgroundTint="#FEE500"
+        android:drawableLeft="@drawable/kakao"
+        android:background="@drawable/radius_2"
+        android:paddingLeft="63px"
+        android:text="카카오로 시작하기"
+        android:textSize="42px"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.kakao.usermgmt.LoginButton
+        android:id="@+id/btn_kakao_login_basic"
+        android:layout_width="906px"
+        android:layout_height="141px"
+        android:layout_marginBottom="1020px"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <Button
         android:id="@+id/emailLogin"
         android:layout_width="906px"
         android:layout_height="141px"
         android:layout_marginBottom="831px"
-        android:backgroundTint="#e9e9e9"
+        android:backgroundTint="#E9E9E9"
         android:background="@drawable/radius_2"
         android:drawableLeft="@drawable/email_logo"
         android:paddingLeft="63px"
@@ -33,8 +60,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
-
-
     </Button>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
