@@ -29,7 +29,7 @@ public class SignUpActivity2 extends AppCompatActivity implements TextWatcher {
 
     private EditText editTextEmail, emailCodeText;
     private MainHandler mainHandler;
-    private TextView warningMessage;
+    private TextView warningMessage, authenticateComplete, messageComplete;
     private Button emailAuthentication, authenticate;
     private LinearLayout layoutAuthenticate;
     private String emailValidation = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
@@ -44,16 +44,18 @@ public class SignUpActivity2 extends AppCompatActivity implements TextWatcher {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up2);
 
+        Intent intent = new Intent(SignUpActivity2.this, SignUpActivity3.class);
+
         editTextEmail = (EditText)findViewById(R.id.editTextEmail);
         editTextEmail.addTextChangedListener(this);
 
         warningMessage = (TextView)findViewById(R.id.warningMessage);
+        messageComplete = (TextView) findViewById(R.id.messageComplete);
+        authenticateComplete = (TextView) findViewById(R.id.authenticateComplete);
         emailCodeText = (EditText)findViewById(R.id.emailCodeText);
         emailAuthentication = (Button)findViewById(R.id.emailAuthentication);
         authenticate = (Button)findViewById(R.id.authenticate);
         layoutAuthenticate = (LinearLayout) findViewById(R.id.layoutAuthenticate);
-
-        Intent intent = new Intent(this, SignUpActivity3.class);
 
         // 이메일 인증하는 부분
         // 인증코드 시간 초가 흐르는데, 이때 인증을 마치지 못하면 인증 코드를 지우게 만든다.
@@ -61,8 +63,19 @@ public class SignUpActivity2 extends AppCompatActivity implements TextWatcher {
             @Override
             public void onClick(View v) {
                 if (emailCodeText.getText().toString().equals(GmailCode)) {
-//                    Toast.makeText(getApplicationContext(), "OK", Toast.LENGTH_SHORT).show();
-                    startActivity(intent);
+                    authenticate.setBackgroundResource(R.drawable.radius_1_nonclickable);
+                    emailCodeText.setBackgroundResource(R.drawable.edittext_bg_selector_authenticate_complete);
+                    emailCodeText.setClickable(false);
+                    emailCodeText.setFocusable(false);
+                    authenticateComplete.setVisibility(View.INVISIBLE);
+                    messageComplete.setText("인증이 완료되었습니다!");
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            intent.putExtra("email", email);
+                            startActivity(intent);
+                        }
+                    }, 1000);
                 } else {
                     emailCodeText.setBackgroundResource(R.drawable.edittext_bg_selector_not_validate);
                     Toast.makeText(getApplicationContext(), "인증번호를 다시 입력해주세요.", Toast.LENGTH_SHORT).show();
@@ -124,6 +137,7 @@ public class SignUpActivity2 extends AppCompatActivity implements TextWatcher {
                     });
 
                     emailAuthentication.setText("이메일로 인증번호 다시 받기");
+                    authenticateComplete.setText("입력해주신 이메일로 인증코드를 보내드렸어요! 인증코드 확인 후 입력해주세요.");
 
                     if(mailSend == 0) {
                         value = 300;

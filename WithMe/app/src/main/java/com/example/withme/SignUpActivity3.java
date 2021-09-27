@@ -7,23 +7,28 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
-import org.w3c.dom.Text;
 
 public class SignUpActivity3 extends AppCompatActivity {
 
     private EditText first, second, third, fourth, fifth, sixth;
     private Button password;
 
+    private String fullPassword;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up3);
 
-        Intent intent = new Intent(this, SignUpActivity4.class);
+        Intent intent = new Intent(this, SignUpActivity4_2.class);
+        Intent data = getIntent();
+
+        String email = data.getStringExtra("email");
+        Log.e("email", email);
 
         first = (EditText)findViewById(R.id.firstPhoneNumber);
         second = (EditText)findViewById(R.id.SecondPhoneNumber);
@@ -157,9 +162,16 @@ public class SignUpActivity3 extends AppCompatActivity {
                 if(s.length() == 1) {
                     sixth.requestFocus();
                     sixth.setBackgroundResource(R.drawable.edittext_rounded_corner_password_focused);
-                    password.setBackgroundColor(Color.parseColor("#FED537"));
+                    password.setBackgroundResource(R.drawable.radius_1_clickable);
                     password.setTextColor(Color.parseColor("#222222"));
                     password.setClickable(true);
+                    fullPassword = first.getText().toString() + second.getText().toString()
+                            + third.getText().toString() + fourth.getText().toString()
+                            + fifth.getText().toString() + sixth.getText().toString();
+
+                    Log.e("Password", fullPassword);
+                    intent.putExtra("email", email);
+                    intent.putExtra("password", fullPassword);
                 }
             }
         });

@@ -12,7 +12,7 @@ import com.kakao.usermgmt.callback.MeV2ResponseCallback;
 import com.kakao.usermgmt.response.MeV2Response;
 import com.kakao.util.exception.KakaoException;
 
-public class KakaoLogin extends Activity {
+public class KakaoLogin_SignUp1 extends Activity {
 
     public static class SessionCallback implements ISessionCallback {
         private Context mContext;
@@ -37,7 +37,7 @@ public class KakaoLogin extends Activity {
             UserManagement.getInstance().me(new MeV2ResponseCallback() {
                 @Override
                 public void onSessionClosed(ErrorResult errorResult) {
-                    signUpActivity1.directToSecondActivity(false);
+                    signUpActivity1.directToSecondActivitySignUp(false);
                 }
 
                 @Override
@@ -45,7 +45,7 @@ public class KakaoLogin extends Activity {
                     Log.e("uid", String.valueOf(result.getId()));
                     Log.e("nickname", result.getKakaoAccount().getProfile().getNickname());
                     Log.e("email", result.getKakaoAccount().getEmail());
-                    signUpActivity1.directToSecondActivity(true);
+                    signUpActivity1.directToSecondActivitySignUp(true);
                 }
             });
         }

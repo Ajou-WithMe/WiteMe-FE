@@ -86,7 +86,7 @@
         <EditText
             android:layout_width="711px"
             android:layout_height="141px"
-            android:textSize="37px"
+            android:textSize="42px"
             android:inputType="textPersonName"
             android:id="@+id/emailCodeText"
             android:background="@drawable/edittext_rounded_corner_rectangle"
@@ -107,7 +107,29 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/authenticateComplete"
+        android:layout_width="699px"
+        android:layout_height="100px"
+        android:layout_marginStart="60px"
+        android:layout_marginLeft="60px"
+        android:layout_marginTop="1107px"
+        android:textColor="#222222"
+        android:textSize="36px"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/messageComplete"
+        android:layout_width="411px"
+        android:layout_height="54px"
+        android:layout_marginStart="60px"
+        android:layout_marginLeft="60px"
+        android:layout_marginTop="1125px"
+        android:textColor="#3E791A"
+        android:textSize="41px"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

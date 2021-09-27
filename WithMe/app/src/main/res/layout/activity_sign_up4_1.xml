@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".SignUpActivity4">
+    tools:context=".SignUpActivity4_1">
 
     <TextView
         android:layout_width="414px"
@@ -105,7 +105,7 @@
     <LinearLayout
         android:id="@+id/addressLayout"
         android:layout_width="744px"
-        android:layout_height="213px"
+        android:layout_height="wrap_content"
         android:layout_marginStart="276px"
         android:layout_marginLeft="276px"
         android:layout_marginTop="972px"
@@ -116,12 +116,14 @@
         <EditText
             android:id="@+id/etAddress"
             android:layout_width="600px"
-            android:layout_height="213px"
-            android:hint="거주지 입력하기"
-            android:textColorHint="#222222"
+            android:layout_height="wrap_content"
+            android:hint="거주지 검색하기"
+            android:textColorHint="#BDBDBD"
             android:textSize="42px"
+            android:maxLines="3"
             android:gravity="top"
             android:paddingLeft="33px"
+            android:paddingBottom="33px"
             android:paddingTop="36px"
             android:paddingRight="33px"
             android:background="@android:color/transparent"
@@ -136,10 +138,43 @@
             android:layout_marginLeft="45px"
             android:src="@drawable/check"
             android:visibility="invisible" />
-
-
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/detailAddressLayout"
+        android:layout_width="744px"
+        android:layout_height="123px"
+        android:layout_marginStart="276px"
+        android:layout_marginLeft="276px"
+        android:layout_marginTop="24px"
+        android:background="@drawable/edittext_rounded_corner_sign4_not_selected"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addressLayout">
+
+        <EditText
+            android:id="@+id/etDetailAddress"
+            android:layout_width="600px"
+            android:layout_height="123px"
+            android:background="@android:color/transparent"
+            android:gravity="top"
+            android:hint="상세주소 입력"
+            android:paddingLeft="33px"
+            android:paddingTop="36px"
+            android:paddingRight="33px"
+            android:textColorHint="#BDBDBD"
+            android:textSize="42px"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/checkbox4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="45px"
+            android:src="@drawable/check"
+            android:visibility="invisible" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/textView6"
@@ -181,14 +216,14 @@
     <TextView
         android:layout_width="591px"
         android:layout_height="39px"
-        android:layout_marginTop="1197px"
+        android:layout_marginTop="12px"
         android:layout_marginEnd="180px"
         android:layout_marginRight="180px"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:textSize="29px"
-        android:textColor="#FF302B"
         android:text="보호자의 실제 거주지를 정확하게 입력해주세요!"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textColor="#FF302B"
+        android:textSize="29px"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detailAddressLayout" />
 
     <Button
         android:id="@+id/startWithMe"
