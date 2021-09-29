@@ -42,6 +42,7 @@
 
         <EditText
             android:id="@+id/etID"
+            android:inputType="textNoSuggestions"
             android:layout_width="960px"
             android:layout_height="60px"
             android:background="#00000000"
@@ -99,7 +100,7 @@
         android:layout_width="906px"
         android:layout_height="141px"
         android:layout_marginTop="48px"
-        android:layout_marginBottom="500px"
+        android:layout_marginBottom="696px"
         android:background="@drawable/radius_2"
         android:backgroundTint="#FEE500"
         android:drawableLeft="@drawable/kakao"
@@ -132,7 +133,7 @@
         android:textSize="36px"
         android:textColor="#A6A29D"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/kakaoLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/kakaoLogin_login" />
 
     <View
         android:layout_width="1.8px"
@@ -141,7 +142,7 @@
         android:background="#BDBDBD"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/kakaoLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/kakaoLogin_login" />
 
     <TextView
         android:layout_width="207px"
@@ -153,7 +154,7 @@
         android:textColor="#A6A29D"
         android:textSize="36px"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/kakaoLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/kakaoLogin_login" />
 
     <Button
         android:id="@+id/signUpButton"

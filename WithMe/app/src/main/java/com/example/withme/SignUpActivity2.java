@@ -110,49 +110,72 @@ public class SignUpActivity2 extends AppCompatActivity implements TextWatcher {
                 @Override
                 public void onClick(View v) {
 //                    Log.e("email", email);
-                    HashMap<String, Object> input = new HashMap<>();
-                    input.put("email", email);
+                    HashMap<String, Object> input1 = new HashMap<>();
+                    input1.put("email", email);
+                    HashMap<String, Object> input2 = new HashMap<>();
+                    input2.put("email", email);
 
                     Retrofit retrofit = new retrofit2.Retrofit.Builder()
                             .baseUrl("http://withme-lb-1691720831.ap-northeast-2.elb.amazonaws.com")
                             .addConverterFactory(GsonConverterFactory.create()) //gson converter 생성, gson은 JSON을 자바 클래스로 바꾸는데 사용된다.
                             .build();
-                    RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+                    RetrofitAPI retrofitAPI1 = retrofit.create(RetrofitAPI.class);
+                    RetrofitAPI retrofitAPI2 = retrofit.create(RetrofitAPI.class);
 
-                    retrofitAPI.postEmail(input).enqueue(new Callback<PostEmail>() {
+                    retrofitAPI1.postSignupDuplicate(input1).enqueue(new Callback<SignUpDuplicate>() {
                         @Override
-                        public void onResponse(Call<PostEmail> call, Response<PostEmail> response) {
-                            PostEmail data = response.body();
+                        public void onResponse(Call<SignUpDuplicate> call, Response<SignUpDuplicate> response) {
+                            SignUpDuplicate data = response.body();
                             if(response.isSuccessful()) {
-                                Log.e("Test", "Post 성공");
-                                Log.e("Test", String.valueOf(data.getStatus()));
-                                Log.e("Test", data.getData());
-                                GmailCode = data.getData();
+                                Log.e("Duplicate", "Post 성공");
+                                Log.e("Duplicate", String.valueOf(data.getStatus()));
+                                Log.e("Duplicate", String.valueOf(data.getData())); // true면 중복이 아닌것!
+
+                                if (data.getData() == true) {
+                                    emailAuthentication.setText("이메일로 인증번호 다시 받기");
+                                    authenticateComplete.setText("입력해주신 이메일로 인증코드를 보내드렸어요! 인증코드 확인 후 입력해주세요.");
+                                    mainHandler = new MainHandler();
+                                    // 핸들러 객체 생성
+
+                                    if(mailSend == 0) {
+                                        value = 300;
+                                        // 쓰레드 객체 생성
+                                        BackgroundThread backgroundThread = new BackgroundThread();
+                                        // 쓰레드 스타트
+                                        backgroundThread.start();
+                                        mailSend += 1;
+                                    } else {
+                                        value = 300;
+                                    }
+                                    retrofitAPI2.postEmail(input2).enqueue(new Callback<PostEmail>() {
+                                        @Override
+                                        public void onResponse(Call<PostEmail> call, Response<PostEmail> response) {
+                                            PostEmail data = response.body();
+                                            if(response.isSuccessful()) {
+                                                Log.e("Test", "Post 성공");
+                                                Log.e("Test", String.valueOf(data.getStatus()));
+                                                Log.e("Test", data.getData());
+                                                GmailCode = data.getData();
+                                            }
+                                        }
+                                        @Override
+                                        public void onFailure(Call<PostEmail> call, Throwable t) {
+                                            Log.e("Failure", "Post 실패");
+                                        }
+                                    });
+                                } else {
+                                    Toast.makeText(SignUpActivity2.this, "중복된 이메일입니다. 다시 입력해주세요.", Toast.LENGTH_SHORT).show();
+                                    warningMessage.setText("이미 가입된 이메일입니다. 바로 로그인해주세요!");
+                                    editTextEmail.setBackgroundResource(R.drawable.edittext_bg_selector_not_validate);
+                                }
                             }
                         }
+
                         @Override
-                        public void onFailure(Call<PostEmail> call, Throwable t) {
-                            Log.e("Failure", "Post 실패");
+                        public void onFailure(Call<SignUpDuplicate> call, Throwable t) {
+                            Log.e("Failure_Duplicate", "Post 실패");
                         }
                     });
-
-                    emailAuthentication.setText("이메일로 인증번호 다시 받기");
-                    authenticateComplete.setText("입력해주신 이메일로 인증코드를 보내드렸어요! 인증코드 확인 후 입력해주세요.");
-
-                    if(mailSend == 0) {
-                        value = 300;
-                        // 쓰레드 객체 생성
-                        BackgroundThread backgroundThread = new BackgroundThread();
-                        // 쓰레드 스타트
-                        backgroundThread.start();
-                        mailSend += 1;
-                    } else {
-                        value = 300;
-                    }
-
-                    // 핸들러 객체 생성
-                    mainHandler = new MainHandler();
-
                 }
             });
         } else {

@@ -7,12 +7,21 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.kakao.auth.Session;
 import com.kakao.usermgmt.LoginButton;
+
+import java.util.HashMap;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -24,6 +33,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private int a = 5, b = 10;
     private static final String TAG = "유저";
+
+    String email, password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         buttonLogin = (Button) findViewById(R.id.buttonLogin);
 
         etPassword = (EditText) findViewById(R.id.etPassword);
-        etID = (EditText) findViewById(R.id.etPassword);
+        etID = (EditText) findViewById(R.id.etID);
 
         etID.addTextChangedListener(new TextWatcher() {
             @Override
@@ -84,6 +95,43 @@ public class LoginActivity extends AppCompatActivity {
                         buttonLogin.setClickable(true);
                     }
                 }
+            }
+        });
+
+        buttonLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                email = etID.getText().toString();
+                password = etPassword.getText().toString();
+                Log.e("email", email);
+                Log.e("password", password);
+                HashMap<String, Object> input = new HashMap<>();
+                input.put("email", email);
+                input.put("pwd", password);
+
+                Retrofit retrofit = new retrofit2.Retrofit.Builder()
+                        .baseUrl("http://withme-lb-1691720831.ap-northeast-2.elb.amazonaws.com")
+                        .addConverterFactory(GsonConverterFactory.create()) //gson converter 생성, gson은 JSON을 자바 클래스로 바꾸는데 사용된다.
+                        .build();
+                RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+
+                retrofitAPI.postLoginEmail(input).enqueue(new Callback<LoginEmail>() {
+                    @Override
+                    public void onResponse(Call<LoginEmail> call, Response<LoginEmail> response) {
+                        LoginEmail data = response.body();
+                        if (response.isSuccessful()) {
+                            Log.e("Test", "Post 성공");
+                            Log.e("Test", String.valueOf(data.getStatus()));
+                            Log.e("Test", data.getData());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<LoginEmail> call, Throwable t) {
+                        Log.e("Failure", "Post 실패");
+                    }
+                });
+
             }
         });
 

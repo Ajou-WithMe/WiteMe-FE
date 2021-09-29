@@ -96,7 +96,7 @@ public class SignUpActivity4_2 extends AppCompatActivity{
                     }
                 });
 
-//                startActivity(intent1);
+                startActivity(intent1);
             }
         });
 
