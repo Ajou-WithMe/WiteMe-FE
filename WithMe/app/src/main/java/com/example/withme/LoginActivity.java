@@ -123,6 +123,7 @@ public class LoginActivity extends AppCompatActivity {
                             Log.e("Test", "Post 성공");
                             Log.e("Test", String.valueOf(data.getStatus()));
                             Log.e("Test", data.getData());
+                            startActivity(intent2);
                         }
                     }
 
