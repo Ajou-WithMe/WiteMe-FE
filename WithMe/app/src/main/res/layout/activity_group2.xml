@@ -6,4 +6,139 @@
     android:layout_height="match_parent"
     tools:context=".GroupActivity2">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="204px"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="324px"
+            android:layout_height="69px"
+            android:layout_marginTop="111px"
+            android:text="새 그룹 만들기"
+            android:textColor="#000000"
+            android:textSize="53px"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/xButton"
+            android:layout_width="72px"
+            android:layout_height="72px"
+            android:layout_marginTop="108px"
+            android:layout_marginEnd="24px"
+            android:background="@drawable/x_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="588px"
+        android:layout_height="75px"
+        android:layout_marginTop="168px"
+        android:text="그룹이 생성되었습니다!"
+        android:textColor="#000000"
+        android:textSize="60px"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="668.79px"
+        android:layout_height="360.03px"
+        android:layout_marginTop="99px"
+        android:background="@drawable/congratulatiion"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="216px"
+        android:layout_height="216px"
+        android:layout_marginBottom="216px"
+        app:civ_border_width="2dp"
+        app:civ_border_color="#FED537"
+        app:layout_constraintBottom_toTopOf="@+id/textView10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="75px"
+        android:layout_marginTop="6px"
+        android:textColor="#000000"
+        android:textSize="60px"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="849px"
+        android:layout_height="60px"
+        android:layout_marginTop="180px"
+        android:text="그룹 코드를 복사하여 보호자를 초대하세요."
+        android:textColor="#000000"
+        android:textSize="47px"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="141px"
+        android:layout_height="45px"
+        android:layout_marginStart="354px"
+        android:layout_marginTop="42px"
+        android:text="그룹 코드"
+        android:textColor="#000000"
+        android:textSize="36px"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="204px"
+        android:layout_height="69px"
+        android:layout_marginTop="30px"
+        android:layout_marginEnd="354px"
+        android:textColor="#000000"
+        android:textSize="54px"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+    <TextView
+        android:layout_width="240dp"
+        android:layout_height="39px"
+        android:layout_marginTop="21px"
+        android:textColor="#A6A29D"
+        android:textSize="29px"
+        android:text="그룹 코드느 그룹 관리에서 언제든지 볼 수 있습니다."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+    <Button
+        android:layout_width="960px"
+        android:layout_height="141px"
+        android:layout_marginBottom="72px"
+        android:text="그룹 생성하기"
+        android:textSize="42px"
+        android:textColor="#222222"
+        android:background="@drawable/radius_1_clickable"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
