@@ -2,4 +2,7 @@
     <corners
         android:radius="30px">
     </corners>
+    <stroke
+        android:width="3px"
+        android:color="#BDBDBD"/>
 </shape>

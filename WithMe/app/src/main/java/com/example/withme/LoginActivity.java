@@ -2,7 +2,9 @@ package com.example.withme;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -34,12 +36,18 @@ public class LoginActivity extends AppCompatActivity {
     private int a = 5, b = 10;
     private static final String TAG = "유저";
 
-    String email, password;
+    String email, password, accessToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        SharedPreferences storeAccessToken;
+        SharedPreferences.Editor editor;
+
+        storeAccessToken = getSharedPreferences("storeAccessToken", Activity.MODE_PRIVATE);
+        editor = storeAccessToken.edit();
 
         Intent intent1 = new Intent(this, SignUpActivity1.class);
         Intent intent2 = new Intent(this, MainActivity.class);
@@ -120,9 +128,15 @@ public class LoginActivity extends AppCompatActivity {
                     public void onResponse(Call<LoginEmail> call, Response<LoginEmail> response) {
                         LoginEmail data = response.body();
                         if (response.isSuccessful()) {
+                            accessToken = data.getData();
+
                             Log.e("Test", "Post 성공");
                             Log.e("Test", String.valueOf(data.getStatus()));
-                            Log.e("Test", data.getData());
+                            Log.e("Test", accessToken);
+
+                            editor.putString("AccessToken", accessToken);
+                            editor.apply();
+
                             startActivity(intent2);
                         }
                     }

@@ -24,6 +24,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
+            android:id="@+id/xButton"
             android:layout_width="72px"
             android:layout_height="72px"
             android:layout_marginTop="108px"
@@ -46,13 +47,47 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
 
-    <TextView
-        android:layout_width="291px"
-        android:layout_height="45px"
-        android:layout_marginTop="27dp"
+    <ImageView
+        android:src="@drawable/edit_profile"
+        android:layout_width="96px"
+        android:layout_height="96px"
+        android:layout_marginStart="585px"
+        android:layout_marginTop="513px"
+        android:layout_marginBottom="1107px"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
+
+    <EditText
+        android:id="@+id/groupName"
+        android:layout_width="816px"
+        android:layout_height="141px"
+        android:layout_marginTop="138px"
+        android:background="@drawable/radius_1_make_group"
+        android:hint="그룹 이름을 입력해주세요"
+        android:gravity="center"
+        android:textSize="42px"
+        android:textColorHint="#BDBDBD"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profileImage" />
+
+    <Button
+        android:id="@+id/groupComplete"
+        android:layout_width="960px"
+        android:layout_height="141px"
+        android:layout_marginBottom="72px"
+        android:text="그룹 생성하기"
+        android:textSize="42px"
+        android:textColor="#BDBDBD"
+        android:clickable="false"
+        android:background="@drawable/radius_1_nonclickable"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+
 
 
 
