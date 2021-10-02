@@ -62,7 +62,7 @@
         android:layout_width="216px"
         android:layout_height="216px"
         android:layout_marginBottom="216px"
-        app:civ_border_width="2dp"
+        app:civ_border_width="6px"
         app:civ_border_color="#FED537"
         app:layout_constraintBottom_toTopOf="@+id/textView10"
         app:layout_constraintEnd_toEndOf="parent"

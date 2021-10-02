@@ -48,15 +48,13 @@
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
 
     <ImageView
-        android:src="@drawable/edit_profile"
         android:layout_width="96px"
         android:layout_height="96px"
         android:layout_marginStart="585px"
-        android:layout_marginTop="513px"
         android:layout_marginBottom="1107px"
+        android:src="@drawable/edit_profile"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/groupName"

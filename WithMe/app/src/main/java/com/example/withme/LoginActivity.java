@@ -109,7 +109,7 @@ public class LoginActivity extends AppCompatActivity {
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                email = etID.getText().toString();
+                email = etID.getText().toString().trim();
                 password = etPassword.getText().toString();
                 Log.e("email", email);
                 Log.e("password", password);
@@ -137,7 +137,11 @@ public class LoginActivity extends AppCompatActivity {
                             editor.putString("AccessToken", accessToken);
                             editor.apply();
 
-                            startActivity(intent2);
+                            if (data.getSuccess() == false) {
+//                                Log.e("not equal email", "못가");
+                            } else {
+                                startActivity(intent2);
+                            }
                         }
                     }
 
