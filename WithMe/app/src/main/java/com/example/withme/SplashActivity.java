@@ -55,7 +55,7 @@ public class SplashActivity extends AppCompatActivity {
         logo_2.startAnimation(animation);
 
         Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
-        Intent intent2 = new Intent(getApplicationContext(), DescriptionActivity.class);
+        Intent intent2 = new Intent(getApplicationContext(), LoginActivity.class);
 
         retrofitAPI.getProfile(accessToken).enqueue(new Callback<GetProfile>() {
             @Override
