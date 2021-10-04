@@ -7,8 +7,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+
 
     private ConstraintLayout coachMark;
     private ImageButton makeGroup1, makeGroup2;
@@ -27,21 +29,18 @@ public class MainActivity extends AppCompatActivity {
         coachMark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                coachMark.setVisibility(View.INVISIBLE);
+                coachMark.setVisibility(View.GONE);
             }
         });
 
-        makeGroup1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(intent);
-            }
-        });
         makeGroup2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
                 startActivity(intent);
             }
         });
+
+
     }
 }

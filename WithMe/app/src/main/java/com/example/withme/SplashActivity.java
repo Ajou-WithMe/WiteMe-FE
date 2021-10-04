@@ -2,12 +2,24 @@ package com.example.withme;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import okhttp3.Headers;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Header;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -18,6 +30,22 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        Retrofit retrofit = new retrofit2.Retrofit.Builder()
+                .baseUrl("http://withme-lb-1691720831.ap-northeast-2.elb.amazonaws.com")
+                .addConverterFactory(GsonConverterFactory.create()) //gson converter 생성, gson은 JSON을 자바 클래스로 바꾸는데 사용된다.
+                .build();
+        RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+
+        SharedPreferences sf = getSharedPreferences("storeAccessToken", MODE_PRIVATE);
+        String accessToken = sf.getString("AccessToken", "");
+        Log.e("AccessToken", accessToken);
+
+        SharedPreferences sf2 = getSharedPreferences("storeAccessToken", MODE_PRIVATE);
+
+
+        SharedPreferences.Editor editor;
+        editor = sf2.edit();
+
         logo_1 = (ImageView)findViewById(R.id.with_me_logo_white_1);
         logo_2 = (ImageView)findViewById(R.id.with_me_logo);
 
@@ -26,19 +54,61 @@ public class SplashActivity extends AppCompatActivity {
         logo_1.startAnimation(animation);
         logo_2.startAnimation(animation);
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
+        Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
+        Intent intent2 = new Intent(getApplicationContext(), DescriptionActivity.class);
+
+        retrofitAPI.getProfile(accessToken).enqueue(new Callback<GetProfile>() {
             @Override
-            public void run() {
-                Intent intent = new Intent(getApplicationContext(), DescriptionActivity.class);
-                startActivity(intent);
+            public void onResponse(Call<GetProfile> call, Response<GetProfile> response) {
+                GetProfile data = response.body();
+                String newAccessToken = response.headers().get("AccessToken");
 
-                overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-                finish();
+                if (response.isSuccessful()) {
+                    if (data.isSuccess() == true) {
+                        if(newAccessToken == null) {
+                            Log.e("바뀐 access token", "null"); // 무시!
+                        } else {
+                            Log.e("바뀐 access token", newAccessToken);
+                            editor.putString("AccessToken", newAccessToken);
+                            editor.commit();
+                        }
+                        Log.e("성공 시", String.valueOf(data.getStatus()));
+                        Log.e("성공 시", String.valueOf(data.isSuccess()));
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                startActivity(intent1);
+                                overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+                                finish();
+                            }
+                        }, 2000); // 인트로 화면 로딩 시간
+
+                    } else {
+                        if (data.getStatus() == 401) { // 인증 오류!
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    startActivity(intent2);
+                                    overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+                                    finish();
+                                }
+                            }, 2000); // 인트로 화면 로딩 시간
+                            Log.e("인증 오류", String.valueOf(data.getStatus()));
+                            Log.e("인증 오류", String.valueOf(data.isSuccess()));
+                        }
+                    }
+                }
             }
-        }, 1500); // 인트로 화면 로딩 시간
+            @Override
+            public void onFailure(Call<GetProfile> call, Throwable t) {
+                Log.e("failure", t.getMessage());
+                Log.e("failure", "전송 실패");
+                startActivity(intent2);
+            }
+        });
     }
-
     @Override
     protected void onPause() {
         super.onPause();

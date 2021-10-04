@@ -121,9 +121,9 @@ public class LoginActivity extends AppCompatActivity {
                         .baseUrl("http://withme-lb-1691720831.ap-northeast-2.elb.amazonaws.com")
                         .addConverterFactory(GsonConverterFactory.create()) //gson converter 생성, gson은 JSON을 자바 클래스로 바꾸는데 사용된다.
                         .build();
-                RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+                RetrofitAPI retrofitAPI1 = retrofit.create(RetrofitAPI.class);
 
-                retrofitAPI.postLoginEmail(input).enqueue(new Callback<LoginEmail>() {
+                retrofitAPI1.postLoginEmail(input).enqueue(new Callback<LoginEmail>() {
                     @Override
                     public void onResponse(Call<LoginEmail> call, Response<LoginEmail> response) {
                         LoginEmail data = response.body();
@@ -134,12 +134,11 @@ public class LoginActivity extends AppCompatActivity {
                             Log.e("Test", String.valueOf(data.getStatus()));
                             Log.e("Test", accessToken);
 
-                            editor.putString("AccessToken", accessToken);
-                            editor.apply();
-
                             if (data.getSuccess() == false) {
 //                                Log.e("not equal email", "못가");
                             } else {
+                                editor.putString("AccessToken", accessToken);
+                                editor.commit();
                                 startActivity(intent2);
                             }
                         }

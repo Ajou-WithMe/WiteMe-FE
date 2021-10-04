@@ -8,6 +8,9 @@ import java.util.HashMap;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
@@ -25,7 +28,10 @@ public interface RetrofitAPI {
     @POST("/user/login/email")
     Call<LoginEmail> postLoginEmail(@Body HashMap<String, Object> param);
 
-    @POST("user/signup/duplicate")
+    @POST("/user/signup/duplicate")
     Call<SignUpDuplicate> postSignupDuplicate(@Body HashMap<String, Object> param);
+
+    @GET("/user/mypage")
+    Call<GetProfile> getProfile(@Header("AccessToken") String accessToken);
 
 }
