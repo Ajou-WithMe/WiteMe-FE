@@ -36,9 +36,9 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <ImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:src="@drawable/maskgroup"
+        android:src="@drawable/maskgroupcamera"
         android:id="@+id/profileImage"
         android:layout_width="300px"
         android:layout_height="300px"
@@ -46,15 +46,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
-
-    <ImageView
-        android:layout_width="96px"
-        android:layout_height="96px"
-        android:layout_marginStart="585px"
-        android:layout_marginBottom="1107px"
-        android:src="@drawable/edit_profile"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/groupName"
@@ -83,10 +74,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

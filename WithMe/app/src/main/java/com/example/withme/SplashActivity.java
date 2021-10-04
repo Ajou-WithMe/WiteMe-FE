@@ -90,13 +90,25 @@ public class SplashActivity extends AppCompatActivity {
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    startActivity(intent2);
                                     overridePendingTransition(R.anim.fadein, R.anim.fadeout);
                                     finish();
+                                    startActivity(intent2);
                                 }
                             }, 2000); // 인트로 화면 로딩 시간
                             Log.e("인증 오류", String.valueOf(data.getStatus()));
                             Log.e("인증 오류", String.valueOf(data.isSuccess()));
+                        } else {
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+                                    finish();
+                                    startActivity(intent2);
+                                }
+                            }, 2000); // 인트로 화면 로딩 시간
+                            Log.e("인증 오류는 아니지만 다른 오류", String.valueOf(data.getStatus()));
+                            Log.e("인증 오류는 아니지만 다른 오류", String.valueOf(data.isSuccess()));
                         }
                     }
                 }
@@ -109,6 +121,7 @@ public class SplashActivity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     protected void onPause() {
         super.onPause();

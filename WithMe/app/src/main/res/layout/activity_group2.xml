@@ -62,15 +62,15 @@
         android:layout_width="216px"
         android:layout_height="216px"
         android:layout_marginBottom="216px"
-        app:civ_border_width="6px"
         app:civ_border_color="#FED537"
+        android:src="@drawable/circleprofile"
         app:layout_constraintBottom_toTopOf="@+id/textView10"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
 
     <TextView
-        android:id="@+id/textView13"
+        android:id="@+id/group"
         android:layout_width="wrap_content"
         android:layout_height="75px"
         android:layout_marginTop="6px"
@@ -130,7 +130,7 @@
         android:layout_width="960px"
         android:layout_height="141px"
         android:layout_marginBottom="72px"
-        android:text="그룹 생성하기"
+        android:text="피보호자 계정 생성하기"
         android:textSize="42px"
         android:textColor="#222222"
         android:background="@drawable/radius_1_clickable"

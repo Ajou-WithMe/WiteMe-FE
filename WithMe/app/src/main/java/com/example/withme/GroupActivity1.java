@@ -3,6 +3,7 @@ package com.example.withme;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -46,9 +47,10 @@ public class GroupActivity1 extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.length() > 0) {
+                if(s.length() > 1) {
                     groupComplete.setBackgroundResource(R.drawable.radius_1_clickable);
                     groupComplete.setClickable(true);
+                    groupComplete.setTextColor(Color.parseColor("#222222"));
                 }
             }
         });
@@ -64,6 +66,7 @@ public class GroupActivity1 extends AppCompatActivity {
         groupComplete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                intent1.putExtra("groupName", groupName.getText().toString());
                 startActivity(intent1);
             }
         });
