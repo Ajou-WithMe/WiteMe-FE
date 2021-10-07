@@ -10,13 +10,14 @@
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="204px"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/just_bottom_line">
 
         <TextView
             android:layout_width="324px"
             android:layout_height="69px"
             android:layout_marginTop="111px"
-            android:text="새 그룹 만들기"
+            android:text="새 그룹 생성"
             android:textColor="#000000"
             android:textSize="53px"
             app:layout_constraintEnd_toEndOf="parent"
@@ -127,6 +128,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
     <Button
+        android:id="@+id/registerButton"
         android:layout_width="960px"
         android:layout_height="141px"
         android:layout_marginBottom="72px"

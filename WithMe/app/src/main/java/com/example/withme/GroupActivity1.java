@@ -138,8 +138,8 @@ public class GroupActivity1 extends AppCompatActivity {
                 intent1.putExtra("groupName", groupName.getText().toString());
 
                 File file = new File(selectedImagePath);
-                RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file.getAbsoluteFile());
-                MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getAbsoluteFile().getName(), requestFile);
+                RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+                MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
 
                 retrofitAPI.uploadImage(accessToken, body).enqueue(new Callback<UploadImage>() {
                     @Override
