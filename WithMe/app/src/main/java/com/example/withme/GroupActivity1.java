@@ -27,11 +27,13 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import java.io.File;
+import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -47,7 +49,7 @@ public class GroupActivity1 extends AppCompatActivity {
     private ImageView editProfile;
     private final int GET_GALLERY_IMAGE = 200;
     private Uri selectedImageUri;
-    private String selectedImagePath;
+    private String selectedImagePath, imageFromServer;
 
     // Storage Permissions
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -81,8 +83,6 @@ public class GroupActivity1 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group1);
-
-        verifyStoragePermissions(GroupActivity1.this);
 
         SharedPreferences sf = getSharedPreferences("storeAccessToken", MODE_PRIVATE);
         String accessToken = sf.getString("AccessToken", "");
@@ -135,10 +135,12 @@ public class GroupActivity1 extends AppCompatActivity {
         groupComplete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                verifyStoragePermissions(GroupActivity1.this);
+
                 intent1.putExtra("groupName", groupName.getText().toString());
 
                 File file = new File(selectedImagePath);
-                RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+                RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), file);
                 MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
 
                 retrofitAPI.uploadImage(accessToken, body).enqueue(new Callback<UploadImage>() {
@@ -147,17 +149,40 @@ public class GroupActivity1 extends AppCompatActivity {
                         UploadImage data = response.body();
 
                         if(response.isSuccessful()) {
-                            Log.e("MakeGroup", String.valueOf(data.getSuccess()));
-                            Log.e("MakeGroup", String.valueOf(data.getStatus()));
-                            Log.e("MakeGroup", selectedImagePath);
-                            Log.e("MakeGroup", data.getData());
+                            Log.e("make Profile", String.valueOf(data.getSuccess()));
+                            Log.e("make Profile", String.valueOf(data.getStatus()));
+                            Log.e("make Profile", selectedImagePath);
+                            Log.e("make Profile", data.getData());
+                            if (!data.getData().equals("이미지 파일이 아닙니다.")) {
+                                imageFromServer = data.getData();
+
+                                retrofitAPI.postCreateParty(accessToken, groupName.getText().toString(), imageFromServer).enqueue(new Callback<ResponseBody>() {
+                                    @Override
+                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                        ResponseBody data = response.body();
+                                        if (response.isSuccessful()) {
+                                            try {
+                                                Log.e("create Party", data.string());
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                        Log.e("create Party", "전송 실패");
+                                        Log.e("create Party", t.getMessage());
+                                    }
+                                });
+                            }
                         }
                     }
 
                     @Override
                     public void onFailure(Call<UploadImage> call, Throwable t) {
-                        Log.e("MakeGroup", "전송 실패");
-                        Log.e("MakeGroup", t.getMessage());
+                        Log.e("make Profile", "전송 실패");
+                        Log.e("make Profile", t.getMessage());
                     }
                 });
                 startActivity(intent1);
