@@ -58,6 +58,7 @@ public class SignUpActivity4_2 extends AppCompatActivity{
         checkbox3 = (ImageView) findViewById(R.id.checkbox3);
         checkbox4 = (ImageView) findViewById(R.id.checkbox4);
 
+
         startWithMe = (Button) findViewById(R.id.startWithMe);
 
         Intent intent1 = new Intent(this, LoginActivity.class);
