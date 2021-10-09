@@ -14,7 +14,7 @@
         android:background="@drawable/just_bottom_line">
 
         <TextView
-            android:layout_width="324px"
+            android:layout_width="273px"
             android:layout_height="69px"
             android:layout_marginTop="111px"
             android:text="새 그룹 생성"
@@ -59,22 +59,38 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="216px"
-        android:layout_height="216px"
-        android:layout_marginBottom="216px"
-        app:civ_border_color="#FED537"
-        android:src="@drawable/circleprofile"
-        app:layout_constraintBottom_toTopOf="@+id/textView10"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="240px"
+        android:layout_height="240px"
+        android:layout_marginBottom="36px"
+        app:layout_constraintBottom_toTopOf="@id/group"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:layout_gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/circleprofile" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profileComplete"
+            android:layout_width="200px"
+            android:layout_height="200px"
+            android:src="@drawable/maskgroup"
+            android:layout_gravity="center"
+            android:layout_marginBottom="11px"/>
+
+    </FrameLayout>
 
     <TextView
         android:id="@+id/group"
         android:layout_width="wrap_content"
-        android:layout_height="75px"
-        android:layout_marginTop="6px"
+        android:layout_height="80px"
+        android:layout_marginTop="36px"
+        android:textFontWeight="500"
         android:textColor="#000000"
         android:textSize="60px"
         app:layout_constraintEnd_toEndOf="parent"
@@ -85,7 +101,7 @@
         android:id="@+id/textView10"
         android:layout_width="849px"
         android:layout_height="60px"
-        android:layout_marginTop="180px"
+        android:layout_marginTop="204px"
         android:text="그룹 코드를 복사하여 보호자를 초대하세요."
         android:textColor="#000000"
         android:textSize="47px"
@@ -106,7 +122,8 @@
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
     <TextView
-        android:id="@+id/textView12"
+        android:id="@+id/groupCode"
+        android:textFontWeight="700"
         android:layout_width="204px"
         android:layout_height="69px"
         android:layout_marginTop="30px"
@@ -125,7 +142,7 @@
         android:text="그룹 코드느 그룹 관리에서 언제든지 볼 수 있습니다."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+        app:layout_constraintTop_toBottomOf="@+id/groupCode" />
 
     <Button
         android:id="@+id/registerButton"

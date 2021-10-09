@@ -129,18 +129,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/IDLayout">
 
-        <EditText
-            android:id="@+id/etPassword"
+<!--        <EditText-->
+<!--            android:id="@+id/etPassword"-->
+<!--            android:layout_width="600px"-->
+<!--            android:layout_height="123px"-->
+<!--            android:background="@android:color/transparent"-->
+<!--            android:hint="숫자 여섯자리 입력"-->
+<!--            android:paddingLeft="33px"-->
+<!--            android:inputType="numberPassword"-->
+<!--            android:textColorHint="#BDBDBD"-->
+<!--            android:textSize="42px"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="parent" />-->
+        
+        <TextView
+            android:id="@+id/tvPassword"
             android:layout_width="600px"
             android:layout_height="123px"
-            android:background="@android:color/transparent"
-            android:hint="숫자 여섯자리 입력"
-            android:paddingLeft="33px"
-            android:inputType="numberPassword"
-            android:textColorHint="#BDBDBD"
+            android:text="숫자 여섯자리 입력"
+            android:textColor="#BDBDBD"
             android:textSize="42px"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="parent" />
+            android:gravity="center_vertical"
+            android:paddingLeft="33px"/>
+            
 
         <ImageView
             android:id="@+id/checkbox3"
@@ -164,23 +175,33 @@
         android:background="@drawable/edittext_rounded_corner_sign4_not_selected"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/passwordLayout">
-
-        <EditText
-            android:id="@+id/etAddress"
+        
+        <TextView
+            android:id="@+id/tvAddress"
             android:layout_width="600px"
             android:layout_height="wrap_content"
-            android:hint="거주지 검색하기"
-            android:textColorHint="#BDBDBD"
+            android:text="거주지 검색하기"
+            android:textColor="#BDBDBD"
             android:textSize="42px"
-            android:maxLines="3"
-            android:gravity="top"
             android:paddingLeft="33px"
-            android:paddingBottom="33px"
-            android:paddingTop="36px"
-            android:paddingRight="33px"
-            android:background="@android:color/transparent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:maxLines="3"/>
+
+<!--        <EditText-->
+<!--            android:id="@+id/etAddress"-->
+<!--            android:layout_width="600px"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:hint="거주지 검색하기"-->
+<!--            android:textColorHint="#BDBDBD"-->
+<!--            android:textSize="42px"-->
+<!--            android:maxLines="3"-->
+<!--            android:gravity="top"-->
+<!--            android:paddingLeft="33px"-->
+<!--            android:paddingBottom="33px"-->
+<!--            android:paddingTop="36px"-->
+<!--            android:paddingRight="33px"-->
+<!--            android:background="@android:color/transparent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
 
         <ImageView
             android:id="@+id/checkbox4"

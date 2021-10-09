@@ -26,8 +26,12 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.MediaType;
@@ -155,15 +159,27 @@ public class GroupActivity1 extends AppCompatActivity {
                             Log.e("make Profile", data.getData());
                             if (!data.getData().equals("이미지 파일이 아닙니다.")) {
                                 imageFromServer = data.getData();
+                                intent1.putExtra("image", imageFromServer);
+                                String name = groupName.getText().toString();
 
-                                retrofitAPI.postCreateParty(accessToken, groupName.getText().toString(), imageFromServer).enqueue(new Callback<ResponseBody>() {
+                                HashMap<String, Object> input = new HashMap<>();
+                                input.put("name", name);
+                                input.put("profile", imageFromServer);
+
+                                retrofitAPI.postCreateParty(accessToken, input).enqueue(new Callback<ResponseBody>() {
                                     @Override
                                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                        ResponseBody data = response.body();
                                         if (response.isSuccessful()) {
                                             try {
-                                                Log.e("create Party", data.string());
-                                            } catch (IOException e) {
+                                                JSONObject jsonObject = new JSONObject(response.body().string());
+                                                JSONObject data = jsonObject.getJSONObject("data");
+                                                String code = data.getString("code");
+
+                                                Log.e("create Party", String.valueOf(jsonObject));
+                                                Log.e("create Party", code);
+                                                intent1.putExtra("code", code);
+                                                startActivity(intent1);
+                                            } catch (IOException | JSONException e) {
                                                 e.printStackTrace();
                                             }
                                         }
@@ -185,7 +201,6 @@ public class GroupActivity1 extends AppCompatActivity {
                         Log.e("make Profile", t.getMessage());
                     }
                 });
-                startActivity(intent1);
             }
         });
         editProfile.setOnClickListener(new View.OnClickListener() {

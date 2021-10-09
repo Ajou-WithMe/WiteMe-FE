@@ -41,8 +41,7 @@ public interface RetrofitAPI {
     @POST("/file/profile")
     Call<UploadImage> uploadImage(@Header("AccessToken") String accessToken, @Part MultipartBody.Part postImg);
 
-    @Multipart
     @POST("/party")
-    Call<ResponseBody> postCreateParty(@Header("AccessToken") String accessToken, String name, String profile);
+    Call<ResponseBody> postCreateParty(@Header("AccessToken") String accessToken, @Body HashMap<String, Object> param);
 
 }
