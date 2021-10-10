@@ -22,10 +22,11 @@
 
     <TextView
         android:id="@+id/textView13"
+        android:gravity="center"
         android:layout_width="765px"
         android:layout_height="39px"
         android:layout_marginTop="18px"
-        android:text="초기 사용자의 데이터 정확성을 위해 가입시 1회만 진행합니다"
+        android:text="초기 사용자의 데이터 정확성을 위해 가입시 1회만 진행합니다."
         android:textColor="#394AE2"
         android:textSize="29px"
         app:layout_constraintEnd_toEndOf="parent"
@@ -37,6 +38,9 @@
         android:layout_width="882px"
         android:layout_height="750px"
         android:layout_marginTop="45px"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/lf20_mqt2vvoq"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView13" />

@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.naver.maps.map.MapView;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
