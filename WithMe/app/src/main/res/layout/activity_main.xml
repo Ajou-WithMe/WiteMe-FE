@@ -6,17 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="match_parent"
+    <com.naver.maps.map.MapView
+        android:id="@+id/map_view"
         android:layout_height="match_parent"
-        android:text="여기는 지도!"
-        android:gravity="center"
-        android:textSize="100px"
-        app:layout_constraintBottom_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        android:layout_width="match_parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -72,7 +65,7 @@
         android:layout_width="match_parent"
         android:layout_height="210px"
         android:orientation="horizontal"
-        android:background="#33FFFFFF"
+        android:background="#CCFFFFFF"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageButton

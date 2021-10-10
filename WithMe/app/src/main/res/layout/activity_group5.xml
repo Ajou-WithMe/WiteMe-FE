@@ -6,4 +6,38 @@
     android:layout_height="match_parent"
     tools:context=".GroupActivity5">
 
+    <com.naver.maps.map.MapView
+        android:id="@+id/map_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="204px"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/just_bottom_line">
+
+        <TextView
+            android:layout_width="423px"
+            android:layout_height="69px"
+            android:layout_marginTop="111px"
+            android:text="피보호자 계정 생성"
+            android:textColor="#000000"
+            android:textSize="53px"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/xButton"
+            android:layout_width="72px"
+            android:layout_height="72px"
+            android:layout_marginTop="108px"
+            android:layout_marginEnd="24px"
+            android:background="@drawable/x_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

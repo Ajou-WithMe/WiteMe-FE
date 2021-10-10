@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="882px"
+    android:layout_height="1188px"
+    android:layout_gravity="center"
+    android:background="@drawable/alert_white_border">
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="687px"
+        android:layout_height="54px"
+        android:layout_marginTop="66px"
+        android:text="피보호자의 평소 활동 범위를 그려주세요"
+        android:textColor="#222222"
+        android:textSize="41px"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="765px"
+        android:layout_height="39px"
+        android:layout_marginTop="18px"
+        android:text="초기 사용자의 데이터 정확성을 위해 가입시 1회만 진행합니다"
+        android:textColor="#394AE2"
+        android:textSize="29px"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animation_view"
+        android:layout_width="882px"
+        android:layout_height="750px"
+        android:layout_marginTop="45px"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+    <Button
+        android:id="@+id/understand"
+        android:layout_width="798px"
+        android:layout_height="141px"
+        android:layout_marginTop="36px"
+        android:text="이해했어요"
+        android:textSize="42px"
+        android:textColor="#222222"
+        android:background="@drawable/radius_1_clickable"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/animation_view" />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

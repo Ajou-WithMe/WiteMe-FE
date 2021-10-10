@@ -1,5 +1,6 @@
 package com.example.withme;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -9,11 +10,19 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import com.naver.maps.map.MapView;
+import com.naver.maps.map.NaverMap;
+import com.naver.maps.map.OnMapReadyCallback;
+
+import java.util.Map;
+
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
 
     private ConstraintLayout coachMark;
     private ImageButton makeGroup1, makeGroup2;
+    private NaverMap naverMap;
+    private MapView mapView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +34,11 @@ public class MainActivity extends AppCompatActivity {
         coachMark = (ConstraintLayout) findViewById(R.id.coach_mark_master_view);
         makeGroup1 = (ImageButton) findViewById(R.id.makeGroup_1);
         makeGroup2 = (ImageButton) findViewById(R.id.makeGroup_2);
+
+        // 네이버 지도
+        mapView = (MapView) findViewById(R.id.map_view);
+        mapView.onCreate(savedInstanceState);
+        mapView.getMapAsync(this);
 
         coachMark.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,6 +55,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+    }
+
+    @Override
+    public void onMapReady(@NonNull NaverMap naverMap) {
 
     }
 }
