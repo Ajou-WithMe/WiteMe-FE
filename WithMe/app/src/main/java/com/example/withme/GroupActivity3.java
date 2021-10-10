@@ -34,7 +34,7 @@ public class GroupActivity3 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group3);
 
-        Intent intent1 = new Intent(this, SignUpActivity3.class);
+        Intent intent1 = new Intent(this, GroupActivity5.class);
         Intent data = getIntent();
 
         startWithMe = (Button) findViewById(R.id.startWithMe);
@@ -57,6 +57,13 @@ public class GroupActivity3 extends AppCompatActivity {
         passwordLayout = (LinearLayout) findViewById(R.id.passwordLayout);
         addressLayout = (LinearLayout) findViewById(R.id.addressLayout);
         detailAddressLayout = (LinearLayout) findViewById(R.id.detailAddressLayout);
+
+        startWithMe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(intent1);
+            }
+        });
 
 
         etName.addTextChangedListener(new TextWatcher() {
