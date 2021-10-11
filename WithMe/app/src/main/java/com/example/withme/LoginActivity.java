@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
 import com.kakao.usermgmt.LoginButton;
 
@@ -31,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     private LoginButton kakaoLoginBtn_login;
     private EditText etPassword, etID;
     private SignUpActivity4_1 signUpActivity4;
-    private KakaoLogin_SignUp1.SessionCallback sessionCallback;
+    private ISessionCallback mSessionCallback; // 로그인 관리 
 
     private int a = 5, b = 10;
     private static final String TAG = "유저";
