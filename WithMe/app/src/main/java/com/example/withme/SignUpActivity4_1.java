@@ -15,6 +15,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.HashMap;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class SignUpActivity4_1 extends AppCompatActivity{
 
     private static final int SEARCH_ADDRESS_ACTIVITY = 10000;
@@ -54,16 +67,52 @@ public class SignUpActivity4_1 extends AppCompatActivity{
         String nickname = data.getStringExtra("name");
         String uID = data.getStringExtra("uid");
 
+        Retrofit retrofit = new retrofit2.Retrofit.Builder()
+                .baseUrl("http://withme-lb-1691720831.ap-northeast-2.elb.amazonaws.com")
+                .addConverterFactory(GsonConverterFactory.create()) //gson converter 생성, gson은 JSON을 자바 클래스로 바꾸는데 사용된다.
+                .build();
+        RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+
+        etName.setText(nickname);
         Log.e("intent", nickname + ", "+ uID);
 
         startWithMe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(intent);
+                HashMap<String, Object> input = new HashMap<>();
+
+                input.put("name", nickname);
+                input.put("uid", uID);
+                input.put("phone", phoneNumber);
+                input.put("address", fullAddress);
+
+                retrofitAPI.postKakaoSignUp(input).enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if(response.isSuccessful()) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response.body().string());
+                                Log.e("KakaoSignUp", String.valueOf(jsonObject));
+
+                                startActivity(intent);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Log.e("KakaoSignUp", "전송 실패");
+                        Log.e("KakaoSignUp", t.getMessage());
+                    }
+                });
             }
         });
 
-        etName.setText(nickname);
         if (etName.getText().length() > 0) {
             nameLayout.setBackgroundResource(R.drawable.edittext_rounded_corner_sign4_selected);
             checkbox1.setVisibility(View.VISIBLE);

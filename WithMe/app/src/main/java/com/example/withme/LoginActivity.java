@@ -23,6 +23,7 @@ import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.MeV2ResponseCallback;
 import com.kakao.usermgmt.response.MeV2Response;
 import com.kakao.util.exception.KakaoException;
+import com.kakao.util.helper.log.Logger;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -58,11 +59,25 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences storeAccessToken;
         SharedPreferences.Editor editor;
 
+        Intent intent1 = new Intent(this, SignUpActivity1.class);
+        Intent intent2 = new Intent(this, MainActivity.class);
+
+        kakaoLoginBtn_login = (LoginButton) findViewById(R.id.btn_kakao_login_basic_login);
+        kakaoLogin_login = (Button) findViewById(R.id.kakaoLogin_login);
+        signUpButton = (Button) findViewById(R.id.signUpButton);
+        buttonLogin = (Button) findViewById(R.id.buttonLogin);
+
+        etPassword = (EditText) findViewById(R.id.etPassword);
+        etID = (EditText) findViewById(R.id.etID);
+
         Retrofit retrofit = new retrofit2.Retrofit.Builder()
                 .baseUrl("http://withme-lb-1691720831.ap-northeast-2.elb.amazonaws.com")
                 .addConverterFactory(GsonConverterFactory.create()) //gson converter 생성, gson은 JSON을 자바 클래스로 바꾸는데 사용된다.
                 .build();
         RetrofitAPI retrofitAPI1 = retrofit.create(RetrofitAPI.class);
+
+        storeAccessToken = getSharedPreferences("storeAccessToken", Activity.MODE_PRIVATE);
+        editor = storeAccessToken.edit();
 
         mSessionCallback = new ISessionCallback() {
             @Override
@@ -99,13 +114,43 @@ public class LoginActivity extends AppCompatActivity {
                                 if (response.isSuccessful()) {
                                     try {
                                         JSONObject jsonObject= new JSONObject(response.body().string());
-                                        Boolean data = jsonObject.getBoolean("data");
+                                        boolean data = jsonObject.getBoolean("data");
 
                                         Log.e("isExistUid", String.valueOf(jsonObject));
                                         Log.e("isExistUid", String.valueOf(data));
 
-                                        if (String.valueOf(data).equals("false")) { // uid 가 중복이라면?
+                                        if (data == false) { // uid 가 중복이라면?
                                             Log.e("여기?", "중복이므로 메인으로 이동");
+                                            retrofitAPI1.postLoginKakao(input).enqueue(new Callback<ResponseBody>() {
+                                                @Override
+                                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                                    if (response.isSuccessful()) {
+                                                        try {
+                                                            JSONObject jsonObject = new JSONObject(response.body().string());
+                                                            boolean success = jsonObject.getBoolean("success");
+                                                            JSONObject data = jsonObject.getJSONObject("data");
+                                                            String accessToken = data.getString("accessToken");
+
+                                                            Log.e("kakao Login", String.valueOf(jsonObject));
+
+                                                            if (success == true) {
+                                                                editor.putString("AccessToken", accessToken);
+                                                                editor.commit();
+                                                                startActivity(intent2);
+                                                            }
+                                                        } catch (JSONException e) {
+                                                            e.printStackTrace();
+                                                        } catch (IOException e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                                                }
+                                            });
 
                                         } else { // 중복이 아닐 때
                                             Intent intent = new Intent(LoginActivity.this, SignUpActivity4_1.class);
@@ -141,24 +186,12 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onSessionOpenFailed(KakaoException exception) {
                 Toast.makeText(LoginActivity.this, "onSessionOpenFailed", Toast.LENGTH_SHORT).show();
+                if (exception != null) {
+                    Logger.e(exception);
+                }
             }
         };
         Session.getCurrentSession().addCallback(mSessionCallback);
-//        Session.getCurrentSession().checkAndImplicitOpen();
-
-        storeAccessToken = getSharedPreferences("storeAccessToken", Activity.MODE_PRIVATE);
-        editor = storeAccessToken.edit();
-
-        Intent intent1 = new Intent(this, SignUpActivity1.class);
-        Intent intent2 = new Intent(this, MainActivity.class);
-
-        kakaoLoginBtn_login = (LoginButton) findViewById(R.id.btn_kakao_login_basic_login);
-        kakaoLogin_login = (Button) findViewById(R.id.kakaoLogin_login);
-        signUpButton = (Button) findViewById(R.id.signUpButton);
-        buttonLogin = (Button) findViewById(R.id.buttonLogin);
-
-        etPassword = (EditText) findViewById(R.id.etPassword);
-        etID = (EditText) findViewById(R.id.etID);
 
         etID.addTextChangedListener(new TextWatcher() {
             @Override
@@ -217,33 +250,40 @@ public class LoginActivity extends AppCompatActivity {
                 input.put("email", email);
                 input.put("pwd", password);
 
-                retrofitAPI1.postLoginEmail(input).enqueue(new Callback<LoginEmail>() {
+                retrofitAPI1.postLoginEmail(input).enqueue(new Callback<ResponseBody>() {
                     @Override
-                    public void onResponse(Call<LoginEmail> call, Response<LoginEmail> response) {
-                        LoginEmail data = response.body();
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if (response.isSuccessful()) {
-                            accessToken = data.getData();
+                            try {
+                                JSONObject jsonObject = new JSONObject(response.body().string());
+                                JSONObject data = jsonObject.getJSONObject("data");
+                                boolean success = jsonObject.getBoolean("success");
+                                String accessToken = data.getString("accessToken");
 
-                            Log.e("Test", "Post 성공");
-                            Log.e("Test", String.valueOf(data.getStatus()));
-                            Log.e("Test", accessToken);
+                                Log.e("Email Login", String.valueOf(jsonObject));
+                                Log.e("Email Login", accessToken);
 
-                            if (data.getSuccess() == false) {
-//                                Log.e("not equal email", "못가");
-                            } else {
-                                editor.putString("AccessToken", accessToken);
-                                editor.commit();
-                                startActivity(intent2);
+                                if (success == false) {
+                                    Log.e("not equal email", "못가");
+                                } else {
+                                    editor.putString("AccessToken", accessToken);
+                                    editor.commit();
+                                    startActivity(intent2);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
                             }
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<LoginEmail> call, Throwable t) {
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
                         Log.e("Failure", "Post 실패");
+                        Log.e("Failure", t.getMessage());
                     }
                 });
-
             }
         });
 

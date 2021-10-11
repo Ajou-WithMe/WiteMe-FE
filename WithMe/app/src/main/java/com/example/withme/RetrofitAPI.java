@@ -6,6 +6,7 @@ import android.location.Location;
 import java.util.HashMap;
 
 import okhttp3.MultipartBody;
+import okhttp3.Response;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -31,8 +32,14 @@ public interface RetrofitAPI {
     @POST("/user/signup/existUser")
     Call<ResponseBody> postUID(@Body HashMap<String, Object> param);
 
+    @POST("/user/login/kakao")
+    Call <ResponseBody> postLoginKakao(@Body HashMap<String, Object> param);
+
     @POST("/user/login/email")
-    Call<LoginEmail> postLoginEmail(@Body HashMap<String, Object> param);
+    Call<ResponseBody> postLoginEmail(@Body HashMap<String, Object> param);
+
+    @POST("/user/signup/kakao")
+    Call<ResponseBody> postKakaoSignUp(@Body HashMap<String, Object> param);
 
     @POST("/user/signup/duplicate")
     Call<SignUpDuplicate> postSignupDuplicate(@Body HashMap<String, Object> param);
