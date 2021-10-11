@@ -13,13 +13,24 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
+import com.kakao.network.ErrorResult;
 import com.kakao.usermgmt.LoginButton;
+import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.MeV2ResponseCallback;
+import com.kakao.usermgmt.response.MeV2Response;
+import com.kakao.util.exception.KakaoException;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.HashMap;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
     private LoginButton kakaoLoginBtn_login;
     private EditText etPassword, etID;
     private SignUpActivity4_1 signUpActivity4;
-    private ISessionCallback mSessionCallback; // 로그인 관리 
+    private ISessionCallback mSessionCallback; // 로그인 관리
 
     private int a = 5, b = 10;
     private static final String TAG = "유저";
@@ -46,6 +57,94 @@ public class LoginActivity extends AppCompatActivity {
 
         SharedPreferences storeAccessToken;
         SharedPreferences.Editor editor;
+
+        Retrofit retrofit = new retrofit2.Retrofit.Builder()
+                .baseUrl("http://withme-lb-1691720831.ap-northeast-2.elb.amazonaws.com")
+                .addConverterFactory(GsonConverterFactory.create()) //gson converter 생성, gson은 JSON을 자바 클래스로 바꾸는데 사용된다.
+                .build();
+        RetrofitAPI retrofitAPI1 = retrofit.create(RetrofitAPI.class);
+
+        mSessionCallback = new ISessionCallback() {
+            @Override
+            public void onSessionOpened() {
+                // 로그인 요청
+                UserManagement.getInstance().me(new MeV2ResponseCallback() {
+
+                    @Override
+                    public void onFailure(ErrorResult errorResult) {
+                        // 로그인을 요청했지만 실패했을 때
+                        Toast.makeText(LoginActivity.this, "로그인 도중에 오류가 발생하였습니다. 다시 시도해 주세요", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    @Override
+                    public void onSessionClosed(ErrorResult errorResult) {
+
+                        // 세션이 닫혔을 때
+                        Toast.makeText(LoginActivity.this, "세션이 닫혔습니다. 다시 시도해 주세요", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onSuccess(MeV2Response result) {
+                        // 로그인 성공 시
+                        HashMap<String, Object> input = new HashMap<>();
+                        String uID = String.valueOf(result.getId());
+                        Log.e("uID", uID);
+
+                        input.put("uid", uID);
+
+                        retrofitAPI1.postUID(input).enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                if (response.isSuccessful()) {
+                                    try {
+                                        JSONObject jsonObject= new JSONObject(response.body().string());
+                                        Boolean data = jsonObject.getBoolean("data");
+
+                                        Log.e("isExistUid", String.valueOf(jsonObject));
+                                        Log.e("isExistUid", String.valueOf(data));
+
+                                        if (String.valueOf(data).equals("false")) { // uid 가 중복이라면?
+                                            Log.e("여기?", "중복이므로 메인으로 이동");
+
+                                        } else { // 중복이 아닐 때
+                                            Intent intent = new Intent(LoginActivity.this, SignUpActivity4_1.class);
+                                            intent.putExtra("name", result.getKakaoAccount().getProfile().getNickname());
+                                            intent.putExtra("uid", uID);
+                                            Log.e("여기?", "중복 안되었으므로 SignUpActivity 4-1 로 이동");
+                                            startActivity(intent);
+                                        }
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                } else {
+                                    Log.e("isExistUid", "실패");
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                Log.e("isExistUid", "전송 실패");
+                                Log.e("isExistUid", t.getMessage());
+
+                            }
+                        });
+                        Toast.makeText(LoginActivity.this, "환영합니다!", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+            }
+
+            @Override
+            public void onSessionOpenFailed(KakaoException exception) {
+                Toast.makeText(LoginActivity.this, "onSessionOpenFailed", Toast.LENGTH_SHORT).show();
+            }
+        };
+        Session.getCurrentSession().addCallback(mSessionCallback);
+//        Session.getCurrentSession().checkAndImplicitOpen();
 
         storeAccessToken = getSharedPreferences("storeAccessToken", Activity.MODE_PRIVATE);
         editor = storeAccessToken.edit();
@@ -118,12 +217,6 @@ public class LoginActivity extends AppCompatActivity {
                 input.put("email", email);
                 input.put("pwd", password);
 
-                Retrofit retrofit = new retrofit2.Retrofit.Builder()
-                        .baseUrl("http://withme-lb-1691720831.ap-northeast-2.elb.amazonaws.com")
-                        .addConverterFactory(GsonConverterFactory.create()) //gson converter 생성, gson은 JSON을 자바 클래스로 바꾸는데 사용된다.
-                        .build();
-                RetrofitAPI retrofitAPI1 = retrofit.create(RetrofitAPI.class);
-
                 retrofitAPI1.postLoginEmail(input).enqueue(new Callback<LoginEmail>() {
                     @Override
                     public void onResponse(Call<LoginEmail> call, Response<LoginEmail> response) {
@@ -167,12 +260,5 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent1);
             }
         });
-    }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data)) {
-            return;
-        }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 }

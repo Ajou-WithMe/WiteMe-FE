@@ -7,20 +7,23 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class SignUpActivity4_1 extends AppCompatActivity{
 
     private static final int SEARCH_ADDRESS_ACTIVITY = 10000;
 
-    private EditText etName, etPhoneNumber, etAddress, etDetailAddress;
+    private EditText etName, etPhoneNumber, etDetailAddress;
+    private TextView etAddress;
     private LinearLayout detailAddressLayout, nameLayout, phoneNumberLayout, addressLayout;
     private ImageView checkbox1, checkbox2, checkbox3, checkbox4;
-    private String name, phoneNumber, address, detailAddress;
+    private String name, phoneNumber, address, detailAddress, fullAddress;
     private Button startWithMe;
 
     @Override
@@ -30,7 +33,7 @@ public class SignUpActivity4_1 extends AppCompatActivity{
 
         etName = (EditText) findViewById(R.id.etName);
         etPhoneNumber = (EditText) findViewById(R.id.etPhoneNumber);
-        etAddress = (EditText) findViewById(R.id.etAddress);
+        etAddress = (TextView) findViewById(R.id.etAddress1);
         etDetailAddress = (EditText) findViewById(R.id.etDetailAddress);
 
         nameLayout = (LinearLayout) findViewById(R.id.nameLayout);
@@ -46,6 +49,12 @@ public class SignUpActivity4_1 extends AppCompatActivity{
         startWithMe = (Button) findViewById(R.id.startWithMe);
 
         Intent intent = new Intent(this, LoginActivity.class);
+        Intent data = getIntent();
+
+        String nickname = data.getStringExtra("name");
+        String uID = data.getStringExtra("uid");
+
+        Log.e("intent", nickname + ", "+ uID);
 
         startWithMe.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,6 +62,25 @@ public class SignUpActivity4_1 extends AppCompatActivity{
                 startActivity(intent);
             }
         });
+
+        etName.setText(nickname);
+        if (etName.getText().length() > 0) {
+            nameLayout.setBackgroundResource(R.drawable.edittext_rounded_corner_sign4_selected);
+            checkbox1.setVisibility(View.VISIBLE);
+        } else {
+            nameLayout.setBackgroundResource(R.drawable.edittext_rounded_corner_sign4_not_selected);
+            checkbox1.setVisibility(View.INVISIBLE);
+        }
+
+        if (checkbox1.getVisibility() == View.VISIBLE && checkbox2.getVisibility() == View.VISIBLE
+                && checkbox3.getVisibility() == View.VISIBLE && checkbox4.getVisibility() == View.VISIBLE) {
+            // Its visible
+            startWithMe.setBackgroundColor(Color.parseColor("#FED537"));
+            startWithMe.setTextColor(Color.parseColor("#222222"));
+            startWithMe.setClickable(true);
+        } else {
+            // Either gone or invisible
+        }
 
         etName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -68,23 +96,23 @@ public class SignUpActivity4_1 extends AppCompatActivity{
             @Override
             public void afterTextChanged(Editable s) {
                 name = etName.getText().toString().trim();
-                if (s.length() > 0) {
-                    nameLayout.setBackgroundResource(R.drawable.edittext_rounded_corner_sign4_selected);
-                    checkbox1.setVisibility(View.VISIBLE);
-                } else {
-                    nameLayout.setBackgroundResource(R.drawable.edittext_rounded_corner_sign4_not_selected);
-                    checkbox1.setVisibility(View.INVISIBLE);
-                }
-
-                if (checkbox1.getVisibility() == View.VISIBLE && checkbox2.getVisibility() == View.VISIBLE
-                        && checkbox3.getVisibility() == View.VISIBLE) {
-                    // Its visible
-                    startWithMe.setBackgroundColor(Color.parseColor("#FED537"));
-                    startWithMe.setTextColor(Color.parseColor("#222222"));
-                    startWithMe.setClickable(true);
-                } else {
-                    // Either gone or invisible
-                }
+//                if (name.length() > 0) {
+//                    nameLayout.setBackgroundResource(R.drawable.edittext_rounded_corner_sign4_selected);
+//                    checkbox1.setVisibility(View.VISIBLE);
+//                } else {
+//                    nameLayout.setBackgroundResource(R.drawable.edittext_rounded_corner_sign4_not_selected);
+//                    checkbox1.setVisibility(View.INVISIBLE);
+//                }
+//
+//                if (checkbox1.getVisibility() == View.VISIBLE && checkbox2.getVisibility() == View.VISIBLE
+//                        && checkbox3.getVisibility() == View.VISIBLE && checkbox4.getVisibility() == View.VISIBLE) {
+//                    // Its visible
+//                    startWithMe.setBackgroundColor(Color.parseColor("#FED537"));
+//                    startWithMe.setTextColor(Color.parseColor("#222222"));
+//                    startWithMe.setClickable(true);
+//                } else {
+//                    // Either gone or invisible
+//                }
             }
         });
 
@@ -111,7 +139,7 @@ public class SignUpActivity4_1 extends AppCompatActivity{
                 }
 
                 if (checkbox1.getVisibility() == View.VISIBLE && checkbox2.getVisibility() == View.VISIBLE
-                        && checkbox3.getVisibility() == View.VISIBLE) {
+                        && checkbox3.getVisibility() == View.VISIBLE && checkbox4.getVisibility() == View.VISIBLE) {
                     // Its visible
                     startWithMe.setBackgroundColor(Color.parseColor("#FED537"));
                     startWithMe.setTextColor(Color.parseColor("#222222"));
@@ -122,35 +150,11 @@ public class SignUpActivity4_1 extends AppCompatActivity{
             }
         });
 
-        etAddress.setOnClickListener(new View.OnClickListener() {
+        addressLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SignUpActivity4_1.this, WebViewActivity.class);
                 startActivityForResult(intent, SEARCH_ADDRESS_ACTIVITY);
-            }
-        });
-
-        etAddress.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                address = etAddress.getText().toString().trim();
-                if (s.length() > 0) {
-                    addressLayout.setBackgroundResource(R.drawable.edittext_rounded_corner_sign4_selected);
-                    checkbox3.setVisibility(View.VISIBLE);
-                } else {
-                    addressLayout.setBackgroundResource(R.drawable.edittext_rounded_corner_sign4_not_selected);
-                    checkbox3.setVisibility(View.INVISIBLE);
-                }
             }
         });
 
@@ -175,6 +179,8 @@ public class SignUpActivity4_1 extends AppCompatActivity{
                     detailAddressLayout.setBackgroundResource(R.drawable.edittext_rounded_corner_sign4_not_selected);
                     checkbox4.setVisibility(View.INVISIBLE);
                 }
+                fullAddress = address + ", " + detailAddress;
+
                 if (checkbox1.getVisibility() == View.VISIBLE && checkbox2.getVisibility() == View.VISIBLE
                         && checkbox3.getVisibility() == View.VISIBLE && checkbox4.getVisibility() == View.VISIBLE) {
                     // Its visible
@@ -199,6 +205,17 @@ public class SignUpActivity4_1 extends AppCompatActivity{
                     String data = intent.getExtras().getString("data");
                     if (data != null) {
                         etAddress.setText(data);
+                        etAddress.setTextColor(Color.parseColor("#333333"));
+
+                        address = (String)etAddress.getText();
+
+                        if (address.length() > 8) {
+                            addressLayout.setBackgroundResource(R.drawable.edittext_rounded_corner_sign4_selected);
+                            checkbox3.setVisibility(View.VISIBLE);
+                        } else {
+                            addressLayout.setBackgroundResource(R.drawable.edittext_rounded_corner_sign4_not_selected);
+                            checkbox3.setVisibility(View.INVISIBLE);
+                        }
                     }
                 }
                 break;

@@ -28,6 +28,9 @@ public interface RetrofitAPI {
     @POST("/user/signup/email")
     Call<EmailSignUp> postEmailSignUp(@Body HashMap<String, Object> param);
 
+    @POST("/user/signup/existUser")
+    Call<ResponseBody> postUID(@Body HashMap<String, Object> param);
+
     @POST("/user/login/email")
     Call<LoginEmail> postLoginEmail(@Body HashMap<String, Object> param);
 
