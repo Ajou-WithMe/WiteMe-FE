@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kakao.auth.ISessionCallback;
@@ -41,6 +42,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class LoginActivity extends AppCompatActivity {
 
     private Button signUpButton, kakaoLogin_login, buttonLogin;
+    private TextView findEmail, findPassword;
     private LoginButton kakaoLoginBtn_login;
     private EditText etPassword, etID;
     private SignUpActivity4_1 signUpActivity4;
@@ -62,6 +64,9 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent1 = new Intent(this, SignUpActivity1.class);
         Intent intent2 = new Intent(this, MainActivity.class);
 
+        findEmail = (TextView) findViewById(R.id.findEmail);
+        findPassword = (TextView) findViewById(R.id.findPassword);
+
         kakaoLoginBtn_login = (LoginButton) findViewById(R.id.btn_kakao_login_basic_login);
         kakaoLogin_login = (Button) findViewById(R.id.kakaoLogin_login);
         signUpButton = (Button) findViewById(R.id.signUpButton);
@@ -78,6 +83,14 @@ public class LoginActivity extends AppCompatActivity {
 
         storeAccessToken = getSharedPreferences("storeAccessToken", Activity.MODE_PRIVATE);
         editor = storeAccessToken.edit();
+
+        findPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, FindPasswordActivity.class);
+                startActivity(intent);
+            }
+        });
 
         mSessionCallback = new ISessionCallback() {
             @Override

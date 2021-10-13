@@ -3,7 +3,7 @@
     package="com.example.withme">
     <!-- 인터넷 사용 권한 설정 -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -19,42 +19,58 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WithMe"
         android:usesCleartextTraffic="true">
-
-        <activity android:name=".GroupActivity5"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".GroupActivity4"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".GroupActivity3"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".GroupActivity2"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".GroupActivity1"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".WebViewActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".FindPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GroupActivity5"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".GroupActivity4"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".GroupActivity3"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".GroupActivity2"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".GroupActivity1"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".WebViewActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="187008367a75439b524def92790c6d59" />
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
-            android:value="pxkpa1fjug"/>
+            android:value="pxkpa1fjug" />
 
-        <activity android:name=".SignUpActivity4_2"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".SignUpActivity4_1"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".SignUpActivity3"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".SignUpActivity2"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".SignUpActivity1"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".LoginActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".DescriptionActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".SplashActivity"
+        <activity
+            android:name=".SignUpActivity4_2"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SignUpActivity4_1"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SignUpActivity3"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SignUpActivity2"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SignUpActivity1"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".DescriptionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -62,8 +78,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

@@ -124,6 +124,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
+        android:id="@+id/findEmail"
         android:layout_width="300px"
         android:layout_height="45px"
         android:layout_marginStart="141px"
@@ -145,6 +146,7 @@
         app:layout_constraintTop_toBottomOf="@+id/kakaoLogin_login" />
 
     <TextView
+        android:id="@+id/findPassword"
         android:layout_width="207px"
         android:layout_height="45px"
         android:layout_marginTop="57px"
