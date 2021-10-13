@@ -1,5 +1,7 @@
 package com.example.withme;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -19,15 +21,26 @@ public class MyAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         int index = getRealPosition(position);
 
-        if (index == 0) return new Fragment_1();
-        else if(index==1) return new Fragment_2();
-        else return new Fragment_3();
+        if (index == 0) {
+            Log.e("fragment 1", "시작");
+            return new Fragment_1();
+        }
+        else if(index==1) {
+            Log.e("fragment 2", "시작");
+            return new Fragment_2();
+        }
+        else {
+            Log.e("fragment 3", "시작");
+            return new Fragment_3();
+        }
     }
 
     @Override
     public int getItemCount() {
         return 3;
     }
+
+
 
     public int getRealPosition(int position) {
         return position % mCount;

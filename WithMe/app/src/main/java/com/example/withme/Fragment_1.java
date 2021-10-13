@@ -9,12 +9,21 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.airbnb.lottie.LottieAnimationView;
+
 public class Fragment_1 extends Fragment {
+
+    private LottieAnimationView lottieAnimationView;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup) inflater.inflate(
-                R.layout.description_frame1, container, false);
-        return rootView;
+        View v = inflater.inflate(R.layout.description_frame1, container, false);
+
+        lottieAnimationView = (LottieAnimationView) v.findViewById(R.id.animationView1);
+        lottieAnimationView.playAnimation();
+        lottieAnimationView.setRepeatCount(-1);
+
+        return v;
     }
 }

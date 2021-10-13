@@ -6,8 +6,10 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class DescriptionActivity extends AppCompatActivity {
 
@@ -44,7 +46,7 @@ public class DescriptionActivity extends AppCompatActivity {
         mPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
 
         mPager.setCurrentItem(1);
-        mPager.setOffscreenPageLimit(3);
+        mPager.setOffscreenPageLimit(1);
 
         mPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
@@ -57,7 +59,9 @@ public class DescriptionActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                super.onPageSelected(position);
+                if (position == 0) {
+
+                }
             }
         });
     }

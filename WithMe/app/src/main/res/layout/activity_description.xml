@@ -12,9 +12,9 @@
     <FrameLayout
         android:id="@+id/frameLayout"
         android:background="@drawable/radius_1"
-        android:layout_width="864px"
-        android:layout_height="1020px"
-        android:layout_marginTop="183px"
+        android:layout_width="match_parent"
+        android:layout_height="1083px"
+        android:layout_marginTop="249px"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -30,49 +30,34 @@
 
     </FrameLayout>
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="774px"
-        android:layout_height="54px"
-        android:layout_marginTop="129px"
-        android:gravity="center"
-        android:text="사랑하는 사람의 위치를 언제든지 확인하세요"
-        android:textFontWeight="400"
-        android:textSize="41px"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
-
     <ImageView
         android:id="@+id/ellipse1"
         android:layout_width="30px"
         android:layout_height="30px"
         android:layout_marginStart="435px"
-        android:layout_marginLeft="435px"
-        app:layout_constraintBottom_toTopOf="@+id/startButton"
+        android:layout_marginTop="1452px"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ellipse" />
 
     <ImageView
         android:id="@+id/ellipse2"
         android:layout_width="30px"
         android:layout_height="30px"
-        app:srcCompat="@drawable/ellipse"
-        app:layout_constraintBottom_toTopOf="@+id/startButton"
+        android:layout_marginTop="1452px"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ellipse" />
 
     <ImageView
         android:id="@+id/ellipse3"
         android:layout_width="30px"
         android:layout_height="30px"
+        android:layout_marginTop="1452px"
         android:layout_marginEnd="435px"
-        android:layout_marginRight="435px"
-        app:layout_constraintBottom_toTopOf="@+id/startButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ellipse" />
 
 

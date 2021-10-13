@@ -12,6 +12,43 @@
         android:layout_height="match_parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/safeZoneDrawAlarm"
+        android:layout_width="1020px"
+        android:layout_height="165px"
+        android:layout_marginTop="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
+        android:background="@drawable/radius_4">
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="687px"
+            android:layout_height="54px"
+            android:layout_marginTop="33px"
+            android:text="피보호자의 평소 활동범위를 그려주세요"
+            android:textColor="#222222"
+            android:textSize="41px"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="447px"
+            android:layout_height="42px"
+            android:layout_marginTop="18px"
+            android:text="화면의 사각형보다 넓게 그려주세요!"
+            android:textColor="#394AE2"
+            android:textSize="29px"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView14" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="204px"
@@ -39,5 +76,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/safeZoneComplete"
+        android:layout_width="960px"
+        android:layout_height="141px"
+        android:layout_marginBottom="72px"
+        android:textSize="42px"
+        android:text="완료"
+        android:background="@drawable/radius_1_clickable"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

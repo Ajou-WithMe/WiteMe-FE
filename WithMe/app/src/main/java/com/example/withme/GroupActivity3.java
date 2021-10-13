@@ -37,6 +37,7 @@ public class GroupActivity3 extends AppCompatActivity {
     private EditText etName, etID, etDetailAddress;
     private TextView tvPassword, tvAddress;
     private Button startWithMe;
+    private double latitude, longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +71,8 @@ public class GroupActivity3 extends AppCompatActivity {
         startWithMe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                intent1.putExtra("latitude", latitude);
+                intent1.putExtra("longitude", longitude);
                 startActivity(intent1);
             }
         });
@@ -228,11 +231,11 @@ public class GroupActivity3 extends AppCompatActivity {
                             if (list.size() == 0) {
                                 Toast.makeText(GroupActivity3.this, "해당되는 주소 정보가 없습니다.", Toast.LENGTH_SHORT).show();
                             } else {
-                                Log.e("위도", String.valueOf(list.get(0).getLatitude()));
-                                Log.e("경도", String.valueOf(list.get(0).getLongitude()));
-                                Intent maps = new Intent(GroupActivity3.this, GroupActivity5.class);
-                                maps.putExtra("latitude", list.get(0).getLatitude());
-                                maps.putExtra("longitude", list.get(0).getLongitude());
+                                latitude = list.get(0).getLatitude();
+                                longitude = list.get(0).getLongitude();
+
+                                Log.e("위도", String.valueOf(latitude));
+                                Log.e("경도", String.valueOf(longitude));
                             }
                         }
 

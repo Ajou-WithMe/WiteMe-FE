@@ -88,6 +88,8 @@ public class GroupActivity1 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group1);
 
+        verifyStoragePermissions(GroupActivity1.this);
+
         SharedPreferences sf = getSharedPreferences("storeAccessToken", MODE_PRIVATE);
         String accessToken = sf.getString("AccessToken", "");
         Log.e("AccessToken", accessToken);
@@ -139,8 +141,6 @@ public class GroupActivity1 extends AppCompatActivity {
         groupComplete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                verifyStoragePermissions(GroupActivity1.this);
-
                 intent1.putExtra("groupName", groupName.getText().toString());
 
                 File file = new File(selectedImagePath);
