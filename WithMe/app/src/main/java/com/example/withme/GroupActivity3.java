@@ -5,18 +5,27 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
+
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.List;
 
 public class GroupActivity3 extends AppCompatActivity {
 
@@ -165,6 +174,7 @@ public class GroupActivity3 extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
+
                 detailAddress = etDetailAddress.getText().toString().trim();
                 if (s.length() > 0) {
                     detailAddressLayout.setBackgroundResource(R.drawable.edittext_rounded_corner_sign4_selected);
@@ -192,6 +202,9 @@ public class GroupActivity3 extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
+
+        final Geocoder geocoder = new Geocoder(this);
+
         switch (requestCode) {
             case SEARCH_ADDRESS_ACTIVITY:
                 if (resultCode == RESULT_OK) {
@@ -201,6 +214,27 @@ public class GroupActivity3 extends AppCompatActivity {
                         tvAddress.setTextColor(Color.parseColor("#333333"));
 
                         address = (String)tvAddress.getText();
+                        List<Address> list = null;
+
+                        try {
+                            list = geocoder.getFromLocationName(address, 10); // 지역 이름, 읽을 개수
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            Log.e("GeoCoder", "입출력 오류 - 서버에서 주소 전환 시 에러 발생");
+                        }
+
+                        // 지도 화면에 위도 경도 정보 넘기기
+                        if (list != null) {
+                            if (list.size() == 0) {
+                                Toast.makeText(GroupActivity3.this, "해당되는 주소 정보가 없습니다.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Log.e("위도", String.valueOf(list.get(0).getLatitude()));
+                                Log.e("경도", String.valueOf(list.get(0).getLongitude()));
+                                Intent maps = new Intent(GroupActivity3.this, GroupActivity5.class);
+                                maps.putExtra("latitude", list.get(0).getLatitude());
+                                maps.putExtra("longitude", list.get(0).getLongitude());
+                            }
+                        }
 
                         if (address.length() > 8) {
                             addressLayout.setBackgroundResource(R.drawable.edittext_rounded_corner_sign4_selected);
