@@ -15,10 +15,10 @@
             android:id="@+id/textView"
             android:layout_width="840px"
             android:layout_height="144px"
+            android:layout_marginStart="60px"
             android:text="안전범위를 벗어나면 알림을 보내드려요  피보호자가 어디로 가고 있는지 확인하세요"
             android:textColor="#222222"
             android:textSize="48px"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,11 +26,13 @@
             android:id="@+id/animationView2"
             android:layout_width="match_parent"
             android:layout_height="940px"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
-            app:lottie_rawRes="@raw/motion2"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:lottie_rawRes="@raw/withme_2" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>
