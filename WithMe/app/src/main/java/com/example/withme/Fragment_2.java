@@ -25,6 +25,10 @@ public class Fragment_2 extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.description_frame2, container, false);
 
+        lottieAnimationView = (LottieAnimationView) v.findViewById(R.id.animationView2);
+        lottieAnimationView.playAnimation();
+        lottieAnimationView.setRepeatCount(-1);
+
         return v;
     }
 }

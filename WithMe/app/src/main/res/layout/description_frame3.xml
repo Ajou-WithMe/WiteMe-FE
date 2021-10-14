@@ -1,15 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center">
 
-    <ImageView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/descriptionImage3"
-        android:layout_width="864px"
-        android:layout_height="1020px"
-        android:backgroundTint="#ffffff"
-        android:background="@drawable/radius_1" />
+        android:layout_width="match_parent"
+        android:layout_height="1083px" >
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="764px"
+            android:layout_height="144px"
+            android:text="보호 대상자의 계정은                          보호자가 직접 만들고 관리할 수 있어요"
+            android:textColor="#222222"
+            android:textSize="48px"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animationView3"
+            android:layout_width="match_parent"
+            android:layout_height="940px"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/motion3"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

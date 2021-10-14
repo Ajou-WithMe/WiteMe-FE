@@ -18,9 +18,12 @@ public class Fragment_3 extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup) inflater.inflate(
-                R.layout.description_frame3, container, false);
+        View v = inflater.inflate(R.layout.description_frame3, container, false);
 
-        return rootView;
+        lottieAnimationView = (LottieAnimationView) v.findViewById(R.id.animationView3);
+        lottieAnimationView.playAnimation();
+        lottieAnimationView.setRepeatCount(-1);
+
+        return v;
     }
 }
