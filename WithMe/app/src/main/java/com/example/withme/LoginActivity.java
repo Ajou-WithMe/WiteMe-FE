@@ -3,9 +3,11 @@ package com.example.withme;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -45,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView findEmail, findPassword;
     private LoginButton kakaoLoginBtn_login;
     private EditText etPassword, etID;
+    private Dialog dialog;
     private SignUpActivity4_1 signUpActivity4;
     private ISessionCallback mSessionCallback; // 로그인 관리
 
@@ -63,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
 
         Intent intent1 = new Intent(this, SignUpActivity1.class);
         Intent intent2 = new Intent(this, MainActivity.class);
+        dialog = new Dialog(this);
 
         findEmail = (TextView) findViewById(R.id.findEmail);
         findPassword = (TextView) findViewById(R.id.findPassword);
@@ -286,6 +290,7 @@ public class LoginActivity extends AppCompatActivity {
                                     startActivity(intent2);
                                 } else {
                                     Log.e("Not Equal Email", "못가");
+                                    openDialog();
                                 }
                             }
                         } catch (JSONException e) {
@@ -317,5 +322,20 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent1);
             }
         });
+    }
+
+    private void openDialog() {
+        dialog.setContentView(R.layout.login_failure_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        Button understand = dialog.findViewById(R.id.understand);
+
+        understand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 }
