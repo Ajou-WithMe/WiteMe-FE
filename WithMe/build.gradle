@@ -1,11 +1,10 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     repositories {
         google()
         jcenter()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:4.1.2"
+        classpath 'com.android.tools.build:gradle:7.0.3'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -19,7 +18,7 @@ allprojects {
         mavenCentral()
         /* 카카오 추가 */
         maven {
-            url 'http://devrepo.kakao.com:8088/nexus/content/groups/public/'
+            url 'https://devrepo.kakao.com/nexus/content/groups/public/'
         }
         // 네이버 지도 저장소
         maven {

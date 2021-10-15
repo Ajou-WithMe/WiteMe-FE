@@ -257,8 +257,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 email = etID.getText().toString().trim();
                 password = etPassword.getText().toString();
-                Log.e("email", email);
-                Log.e("password", password);
                 HashMap<String, Object> input = new HashMap<>();
                 input.put("email", email);
                 input.put("pwd", password);
@@ -266,28 +264,34 @@ public class LoginActivity extends AppCompatActivity {
                 retrofitAPI1.postLoginEmail(input).enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if (response.isSuccessful()) {
-                            try {
-                                JSONObject jsonObject = new JSONObject(response.body().string());
-                                JSONObject data = jsonObject.getJSONObject("data");
+                        JSONObject jsonObject = null;
+                        try {
+                            if (response.isSuccessful()) {
+                                Log.e("Email Login", "isSuccessful");
+
+                                jsonObject = new JSONObject(response.body().string());
+                                String error = jsonObject.getString("data");
                                 boolean success = jsonObject.getBoolean("success");
-                                String accessToken = data.getString("accessToken");
+                                Log.e("Email Login", error + " " + success);
 
-                                Log.e("Email Login", String.valueOf(jsonObject));
-                                Log.e("Email Login", accessToken);
+                                if (success == true) {
+                                    JSONObject data = jsonObject.getJSONObject("data");
+                                    String accessToken = data.getString("accessToken");
 
-                                if (success == false) {
-                                    Log.e("not equal email", "못가");
-                                } else {
+                                    Log.e("Email Login", "로그인 성공");
+                                    Log.e("Email Login", accessToken);
+
                                     editor.putString("AccessToken", accessToken);
                                     editor.commit();
                                     startActivity(intent2);
+                                } else {
+                                    Log.e("Not Equal Email", "못가");
                                 }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            } catch (IOException e) {
-                                e.printStackTrace();
                             }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
                     }
 
