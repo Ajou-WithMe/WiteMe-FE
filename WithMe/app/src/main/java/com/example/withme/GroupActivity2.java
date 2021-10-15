@@ -40,13 +40,14 @@ public class GroupActivity2 extends AppCompatActivity {
 
         Glide.with(this).load(imageUrl).into(profile);
 
+        intent.putExtra("code", code);
+
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(intent);
             }
         });
-
 
         groupCode.setText(code);
         group.setText(groupName);

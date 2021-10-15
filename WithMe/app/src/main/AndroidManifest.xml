@@ -20,7 +20,7 @@
         android:theme="@style/Theme.WithMe"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".FindPasswordActivity"
+            android:name=".FindEmailActivity"
             android:exported="false" />
         <activity
             android:name=".GroupActivity5"

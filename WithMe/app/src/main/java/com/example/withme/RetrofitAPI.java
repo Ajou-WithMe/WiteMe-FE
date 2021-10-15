@@ -44,6 +44,12 @@ public interface RetrofitAPI {
     @POST("/user/signup/duplicate")
     Call<SignUpDuplicate> postSignupDuplicate(@Body HashMap<String, Object> param);
 
+    @POST("/user/login/findEmail")
+    Call<ResponseBody> postFindEmail(@Body HashMap<String, Object> param);
+
+    @POST("/user/signup/protection")
+    Call <ResponseBody> postProtection(@Header("AccessToken") String accessToken, @Body HashMap<String, Object> param);
+
     @GET("/user/mypage")
     Call<GetProfile> getProfile(@Header("AccessToken") String accessToken);
 

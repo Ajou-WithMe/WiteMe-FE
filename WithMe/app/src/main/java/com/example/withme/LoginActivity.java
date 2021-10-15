@@ -88,11 +88,18 @@ public class LoginActivity extends AppCompatActivity {
         storeAccessToken = getSharedPreferences("storeAccessToken", Activity.MODE_PRIVATE);
         editor = storeAccessToken.edit();
 
+        findEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, FindEmailActivity.class);
+                startActivity(intent);
+            }
+        });
+
         findPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, FindPasswordActivity.class);
-                startActivity(intent);
+
             }
         });
 

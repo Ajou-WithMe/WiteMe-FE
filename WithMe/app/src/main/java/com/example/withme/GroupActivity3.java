@@ -3,11 +3,16 @@ package com.example.withme;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -20,24 +25,44 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class GroupActivity3 extends AppCompatActivity {
 
     private static final int SEARCH_ADDRESS_ACTIVITY = 10000;
     private static final int PASSWORD_ACTIVITY = 20000;
-    private String name, id, address, detailAddress, fullAddress;
+    private final int GET_GALLERY_IMAGE = 200;
+    private String name, id, address, detailAddress, fullAddress, code, beforePassword;
     private ImageView checkbox1, checkbox2, checkbox3, checkbox4, checkbox5;
     private LinearLayout nameLayout, IDLayout, passwordLayout, addressLayout, detailAddressLayout;
     private EditText etName, etID, etDetailAddress;
     private TextView tvPassword, tvAddress;
     private Button startWithMe;
+    private ImageView editProfile;
+    private CircleImageView profileImage;
     private double latitude, longitude;
+    private Uri selectedImageUri;
+    private String selectedImagePath, imageFromServer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +71,22 @@ public class GroupActivity3 extends AppCompatActivity {
 
         Intent intent1 = new Intent(this, GroupActivity5.class);
         Intent data = getIntent();
+        code = data.getStringExtra("code");
+
+        SharedPreferences sf = getSharedPreferences("storeAccessToken", MODE_PRIVATE);
+        String accessToken = sf.getString("AccessToken", "");
+        Log.e("AccessToken", accessToken);
+
+        Retrofit retrofit = new retrofit2.Retrofit.Builder()
+                .baseUrl("http://withme-lb-1691720831.ap-northeast-2.elb.amazonaws.com")
+                .addConverterFactory(GsonConverterFactory.create()) //gson converter 생성, gson은 JSON을 자바 클래스로 바꾸는데 사용된다.
+                .build();
+        RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
 
         startWithMe = (Button) findViewById(R.id.startWithMe);
+
+        profileImage = (CircleImageView) findViewById(R.id.profileImage);
+        editProfile = (ImageView) findViewById(R.id.editProfile);
 
         etName = (EditText) findViewById(R.id.etName);
         etID = (EditText) findViewById(R.id.etID);
@@ -71,9 +110,92 @@ public class GroupActivity3 extends AppCompatActivity {
         startWithMe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                File file = new File(selectedImagePath);
+                RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), file);
+                MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+
+                retrofitAPI.uploadImage(accessToken, body).enqueue(new Callback<UploadImage>() {
+                    @Override
+                    public void onResponse(Call<UploadImage> call, Response<UploadImage> response) {
+                        UploadImage data = response.body();
+
+                        if (response.isSuccessful()) {
+                            Log.e("make Profile", String.valueOf(data.getSuccess()));
+                            Log.e("make Profile", String.valueOf(data.getStatus()));
+                            Log.e("make Profile", selectedImagePath);
+                            Log.e("make Profile", data.getData());
+
+                            if (!data.getData().equals("이미지 파일이 아닙니다.")) {
+                                imageFromServer = data.getData();
+
+                                HashMap<String, Object> input = new HashMap<>();
+                                input.put("name", name);
+                                input.put("email", id);
+                                input.put("pwd", beforePassword);
+                                input.put("address", fullAddress);
+                                input.put("code", code);
+                                input.put("profile", imageFromServer);
+
+                                retrofitAPI.postProtection(accessToken, input).enqueue(new Callback<ResponseBody>() {
+                                    @Override
+                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                        if (response.isSuccessful()) {
+                                            JSONObject jsonObject = null;
+                                            try {
+                                                jsonObject = new JSONObject(response.body().string());
+                                                String data = jsonObject.getString("data");
+                                                boolean success = jsonObject.getBoolean("success");
+
+                                                Log.e("Protection", String.valueOf(jsonObject));
+
+                                                if (success == false) {
+                                                    Toast.makeText(GroupActivity3.this, "이미 회원가입된 아이디입니다.", Toast.LENGTH_SHORT).show();
+                                                }
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                        Log.e("Protection", "전송 실패");
+                                    }
+                                });
+
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<UploadImage> call, Throwable t) {
+
+                    }
+                });
                 intent1.putExtra("latitude", latitude);
                 intent1.putExtra("longitude", longitude);
                 startActivity(intent1);
+            }
+        });
+
+        editProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+                startActivityForResult(intent, GET_GALLERY_IMAGE);
+            }
+        });
+        profileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+                startActivityForResult(intent, GET_GALLERY_IMAGE);
             }
         });
 
@@ -107,6 +229,7 @@ public class GroupActivity3 extends AppCompatActivity {
                     startWithMe.setBackgroundColor(Color.parseColor("#FED537"));
                     startWithMe.setTextColor(Color.parseColor("#222222"));
                     startWithMe.setClickable(true);
+                    startWithMe.setText("다음");
                 } else {
                     // Either gone or invisible
                 }
@@ -142,6 +265,7 @@ public class GroupActivity3 extends AppCompatActivity {
                     startWithMe.setBackgroundColor(Color.parseColor("#FED537"));
                     startWithMe.setTextColor(Color.parseColor("#222222"));
                     startWithMe.setClickable(true);
+                    startWithMe.setText("다음");
                 } else {
                     // Either gone or invisible
                 }
@@ -194,6 +318,7 @@ public class GroupActivity3 extends AppCompatActivity {
                     // Its visible
                     startWithMe.setBackgroundColor(Color.parseColor("#FED537"));
                     startWithMe.setTextColor(Color.parseColor("#222222"));
+                    startWithMe.setText("다음");
                     startWithMe.setClickable(true);
                 } else {
                     // Either gone or invisible
@@ -252,6 +377,7 @@ public class GroupActivity3 extends AppCompatActivity {
             case PASSWORD_ACTIVITY:
                 if (resultCode == RESULT_OK) {
                     String data = intent.getExtras().getString("password");
+                    beforePassword = data;
                     if (data != null) {
                         tvPassword.setText("******");
                         tvPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
@@ -262,6 +388,26 @@ public class GroupActivity3 extends AppCompatActivity {
                     }
                 }
                 break;
+
+            case GET_GALLERY_IMAGE:
+                if (resultCode == RESULT_OK && intent != null && intent.getData() != null) {
+                    selectedImageUri = intent.getData();
+                    profileImage.setImageURI(selectedImageUri);
+                    selectedImagePath = uri2path(this, selectedImageUri);
+                }
+                break;
         }
+    }
+    //Uri -> Path(파일경로)
+    public static String uri2path(Context context, Uri contentUri) {
+        String[] proj = { MediaStore.Images.Media.DATA };
+
+        Cursor cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
+        cursor.moveToNext();
+        String path = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DATA));
+        Uri uri = Uri.fromFile(new File(path));
+
+        cursor.close();
+        return path;
     }
 }
