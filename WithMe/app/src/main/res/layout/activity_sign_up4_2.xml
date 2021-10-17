@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".SignUpActivity4_2">
+    tools:context=".user.SignUpActivity4_2">
 
     <TextView
         android:layout_width="414px"
