@@ -1,8 +1,7 @@
-package com.example.withme;
+package com.example.withme.intro;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,15 +10,18 @@ import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import okhttp3.Headers;
+import com.example.withme.MainActivity;
+import com.example.withme.R;
+import com.example.withme.intro.DescriptionActivity;
+import com.example.withme.retorfit.GetProfile;
+import com.example.withme.retorfit.RetrofitAPI;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.Header;
 
 public class SplashActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.example.withme;
+package com.example.withme.user;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,6 +18,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.withme.MainActivity;
+import com.example.withme.R;
+import com.example.withme.retorfit.RetrofitAPI;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
 import com.kakao.network.ErrorResult;

@@ -1,4 +1,4 @@
-package com.example.withme;
+package com.example.withme.intro;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.example.withme.R;
 
 public class Fragment_1 extends Fragment {
 

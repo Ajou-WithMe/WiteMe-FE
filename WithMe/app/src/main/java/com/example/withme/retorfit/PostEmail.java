@@ -1,8 +1,10 @@
-package com.example.withme;
+package com.example.withme.retorfit;
 
 import com.google.gson.annotations.SerializedName;
 
-public class UploadImage {
+public class PostEmail {
+    @SerializedName("email")
+    private String email;
 
     @SerializedName("success")
     private boolean success;
@@ -12,6 +14,10 @@ public class UploadImage {
 
     @SerializedName("status")
     private int status;
+
+    public String getEmail() { return email; }
+
+    public void setEmail(String email) { this.email = email; }
 
     public boolean getSuccess() {
         return success;
@@ -26,4 +32,5 @@ public class UploadImage {
     public int getStatus() { return status; }
 
     public void setStatus(int status) { this.status = status;}
+
 }

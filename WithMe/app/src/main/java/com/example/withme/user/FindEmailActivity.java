@@ -1,4 +1,4 @@
-package com.example.withme;
+package com.example.withme.user;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.example.withme.R;
+import com.example.withme.retorfit.RetrofitAPI;
 
 import org.json.JSONException;
 import org.json.JSONObject;

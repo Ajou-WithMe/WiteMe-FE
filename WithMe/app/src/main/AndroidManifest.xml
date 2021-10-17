@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".GlobalApplication"
+        android:name=".user.GlobalApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
@@ -20,34 +20,34 @@
         android:theme="@style/Theme.WithMe"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".FindPasswordActivity3"
+            android:name=".user.FindPasswordActivity3"
             android:exported="false" />
         <activity
-            android:name=".FindPasswordActivity2"
+            android:name=".user.FindPasswordActivity2"
             android:exported="false" />
         <activity
-            android:name=".FindPasswordActivity"
+            android:name=".user.FindPasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".FindEmailActivity"
+            android:name=".user.FindEmailActivity"
             android:exported="false" />
         <activity
-            android:name=".GroupActivity5"
+            android:name=".group.GroupActivity5"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".GroupActivity4"
+            android:name=".group.GroupActivity4"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".GroupActivity3"
+            android:name=".group.GroupActivity3"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".GroupActivity2"
+            android:name=".group.GroupActivity2"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".GroupActivity1"
+            android:name=".group.GroupActivity1"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".WebViewActivity"
+            android:name=".user.WebViewActivity"
             android:screenOrientation="portrait" />
 
         <meta-data
@@ -58,28 +58,28 @@
             android:value="pxkpa1fjug" />
 
         <activity
-            android:name=".SignUpActivity4_2"
+            android:name=".user.SignUpActivity4_2"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SignUpActivity4_1"
+            android:name=".user.SignUpActivity4_1"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SignUpActivity3"
+            android:name=".user.SignUpActivity3"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SignUpActivity2"
+            android:name=".user.SignUpActivity2"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SignUpActivity1"
+            android:name=".user.SignUpActivity1"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".user.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".DescriptionActivity"
+            android:name=".intro.DescriptionActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".intro.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

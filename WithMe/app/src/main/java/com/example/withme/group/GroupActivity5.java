@@ -1,4 +1,4 @@
-package com.example.withme;
+package com.example.withme.group;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +20,7 @@ import android.widget.ImageView;
 
 import com.airbnb.lottie.L;
 import com.airbnb.lottie.LottieAnimationView;
+import com.example.withme.R;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.CameraPosition;
 import com.naver.maps.map.MapView;

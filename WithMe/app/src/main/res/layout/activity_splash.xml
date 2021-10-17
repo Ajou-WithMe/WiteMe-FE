@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#FED537"
     android:gravity="center"
-    tools:context=".SplashActivity">
+    tools:context=".intro.SplashActivity">
 
     <ImageView
         android:id="@+id/with_me_logo_white_1"

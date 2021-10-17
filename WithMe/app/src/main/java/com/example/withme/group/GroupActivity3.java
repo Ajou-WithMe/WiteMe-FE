@@ -1,4 +1,4 @@
-package com.example.withme;
+package com.example.withme.group;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,14 +25,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.withme.R;
+import com.example.withme.retorfit.RetrofitAPI;
+import com.example.withme.user.WebViewActivity;
+import com.example.withme.retorfit.UploadImage;
+
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 

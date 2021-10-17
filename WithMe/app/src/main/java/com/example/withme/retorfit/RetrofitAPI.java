@@ -1,22 +1,24 @@
-package com.example.withme;
+package com.example.withme.retorfit;
 
-import android.graphics.PostProcessor;
 import android.location.Location;
+
+import com.example.withme.retorfit.EmailSignUp;
+import com.example.withme.retorfit.GetProfile;
+import com.example.withme.retorfit.PostEmail;
+import com.example.withme.retorfit.SignUpDuplicate;
+import com.example.withme.retorfit.UploadImage;
 
 import java.util.HashMap;
 
 import okhttp3.MultipartBody;
-import okhttp3.Response;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
-import retrofit2.http.Query;
 
 public interface RetrofitAPI {
 

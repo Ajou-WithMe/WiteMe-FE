@@ -1,4 +1,4 @@
-package com.example.withme;
+package com.example.withme.group;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,8 +14,6 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.FileUtils;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -25,6 +23,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+
+import com.example.withme.MainActivity;
+import com.example.withme.R;
+import com.example.withme.retorfit.RetrofitAPI;
+import com.example.withme.retorfit.UploadImage;
 
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -1,4 +1,4 @@
-package com.example.withme;
+package com.example.withme.user;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import com.example.withme.R;
 
 public class WebViewActivity extends AppCompatActivity {
 

@@ -1,23 +1,17 @@
-package com.example.withme;
+package com.example.withme.retorfit;
 
 import com.google.gson.annotations.SerializedName;
 
-public class SignUpDuplicate {
-    @SerializedName("email")
-    private String email;
+public class UploadImage {
 
     @SerializedName("success")
     private boolean success;
 
     @SerializedName("data")
-    private boolean data;
+    private String data;
 
     @SerializedName("status")
     private int status;
-
-    public String getEmail() { return email; }
-
-    public void setEmail(String email) { this.email = email; }
 
     public boolean getSuccess() {
         return success;
@@ -25,13 +19,11 @@ public class SignUpDuplicate {
 
     public void setSuccess(boolean success) { this.success = success; }
 
-    public boolean getData() { return data; }
+    public String getData() { return data; }
 
-    public void setData(boolean data) { this.data = data;}
+    public void setData(String data) { this.data = data;}
 
     public int getStatus() { return status; }
 
     public void setStatus(int status) { this.status = status;}
-
 }
-

@@ -1,4 +1,4 @@
-package com.example.withme;
+package com.example.withme.intro;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
@@ -6,10 +6,11 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
+
+import com.example.withme.R;
+import com.example.withme.user.LoginActivity;
 
 public class DescriptionActivity extends AppCompatActivity {
 

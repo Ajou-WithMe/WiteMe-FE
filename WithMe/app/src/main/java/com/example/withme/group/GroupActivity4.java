@@ -1,4 +1,4 @@
-package com.example.withme;
+package com.example.withme.group;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,41 +11,22 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.example.withme.R;
 
-import java.io.IOException;
-import java.util.HashMap;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
-public class FindPasswordActivity2 extends AppCompatActivity {
+public class GroupActivity4 extends AppCompatActivity {
 
     private EditText first, second, third, fourth, fifth, sixth;
     private Button password;
 
-    private String fullPassword, email;
+    private String fullPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_find_password2);
+        setContentView(R.layout.activity_group4);
 
-        Retrofit retrofit = new retrofit2.Retrofit.Builder()
-                .baseUrl("http://withme-lb-1691720831.ap-northeast-2.elb.amazonaws.com")
-                .addConverterFactory(GsonConverterFactory.create()) //gson converter 생성, gson은 JSON을 자바 클래스로 바꾸는데 사용된다.
-                .build();
-        RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-
-        Intent intent = getIntent();
-        email = intent.getStringExtra("email");
+        Intent intent = new Intent(this, GroupActivity3.class);
 
         first = (EditText)findViewById(R.id.firstPhoneNumber);
         second = (EditText)findViewById(R.id.SecondPhoneNumber);
@@ -59,39 +40,12 @@ public class FindPasswordActivity2 extends AppCompatActivity {
         password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HashMap<String, Object> input = new HashMap();
-                input.put("email", email);
-                input.put("pwd", fullPassword);
-                retrofitAPI.postChangePwd(input).enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if(response.isSuccessful()) {
-                            try {
-                                JSONObject jsonObject = new JSONObject(response.body().string());
-                                String data = jsonObject.getString("data");
-                                boolean success = jsonObject.getBoolean("success");
-
-                                if (success == true) {
-                                    Intent intent = new Intent(FindPasswordActivity2.this, FindPasswordActivity3.class);
-                                    startActivity(intent);
-                                } else {
-                                    Toast.makeText(FindPasswordActivity2.this, "등록되지 않은 이메일입니다.", Toast.LENGTH_SHORT).show();
-                                }
-                                Log.e("change Pwd", fullPassword);
-                                Log.e("change Pwd", String.valueOf(jsonObject));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Log.e("change Pwd", "전송 실패");
-                    }
-                });
+                Bundle extra = new Bundle();
+                Intent intent = new Intent();
+                extra.putString("password", fullPassword);
+                intent.putExtras(extra);
+                setResult(RESULT_OK, intent);
+                finish();
             }
         });
 
@@ -208,7 +162,7 @@ public class FindPasswordActivity2 extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.length() == 1) {
+                if(s.length() == 1) {
                     sixth.requestFocus();
                     sixth.setBackgroundResource(R.drawable.edittext_rounded_corner_password_focused);
                     password.setBackgroundResource(R.drawable.radius_1_clickable);

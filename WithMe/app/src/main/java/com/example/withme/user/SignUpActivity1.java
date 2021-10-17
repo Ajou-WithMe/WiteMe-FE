@@ -1,4 +1,4 @@
-package com.example.withme;
+package com.example.withme.user;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,9 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-import com.kakao.auth.Session;
+import com.example.withme.R;
 import com.kakao.usermgmt.LoginButton;
 
 public class SignUpActivity1 extends AppCompatActivity {

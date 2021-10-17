@@ -1,4 +1,4 @@
-package com.example.withme;
+package com.example.withme.user;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,6 +16,11 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.withme.R;
+import com.example.withme.retorfit.RetrofitAPI;
+import com.example.withme.retorfit.PostEmail;
+import com.example.withme.retorfit.SignUpDuplicate;
 
 import java.util.HashMap;
 

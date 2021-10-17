@@ -1,6 +1,4 @@
-package com.example.withme;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.example.withme.user;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -15,20 +13,21 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.IOException;
+import com.example.withme.R;
+import com.example.withme.retorfit.RetrofitAPI;
+import com.example.withme.retorfit.EmailSignUp;
+
 import java.util.HashMap;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class SignUpActivity4_1 extends AppCompatActivity{
+public class SignUpActivity4_2 extends AppCompatActivity{
 
     private static final int SEARCH_ADDRESS_ACTIVITY = 10000;
 
@@ -42,7 +41,7 @@ public class SignUpActivity4_1 extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up4_1);
+        setContentView(R.layout.activity_sign_up4_2);
 
         etName = (EditText) findViewById(R.id.etName);
         etPhoneNumber = (EditText) findViewById(R.id.etPhoneNumber);
@@ -59,77 +58,54 @@ public class SignUpActivity4_1 extends AppCompatActivity{
         checkbox3 = (ImageView) findViewById(R.id.checkbox3);
         checkbox4 = (ImageView) findViewById(R.id.checkbox4);
 
+
         startWithMe = (Button) findViewById(R.id.startWithMe);
 
-        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent1 = new Intent(this, LoginActivity.class);
         Intent data = getIntent();
 
-        String nickname = data.getStringExtra("name");
-        String uID = data.getStringExtra("uid");
+        String email = data.getStringExtra("email");
+        String pwd = data.getStringExtra("password");
 
-        Retrofit retrofit = new retrofit2.Retrofit.Builder()
-                .baseUrl("http://withme-lb-1691720831.ap-northeast-2.elb.amazonaws.com")
-                .addConverterFactory(GsonConverterFactory.create()) //gson converter 생성, gson은 JSON을 자바 클래스로 바꾸는데 사용된다.
-                .build();
-        RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-
-        etName.setText(nickname);
-        Log.e("intent", nickname + ", "+ uID);
+        Log.e("받은 데이터", "email : " + email + ", password : " + pwd);
 
         startWithMe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 HashMap<String, Object> input = new HashMap<>();
-
-                input.put("name", nickname);
-                input.put("uid", uID);
-                input.put("phone", phoneNumber);
+                input.put("name", name);
+                input.put("email", email);
+                input.put("pwd", pwd);
                 input.put("address", fullAddress);
+                input.put("phone", phoneNumber);
 
-                retrofitAPI.postKakaoSignUp(input).enqueue(new Callback<ResponseBody>() {
+                Retrofit retrofit = new retrofit2.Retrofit.Builder()
+                        .baseUrl("http://withme-lb-1691720831.ap-northeast-2.elb.amazonaws.com")
+                        .addConverterFactory(GsonConverterFactory.create()) //gson converter 생성, gson은 JSON을 자바 클래스로 바꾸는데 사용된다.
+                        .build();
+                RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+
+                retrofitAPI.postEmailSignUp(input).enqueue(new Callback<EmailSignUp>() {
                     @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    public void onResponse(Call<EmailSignUp> call, Response<EmailSignUp> response) {
+                        EmailSignUp data = response.body();
                         if(response.isSuccessful()) {
-                            try {
-                                JSONObject jsonObject = new JSONObject(response.body().string());
-                                Log.e("KakaoSignUp", String.valueOf(jsonObject));
-
-                                startActivity(intent);
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+                            Log.e("Test", "Post 성공");
+                            Log.e("Test", String.valueOf(data.getStatus()));
+                            Log.e("Test", String.valueOf(data.getSuccess()));
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Log.e("KakaoSignUp", "전송 실패");
-                        Log.e("KakaoSignUp", t.getMessage());
+                    public void onFailure(Call<EmailSignUp> call, Throwable t) {
+                        Log.e("Failure", "Post 실패");
                     }
                 });
+
+                startActivity(intent1);
             }
         });
-
-        if (etName.getText().length() > 0) {
-            nameLayout.setBackgroundResource(R.drawable.edittext_rounded_corner_sign4_selected);
-            checkbox1.setVisibility(View.VISIBLE);
-        } else {
-            nameLayout.setBackgroundResource(R.drawable.edittext_rounded_corner_sign4_not_selected);
-            checkbox1.setVisibility(View.INVISIBLE);
-        }
-
-        if (checkbox1.getVisibility() == View.VISIBLE && checkbox2.getVisibility() == View.VISIBLE
-                && checkbox3.getVisibility() == View.VISIBLE && checkbox4.getVisibility() == View.VISIBLE) {
-            // Its visible
-            startWithMe.setBackgroundColor(Color.parseColor("#FED537"));
-            startWithMe.setTextColor(Color.parseColor("#222222"));
-            startWithMe.setClickable(true);
-        } else {
-            // Either gone or invisible
-        }
 
         etName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -145,23 +121,23 @@ public class SignUpActivity4_1 extends AppCompatActivity{
             @Override
             public void afterTextChanged(Editable s) {
                 name = etName.getText().toString().trim();
-//                if (name.length() > 0) {
-//                    nameLayout.setBackgroundResource(R.drawable.edittext_rounded_corner_sign4_selected);
-//                    checkbox1.setVisibility(View.VISIBLE);
-//                } else {
-//                    nameLayout.setBackgroundResource(R.drawable.edittext_rounded_corner_sign4_not_selected);
-//                    checkbox1.setVisibility(View.INVISIBLE);
-//                }
-//
-//                if (checkbox1.getVisibility() == View.VISIBLE && checkbox2.getVisibility() == View.VISIBLE
-//                        && checkbox3.getVisibility() == View.VISIBLE && checkbox4.getVisibility() == View.VISIBLE) {
-//                    // Its visible
-//                    startWithMe.setBackgroundColor(Color.parseColor("#FED537"));
-//                    startWithMe.setTextColor(Color.parseColor("#222222"));
-//                    startWithMe.setClickable(true);
-//                } else {
-//                    // Either gone or invisible
-//                }
+                if (s.length() > 0) {
+                    nameLayout.setBackgroundResource(R.drawable.edittext_rounded_corner_sign4_selected);
+                    checkbox1.setVisibility(View.VISIBLE);
+                } else {
+                    nameLayout.setBackgroundResource(R.drawable.edittext_rounded_corner_sign4_not_selected);
+                    checkbox1.setVisibility(View.INVISIBLE);
+                }
+
+                if (checkbox1.getVisibility() == View.VISIBLE && checkbox2.getVisibility() == View.VISIBLE
+                        && checkbox3.getVisibility() == View.VISIBLE && checkbox4.getVisibility() == View.VISIBLE) {
+                    // Its visible
+                    startWithMe.setBackgroundColor(Color.parseColor("#FED537"));
+                    startWithMe.setTextColor(Color.parseColor("#222222"));
+                    startWithMe.setClickable(true);
+                } else {
+                    // Either gone or invisible
+                }
             }
         });
 
@@ -202,7 +178,7 @@ public class SignUpActivity4_1 extends AppCompatActivity{
         addressLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SignUpActivity4_1.this, WebViewActivity.class);
+                Intent intent = new Intent(SignUpActivity4_2.this, WebViewActivity.class);
                 startActivityForResult(intent, SEARCH_ADDRESS_ACTIVITY);
             }
         });

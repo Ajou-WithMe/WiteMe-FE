@@ -1,4 +1,4 @@
-package com.example.withme;
+package com.example.withme.group;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,8 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-
-import org.w3c.dom.Text;
+import com.example.withme.R;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 

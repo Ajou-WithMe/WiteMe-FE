@@ -1,4 +1,4 @@
-package com.example.withme;
+package com.example.withme.retorfit;
 
 import com.google.gson.annotations.SerializedName;
 

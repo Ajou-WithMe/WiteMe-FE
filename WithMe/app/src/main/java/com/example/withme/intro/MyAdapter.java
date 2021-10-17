@@ -1,4 +1,4 @@
-package com.example.withme;
+package com.example.withme.intro;
 
 import android.util.Log;
 
@@ -6,6 +6,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
+
+import com.example.withme.intro.Fragment_1;
+import com.example.withme.intro.Fragment_2;
+import com.example.withme.intro.Fragment_3;
 
 public class MyAdapter extends FragmentStateAdapter {
 
