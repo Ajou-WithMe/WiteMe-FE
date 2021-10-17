@@ -47,6 +47,9 @@ public interface RetrofitAPI {
     @POST("/user/login/findEmail")
     Call<ResponseBody> postFindEmail(@Body HashMap<String, Object> param);
 
+    @POST("/user/login/findPwd")
+    Call<ResponseBody> postFindPwd(@Body HashMap<String, Object> param);
+
     @POST("/user/signup/protection")
     Call <ResponseBody> postProtection(@Header("AccessToken") String accessToken, @Body HashMap<String, Object> param);
 

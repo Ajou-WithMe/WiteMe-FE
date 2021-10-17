@@ -52,7 +52,6 @@ public class LoginActivity extends AppCompatActivity {
     private ISessionCallback mSessionCallback; // 로그인 관리
 
     private int a = 5, b = 10;
-    private static final String TAG = "유저";
 
     String email, password, accessToken;
 
@@ -99,7 +98,8 @@ public class LoginActivity extends AppCompatActivity {
         findPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(LoginActivity.this, FindPasswordActivity.class);
+                startActivity(intent);
             }
         });
 

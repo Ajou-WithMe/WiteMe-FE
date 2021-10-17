@@ -17,18 +17,23 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.HashMap;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class SignUpActivity2 extends AppCompatActivity implements TextWatcher {
+public class FindPasswordActivity extends AppCompatActivity implements TextWatcher {
 
     private EditText editTextEmail, emailCodeText;
-    private MainHandler mainHandler;
+    private FindPasswordActivity.MainHandler mainHandler;
     private TextView warningMessage, authenticateComplete, messageComplete;
     private Button emailAuthentication, authenticate;
     private LinearLayout layoutAuthenticate;
@@ -42,9 +47,7 @@ public class SignUpActivity2 extends AppCompatActivity implements TextWatcher {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up2);
-
-        Intent intent = new Intent(SignUpActivity2.this, SignUpActivity3.class);
+        setContentView(R.layout.activity_find_password);
 
         editTextEmail = (EditText)findViewById(R.id.editTextEmail);
         editTextEmail.addTextChangedListener(this);
@@ -72,7 +75,7 @@ public class SignUpActivity2 extends AppCompatActivity implements TextWatcher {
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            intent.putExtra("email", email);
+                            Intent intent = new Intent(FindPasswordActivity.this, FindPasswordActivity2.class);
                             startActivity(intent);
                         }
                     }, 1000);
@@ -109,70 +112,56 @@ public class SignUpActivity2 extends AppCompatActivity implements TextWatcher {
             emailAuthentication.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    HashMap<String, Object> input1 = new HashMap<>();
-                    input1.put("email", email);
-                    HashMap<String, Object> input2 = new HashMap<>();
-                    input2.put("email", email);
+                    HashMap<String, Object> input = new HashMap<>();
+                    input.put("email", email);
 
                     Retrofit retrofit = new retrofit2.Retrofit.Builder()
                             .baseUrl("http://withme-lb-1691720831.ap-northeast-2.elb.amazonaws.com")
                             .addConverterFactory(GsonConverterFactory.create()) //gson converter 생성, gson은 JSON을 자바 클래스로 바꾸는데 사용된다.
                             .build();
-                    RetrofitAPI retrofitAPI1 = retrofit.create(RetrofitAPI.class);
-                    RetrofitAPI retrofitAPI2 = retrofit.create(RetrofitAPI.class);
+                    RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
 
-                    retrofitAPI1.postSignupDuplicate(input1).enqueue(new Callback<SignUpDuplicate>() {
+                    retrofitAPI.postFindPwd(input).enqueue(new Callback<ResponseBody>() {
                         @Override
-                        public void onResponse(Call<SignUpDuplicate> call, Response<SignUpDuplicate> response) {
-                            SignUpDuplicate data = response.body();
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                             if(response.isSuccessful()) {
-                                Log.e("Duplicate", "Post 성공");
-                                Log.e("Duplicate", String.valueOf(data.getStatus()));
-                                Log.e("Duplicate", String.valueOf(data.getData())); // true면 중복이 아닌것!
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response.body().string());
+                                    String data = jsonObject.getString("data");
+                                    boolean success = jsonObject.getBoolean("success");
 
-                                if (data.getData() == true) {
-                                    emailAuthentication.setText("이메일로 인증번호 다시 받기");
-                                    authenticateComplete.setText("입력해주신 이메일로 인증코드를 보내드렸어요! 인증코드 확인 후 입력해주세요.");
-                                    mainHandler = new MainHandler();
-                                    // 핸들러 객체 생성
+                                    if (success == true) {
+                                        Log.e("인증코드 발송", String.valueOf(jsonObject));
+                                        emailAuthentication.setText("이메일로 인증번호 다시 받기");
+                                        authenticateComplete.setText("입력해주신 이메일로 인증코드를 보내드렸어요! 인증코드 확인 후 입력해주세요.");
+                                        GmailCode = data;
+                                        mainHandler = new MainHandler();
+                                        // 핸들러 객체 생성
 
-                                    if(mailSend == 0) {
-                                        value = 300;
-                                        // 쓰레드 객체 생성
-                                        BackgroundThread backgroundThread = new BackgroundThread();
-                                        // 쓰레드 스타트
-                                        backgroundThread.start();
-                                        mailSend += 1;
-                                    } else {
-                                        value = 300;
+                                        if(mailSend == 0) {
+                                            value = 300;
+                                            // 쓰레드 객체 생성
+                                            BackgroundThread backgroundThread = new BackgroundThread();
+                                            // 쓰레드 스타트
+                                            backgroundThread.start();
+                                            mailSend += 1;
+                                        } else {
+                                            value = 300;
+                                        }
                                     }
-                                    retrofitAPI2.postEmail(input2).enqueue(new Callback<PostEmail>() {
-                                        @Override
-                                        public void onResponse(Call<PostEmail> call, Response<PostEmail> response) {
-                                            PostEmail data = response.body();
-                                            if(response.isSuccessful()) {
-                                                Log.e("Test", "Post 성공");
-                                                Log.e("Test", String.valueOf(data.getStatus()));
-                                                Log.e("Test", data.getData());
-                                                GmailCode = data.getData();
-                                            }
-                                        }
-                                        @Override
-                                        public void onFailure(Call<PostEmail> call, Throwable t) {
-                                            Log.e("Failure", "Post 실패");
-                                        }
-                                    });
-                                } else {
-                                    Toast.makeText(SignUpActivity2.this, "중복된 이메일입니다. 다시 입력해주세요.", Toast.LENGTH_SHORT).show();
-                                    warningMessage.setText("이미 가입된 이메일입니다. 바로 로그인해주세요!");
-                                    editTextEmail.setBackgroundResource(R.drawable.edittext_bg_selector_not_validate);
+                                    Log.e("인증코드 발송", data);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
                                 }
                             }
                         }
 
                         @Override
-                        public void onFailure(Call<SignUpDuplicate> call, Throwable t) {
-                            Log.e("Failure_Duplicate", "Post 실패");
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            Log.e("인증코드 발송", "Post 실패");
+
                         }
                     });
                 }
@@ -186,7 +175,6 @@ public class SignUpActivity2 extends AppCompatActivity implements TextWatcher {
             authenticate.setClickable(false);
         }
     }
-
     // 쓰레드로부터 메시지를 받아 처리하는 핸들러
     // 메인에서부터 생성된 핸들러만이 UI를 컨트롤 할 수 있다.
     class MainHandler extends Handler {

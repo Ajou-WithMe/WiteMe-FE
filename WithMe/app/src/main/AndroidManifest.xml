@@ -20,6 +20,12 @@
         android:theme="@style/Theme.WithMe"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".FindPasswordActivity2"
+            android:exported="false" />
+        <activity
+            android:name=".FindPasswordActivity"
+            android:exported="false" />
+        <activity
             android:name=".FindEmailActivity"
             android:exported="false" />
         <activity
