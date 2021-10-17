@@ -76,6 +76,7 @@ public class FindPasswordActivity extends AppCompatActivity implements TextWatch
                         @Override
                         public void run() {
                             Intent intent = new Intent(FindPasswordActivity.this, FindPasswordActivity2.class);
+                            intent.putExtra("email", email);
                             startActivity(intent);
                         }
                     }, 1000);
