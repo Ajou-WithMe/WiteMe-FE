@@ -77,6 +77,7 @@ public class FindPasswordActivity2 extends AppCompatActivity {
                                 } else {
                                     Toast.makeText(FindPasswordActivity2.this, "등록되지 않은 이메일입니다.", Toast.LENGTH_SHORT).show();
                                 }
+                                Log.e("change Pwd", fullPassword);
                                 Log.e("change Pwd", String.valueOf(jsonObject));
                             } catch (JSONException e) {
                                 e.printStackTrace();
