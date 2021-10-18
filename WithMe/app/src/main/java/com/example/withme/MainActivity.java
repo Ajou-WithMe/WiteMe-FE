@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.example.withme.group.GroupActivity1;
+import com.example.withme.intro.DescriptionActivity;
 import com.example.withme.user.LoginActivity;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_main);
 
         Intent intent = new Intent(this, GroupActivity1.class);
-        Intent intent1 = new Intent(this, LoginActivity.class);
+        Intent intent1 = new Intent(this, DescriptionActivity.class);
 
         coachMark = (ConstraintLayout) findViewById(R.id.coach_mark_master_view);
         makeGroup1 = (ImageButton) findViewById(R.id.makeGroup_1);
