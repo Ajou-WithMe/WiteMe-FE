@@ -18,6 +18,7 @@ import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.naver.maps.map.MapView;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
+import com.naver.maps.map.UiSettings;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -84,6 +85,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
-
+        UiSettings uiSettings = naverMap.getUiSettings();
+        uiSettings.setCompassEnabled(false);
+        uiSettings.setScaleBarEnabled(false);
+        uiSettings.setZoomControlEnabled(false);
+        uiSettings.setRotateGesturesEnabled(false);
     }
 }

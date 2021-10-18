@@ -20,6 +20,9 @@
         android:theme="@style/Theme.WithMe"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".group.GroupActivity6"
+            android:exported="false" />
+        <activity
             android:name=".user.FindPasswordActivity3"
             android:exported="false" />
         <activity

@@ -159,6 +159,7 @@ public class GroupActivity5 extends AppCompatActivity implements OnMapReadyCallb
         UiSettings uiSettings = naverMap.getUiSettings();
         uiSettings.setCompassEnabled(false);
         uiSettings.setScaleBarEnabled(false);
+        uiSettings.setZoomControlEnabled(false);
         uiSettings.setRotateGesturesEnabled(false);
 
 
@@ -168,7 +169,6 @@ public class GroupActivity5 extends AppCompatActivity implements OnMapReadyCallb
 
                 safeZoneDrawAlarm.setVisibility(View.INVISIBLE);
                 Vertex.add("(" + latLng.latitude + "," + latLng.longitude + ")");
-                Log.e("oldVertex", String.valueOf(Vertex));
                 latLngs.add(new LatLng(latLng.latitude, latLng.longitude));
 
                 Marker marker = new Marker();
@@ -195,6 +195,7 @@ public class GroupActivity5 extends AppCompatActivity implements OnMapReadyCallb
                     polygonOverlay1.setMap(null);
                     markers.clear();
                     latLngs.clear();
+                    Vertex.clear();
                 } else {
                     new Thread(new Runnable() {
                         @Override
@@ -206,6 +207,8 @@ public class GroupActivity5 extends AppCompatActivity implements OnMapReadyCallb
                             }
                         }
                     });
+                    Log.e("oldVertex", String.valueOf(Vertex));
+
                     polygonOverlay1.setCoords(latLngs);
                     polygonOverlay1.setOutlineColor(Color.parseColor("#FED537"));
                     polygonOverlay1.setOutlineWidth(18);
@@ -226,10 +229,21 @@ public class GroupActivity5 extends AppCompatActivity implements OnMapReadyCallb
                 for (int i=0; i < markers.size(); i++) {
                     markers.get(i).setMap(null);
                 }
+                Vertex.clear();
                 markers.clear();
                 latLngs.clear();
+                refactor.setVisibility(View.INVISIBLE);
+                safeZoneDrawAlarm.setVisibility(View.VISIBLE);
                 nextActivity.setVisibility(View.INVISIBLE);
                 safeZoneComplete.setVisibility(View.VISIBLE);
+            }
+        });
+
+        nextActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GroupActivity5.this, GroupActivity6.class);
+                startActivity(intent);
             }
         });
     }
