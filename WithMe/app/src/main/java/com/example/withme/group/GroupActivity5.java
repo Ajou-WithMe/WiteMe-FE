@@ -60,7 +60,7 @@ public class GroupActivity5 extends AppCompatActivity implements OnMapReadyCallb
     private OldVertex oldVertex = new OldVertex();
 
     double latitude, longitude;
-    String name;
+    String name, message;
 
 
     @Override
@@ -206,7 +206,7 @@ public class GroupActivity5 extends AppCompatActivity implements OnMapReadyCallb
                                 e.printStackTrace();
                             }
                         }
-                    });
+                    }).start();
                     Log.e("oldVertex", String.valueOf(Vertex));
 
                     polygonOverlay1.setCoords(latLngs);
