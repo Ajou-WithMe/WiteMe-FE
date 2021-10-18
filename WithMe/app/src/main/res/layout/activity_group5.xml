@@ -11,6 +11,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <ImageView
+        android:id="@+id/refactor"
+        android:layout_width="288px"
+        android:layout_height="108px"
+        android:layout_marginTop="282px"
+        android:visibility="invisible"
+        android:background="@drawable/refactor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/safeZoneDrawAlarm"
         android:layout_width="1020px"
@@ -84,6 +95,19 @@
         android:layout_marginBottom="72px"
         android:textSize="42px"
         android:text="완료"
+        android:background="@drawable/radius_1_clickable"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/nextActivity"
+        android:layout_width="960px"
+        android:layout_height="141px"
+        android:layout_marginBottom="72px"
+        android:textSize="42px"
+        android:text="다음"
+        android:visibility="invisible"
         android:background="@drawable/radius_1_clickable"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

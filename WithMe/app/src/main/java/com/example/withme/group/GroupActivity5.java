@@ -17,10 +17,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.airbnb.lottie.L;
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.withme.R;
+import com.example.withme.OldVertex;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.CameraPosition;
 import com.naver.maps.map.MapView;
@@ -32,6 +34,7 @@ import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.OverlayImage;
 import com.naver.maps.map.overlay.PolygonOverlay;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -44,14 +47,20 @@ public class GroupActivity5 extends AppCompatActivity implements OnMapReadyCallb
 
     private NaverMap naverMap;
     private MapView mapView;
+    private ImageView refactor;
     private Dialog dialog;
-    private Button safeZoneComplete;
+    private Button safeZoneComplete, nextActivity;
     private ConstraintLayout safeZoneDrawAlarm;
     private double longitudeGapPlus, longitudeGapMinus;
+    PolygonOverlay polygonOverlay1 = new PolygonOverlay();
     private ArrayList<LatLng> latLngs = new ArrayList<LatLng>();
+    private ArrayList<Marker> markers = new ArrayList<Marker>();
+    private List Vertex = new ArrayList();
 
+    private OldVertex oldVertex = new OldVertex();
 
     double latitude, longitude;
+    String name;
 
 
     @Override
@@ -59,9 +68,15 @@ public class GroupActivity5 extends AppCompatActivity implements OnMapReadyCallb
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group5);
 
+        Intent intent = getIntent();
+        name = intent.getStringExtra("name");
+
         safeZoneDrawAlarm = (ConstraintLayout) findViewById(R.id.safeZoneDrawAlarm);
 
         safeZoneComplete = (Button) findViewById(R.id.safeZoneComplete);
+        nextActivity = (Button) findViewById(R.id.nextActivity);
+
+        refactor = (ImageView) findViewById(R.id.refactor);
 
         // 네이버 지도
         mapView = (MapView) findViewById(R.id.map_view);
@@ -112,12 +127,12 @@ public class GroupActivity5 extends AppCompatActivity implements OnMapReadyCallb
     public void onMapReady(@NonNull NaverMap naverMap) {
         this.naverMap = naverMap;
 
-        Marker marker = new Marker();
-        marker.setPosition(new LatLng(latitude, longitude));
-        marker.setIcon(OverlayImage.fromResource(R.drawable.present_location));
-        marker.setWidth(180);
-        marker.setHeight(180);
-        marker.setMap(naverMap);
+        Marker marker1 = new Marker();
+        marker1.setPosition(new LatLng(latitude, longitude));
+        marker1.setIcon(OverlayImage.fromResource(R.drawable.present_location));
+        marker1.setWidth(180);
+        marker1.setHeight(180);
+        marker1.setMap(naverMap);
 
         PolygonOverlay polygonOverlay = new PolygonOverlay();
         polygonOverlay.setCoords(Arrays.asList(
@@ -151,31 +166,70 @@ public class GroupActivity5 extends AppCompatActivity implements OnMapReadyCallb
             @Override
             public void onMapClick(@NonNull PointF pointF, @NonNull LatLng latLng) {
 
-
+                safeZoneDrawAlarm.setVisibility(View.INVISIBLE);
+                Vertex.add("(" + latLng.latitude + "," + latLng.longitude + ")");
+                Log.e("oldVertex", String.valueOf(Vertex));
                 latLngs.add(new LatLng(latLng.latitude, latLng.longitude));
 
                 Marker marker = new Marker();
+
                 marker.setPosition(new LatLng(latLng.latitude, latLng.longitude));
-                marker.setIcon(OverlayImage.fromResource(R.drawable.marker));
-                marker.setWidth(84);
-                marker.setHeight(84);
+                marker.setIcon(OverlayImage.fromResource(R.drawable.marker_safezone));
+                marker.setWidth(80);
+                marker.setHeight(125);
                 marker.setMap(naverMap);
 
-                Log.e("LatLng", String.valueOf(latLng.latitude + ", " +latLng.longitude));
-                Log.e("array", String.valueOf(latLngs));
-            }
+                markers.add(marker); }
         });
 
         safeZoneComplete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PolygonOverlay polygonOverlay1 = new PolygonOverlay();
-                polygonOverlay1.setCoords(latLngs);
 
-                polygonOverlay1.setOutlineColor(Color.parseColor("#FED537"));
-                polygonOverlay1.setOutlineWidth(18);
-                polygonOverlay1.setColor(Color.parseColor("#80FED537"));
-                polygonOverlay1.setMap(naverMap);
+                if (latLngs.size() < 3) {
+//                    Log.e("size", String.valueOf(polygonOverlay1.getCoords()));
+                    Toast.makeText(GroupActivity5.this, "적어도 두개 이상의 점을 찍어야합니다.", Toast.LENGTH_SHORT).show();
+                    for (int i=0; i < markers.size(); i++) {
+                        markers.get(i).setMap(null);
+                    }
+                    polygonOverlay1.setMap(null);
+                    markers.clear();
+                    latLngs.clear();
+                } else {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                oldVertex.safeZone(Vertex, name);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                    polygonOverlay1.setCoords(latLngs);
+                    polygonOverlay1.setOutlineColor(Color.parseColor("#FED537"));
+                    polygonOverlay1.setOutlineWidth(18);
+                    polygonOverlay1.setColor(Color.parseColor("#80FED537"));
+                    polygonOverlay1.setMap(naverMap);
+
+                    refactor.setVisibility(View.VISIBLE);
+                    nextActivity.setVisibility(View.VISIBLE);
+                    safeZoneComplete.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
+        refactor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                polygonOverlay1.setMap(null);
+                for (int i=0; i < markers.size(); i++) {
+                    markers.get(i).setMap(null);
+                }
+                markers.clear();
+                latLngs.clear();
+                nextActivity.setVisibility(View.INVISIBLE);
+                safeZoneComplete.setVisibility(View.VISIBLE);
             }
         });
     }

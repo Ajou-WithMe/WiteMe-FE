@@ -74,6 +74,7 @@ public class GroupActivity3 extends AppCompatActivity {
         Intent intent1 = new Intent(this, GroupActivity5.class);
         Intent data = getIntent();
         code = data.getStringExtra("code");
+        intent1.putExtra("id", id);
 
         SharedPreferences sf = getSharedPreferences("storeAccessToken", MODE_PRIVATE);
         String accessToken = sf.getString("AccessToken", "");
