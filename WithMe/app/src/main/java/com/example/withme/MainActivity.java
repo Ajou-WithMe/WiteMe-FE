@@ -12,18 +12,25 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.example.withme.group.GroupActivity1;
 import com.example.withme.intro.DescriptionActivity;
 import com.example.withme.user.LoginActivity;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
+import com.naver.maps.geometry.LatLng;
+import com.naver.maps.map.CameraPosition;
 import com.naver.maps.map.LocationTrackingMode;
 import com.naver.maps.map.MapView;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
 import com.naver.maps.map.UiSettings;
+import com.naver.maps.map.overlay.LocationOverlay;
+import com.naver.maps.map.overlay.OverlayImage;
 import com.naver.maps.map.util.FusedLocationSource;
+import com.naver.maps.map.widget.CompassView;
+import com.naver.maps.map.widget.LocationButtonView;
 
 import java.util.Locale;
 
@@ -48,8 +55,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        fusedLocationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
-
         Intent intent = new Intent(this, GroupActivity1.class);
         Intent intent1 = new Intent(this, DescriptionActivity.class);
 
@@ -63,6 +68,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapView = (MapView) findViewById(R.id.map_view);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
+
+        fusedLocationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
+
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,7 +130,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         this.naverMap = naverMap;
 
+        LocationOverlay locationOverlay = naverMap.getLocationOverlay();
+        locationOverlay.setVisible(true);
+
+        locationOverlay.setIcon(OverlayImage.fromResource(R.drawable.sub_icon));
+        locationOverlay.setIconWidth(70);
+        locationOverlay.setIconHeight(70);
+        locationOverlay.setSubIcon(OverlayImage.fromResource(R.drawable.maskgroup));
+
         naverMap.setLocationSource(fusedLocationSource); //현재 위치
+        naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
+        CameraPosition cameraPosition = naverMap.getCameraPosition();
+
+        CameraPosition currentPosition = new CameraPosition(cameraPosition.target, 17);
+
+        naverMap.setCameraPosition(currentPosition);
+
         ActivityCompat.requestPermissions(this, PERMISSION, LOCATION_PERMISSION_REQUEST_CODE);
     }
 }
