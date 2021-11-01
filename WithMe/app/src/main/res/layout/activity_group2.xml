@@ -30,7 +30,7 @@
             android:layout_height="72px"
             android:layout_marginTop="108px"
             android:layout_marginEnd="24px"
-            android:background="@drawable/x_button"
+            android:background="@drawable/x_button_2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -134,12 +134,25 @@
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
     <TextView
+        android:id="@+id/copyCode"
+        android:layout_width="57px"
+        android:layout_height="42px"
+        android:layout_marginStart="27px"
+        android:layout_marginTop="51px"
+        android:text="복사"
+        android:textColor="#394AE2"
+        android:textSize="30px"
+        app:layout_constraintStart_toEndOf="@+id/groupCode"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+    <TextView
+        android:id="@+id/textView25"
         android:layout_width="240dp"
         android:layout_height="39px"
         android:layout_marginTop="21px"
+        android:text="그룹 코드느 그룹 관리에서 언제든지 볼 수 있습니다."
         android:textColor="#A6A29D"
         android:textSize="29px"
-        android:text="그룹 코드느 그룹 관리에서 언제든지 볼 수 있습니다."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/groupCode" />

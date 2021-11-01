@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".group.GroupAddActivity1">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="204px"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/just_bottom_line">
+
+        <TextView
+            android:layout_width="233px"
+            android:layout_height="69px"
+            android:layout_marginTop="111px"
+            android:text="그룹 추가"
+            android:textColor="#000000"
+            android:textSize="53px"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/xButton"
+            android:layout_width="72px"
+            android:layout_height="72px"
+            android:layout_marginTop="108px"
+            android:layout_marginEnd="24px"
+            android:background="@drawable/x_button_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/groupCreate"
+        android:layout_width="906px"
+        android:layout_height="276px"
+        android:layout_marginTop="235.5px"
+        android:background="@drawable/radius_2_yellow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="144px"
+            android:layout_height="144px"
+            android:layout_marginStart="39px"
+            android:background="@drawable/group_create"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView23"
+            android:layout_width="333px"
+            android:layout_height="60px"
+            android:layout_marginStart="36px"
+            android:layout_marginTop="63px"
+            android:text="새로운 그룹 생성"
+            android:textColor="#191919"
+            android:textSize="48px"
+            app:layout_constraintStart_toEndOf="@+id/imageView3"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="640px"
+            android:layout_height="45px"
+            android:layout_marginStart="36px"
+            android:layout_marginTop="36px"
+            android:text="새로운 그룹을 만들고 사람들을 초대합니다."
+            android:textColor="#191919"
+            android:textSize="36px"
+            app:layout_constraintStart_toEndOf="@+id/imageView3"
+            app:layout_constraintTop_toBottomOf="@+id/textView23" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+        
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/groupJoin"
+        android:layout_width="906px"
+        android:layout_height="276px"
+        android:layout_marginTop="75px"
+        android:background="@drawable/radius_2_yellow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/groupCreate">
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="144px"
+            android:layout_height="144px"
+            android:layout_marginStart="39px"
+            android:background="@drawable/group_join"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView24"
+            android:layout_width="333px"
+            android:layout_height="60px"
+            android:layout_marginStart="36px"
+            android:layout_marginTop="66px"
+            android:text="기존 그룹 참여"
+            android:textColor="#191919"
+            android:textSize="48px"
+            app:layout_constraintStart_toEndOf="@+id/imageView4"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="640px"
+            android:layout_height="45px"
+            android:layout_marginStart="36px"
+            android:layout_marginTop="36px"
+            android:text="기존 그룹의 코드를 입력하여 참여합니다."
+            android:textColor="#191919"
+            android:textSize="36px"
+            app:layout_constraintStart_toEndOf="@+id/imageView4"
+            app:layout_constraintTop_toBottomOf="@+id/textView24" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

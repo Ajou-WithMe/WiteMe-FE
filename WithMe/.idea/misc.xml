@@ -3,32 +3,57 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../Library/Android/sdk/platforms/android-30/data/res/layout/simple_spinner_dropdown_item.xml" value="0.1" />
         <entry key="app/src/main/res/drawable-v24/radius_1.xml" value="0.26927083333333335" />
         <entry key="app/src/main/res/drawable-v24/radius_2.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable-v24/radius_2_yellow.xml" value="0.24351851851851852" />
         <entry key="app/src/main/res/drawable-v24/radius_3.xml" value="0.26927083333333335" />
         <entry key="app/src/main/res/drawable-v24/radius_4.xml" value="0.26927083333333335" />
         <entry key="app/src/main/res/drawable-v24/radius_5.xml" value="0.5220370961976097" />
         <entry key="app/src/main/res/drawable-v24/radius_5_button.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable-v24/radius_5_button_no.xml" value="0.24351851851851852" />
+        <entry key="app/src/main/res/drawable/alert_white_border.xml" value="0.24351851851851852" />
+        <entry key="app/src/main/res/drawable/custom_spinner_list.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/edittext_rounded_corner_sign4_selected_false.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/group_dialog.xml" value="0.24351851851851852" />
+        <entry key="app/src/main/res/drawable/just_bottom_line.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/just_top_line.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/radius_1_clickable.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/radius_1_login.xml" value="0.24351851851851852" />
+        <entry key="app/src/main/res/drawable/radius_1_nonclickable.xml" value="0.24351851851851852" />
         <entry key="app/src/main/res/layout/activity_description.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_find_email.xml" value="0.18659420289855072" />
         <entry key="app/src/main/res/layout/activity_find_password.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_find_password2.xml" value="0.22146739130434784" />
         <entry key="app/src/main/res/layout/activity_find_password3.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_group2.xml" value="0.12310030395136778" />
+        <entry key="app/src/main/res/layout/activity_group1.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_group2.xml" value="0.625" />
         <entry key="app/src/main/res/layout/activity_group3.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_group4.xml" value="0.17119565217391305" />
         <entry key="app/src/main/res/layout/activity_group5.xml" value="0.27031048630527765" />
         <entry key="app/src/main/res/layout/activity_group6.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_group_add1.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_group_add2.xml" value="0.18659420289855072" />
+        <entry key="app/src/main/res/layout/activity_group_add3.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.14739583333333334" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.11182108626198083" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_sign_up1.xml" value="0.18659420289855072" />
         <entry key="app/src/main/res/layout/activity_sign_up2.xml" value="0.22509057971014493" />
+        <entry key="app/src/main/res/layout/activity_sign_up3.xml" value="0.12310030395136778" />
         <entry key="app/src/main/res/layout/activity_sign_up4_1.xml" value="0.12310030395136778" />
         <entry key="app/src/main/res/layout/activity_sign_up4_2.xml" value="0.17119565217391305" />
+        <entry key="app/src/main/res/layout/bottom_sheet_layout.xml" value="0.1" />
         <entry key="app/src/main/res/layout/description_frame1.xml" value="0.25" />
         <entry key="app/src/main/res/layout/description_frame2.xml" value="0.20606884057971014" />
         <entry key="app/src/main/res/layout/description_frame3.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/fragment_bulletin.xml" value="0.16393442622950818" />
+        <entry key="app/src/main/res/layout/fragment_bulletin1.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/fragment_bulletin2.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/group_dialog.xml" value="0.18659420289855072" />
         <entry key="app/src/main/res/layout/login_failure_dialog.xml" value="0.25" />
         <entry key="app/src/main/res/layout/safezone_dialog.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/spinner_item.xml" value="0.1" />
+        <entry key="app/src/main/res/xml/spinner_item.xml" value="0.18659420289855072" />
       </map>
     </option>
   </component>

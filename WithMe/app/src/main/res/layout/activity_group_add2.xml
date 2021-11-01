@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".group.GroupActivity1">
+    tools:context=".group.GroupAddActivity2">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
@@ -14,10 +14,10 @@
         android:background="@drawable/just_bottom_line">
 
         <TextView
-            android:layout_width="273px"
+            android:layout_width="233px"
             android:layout_height="69px"
             android:layout_marginTop="111px"
-            android:text="새 그룹 생성"
+            android:text="그룹 추가"
             android:textColor="#000000"
             android:textSize="53px"
             app:layout_constraintEnd_toEndOf="parent"
@@ -34,63 +34,57 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <RelativeLayout
-        android:id="@+id/relativeLayout"
-        android:layout_width="300px"
-        android:layout_height="330px"
-        android:layout_marginTop="483px"
-        app:layout_constraintEnd_toEndOf="parent"
+    <TextView
+        android:id="@+id/textView22"
+        android:layout_width="783px"
+        android:layout_height="69px"
+        android:layout_marginStart="60px"
+        android:layout_marginTop="421.5px"
+        android:text="참여할 그룹의 코드를 입력해주세요"
+        android:textSize="53px"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/profileImage"
-            android:layout_width="300px"
-            android:layout_height="300px"
-            android:src="@drawable/maskgroup" />
-
-        <ImageView
-            android:id="@+id/editProfile"
-            android:layout_width="96px"
-            android:layout_height="96px"
-            android:src="@drawable/edit_profile"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"/>
-
-    </RelativeLayout>
-
-    
+    <TextView
+        android:id="@+id/warningMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="84px"
+        android:layout_marginBottom="18px"
+        android:textColor="#FF0000"
+        android:textSize="36px"
+        app:layout_constraintBottom_toTopOf="@+id/groupCode"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/groupName"
-        android:layout_width="816px"
+        android:id="@+id/groupCode"
+        android:layout_width="960px"
         android:layout_height="141px"
-        android:layout_marginTop="138px"
-        android:background="@drawable/radius_1_make_group"
-        android:hint="그룹 이름을 입력해주세요"
-        android:gravity="center"
-        android:textSize="42px"
+        android:layout_marginTop="123px"
+        android:background="@drawable/edittext_rounded_corner_sign4_not_selected"
+        android:hint="ex. abc123"
+        android:paddingLeft="33px"
         android:textColorHint="#BDBDBD"
+        android:textSize="42px"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/textView22" />
 
     <Button
-        android:id="@+id/groupComplete"
+        android:id="@+id/startWithMe"
         android:layout_width="960px"
         android:layout_height="141px"
         android:layout_marginBottom="72px"
-        android:text="그룹 생성하기"
-        android:textSize="42px"
-        android:textColor="#BDBDBD"
-        android:clickable="false"
         android:background="@drawable/radius_1_nonclickable"
+        android:enabled="false"
+        android:text="그룹 참여하기"
+        android:textColor="#BDBDBD"
+        android:textSize="42px"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

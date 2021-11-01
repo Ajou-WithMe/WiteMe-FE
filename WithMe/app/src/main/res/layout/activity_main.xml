@@ -6,156 +6,167 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.naver.maps.map.MapView
-        android:id="@+id/map_view"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent" />
-
-    <com.naver.maps.map.widget.LocationButtonView
-        android:id="@+id/compass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        app:layout_constraintBottom_toTopOf="@+id/frameLayout"
-        app:layout_constraintEnd_toEndOf="@+id/map_view"
-        app:layout_constraintTop_toBottomOf="@+id/logout" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="#80000000"
-        android:id="@+id/coach_mark_master_view">
-
-        <ImageButton
-            android:id="@+id/makeGroup_1"
-            android:layout_width="144px"
-            android:layout_height="144px"
-            android:layout_marginStart="60px"
-            android:layout_marginBottom="258px"
-            android:background="@drawable/make_group"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:layout_width="735px"
-            android:layout_height="138px"            android:layout_marginStart="252px"
-            android:layout_marginBottom="258px"
-            android:text="그룹과 피보호자의 계정을 만들고 가족들의 안전을 지키세요!"
-            android:textSize="53px"
-            android:textColor="#F6F6F6"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <Button
-        android:id="@+id/logout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="로그아웃"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <FrameLayout
-        android:id="@+id/frameLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/navigationView" ></FrameLayout>
+        <com.naver.maps.map.MapView
+            android:id="@+id/map_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-    <ImageButton
-        android:id="@+id/makeGroup_2"
-        android:layout_width="144px"
-        android:layout_height="144px"
-        android:layout_marginStart="60px"
-        android:layout_marginBottom="258px"
-        android:background="@drawable/make_group"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+<!--        <com.naver.maps.map.widget.LocationButtonView-->
+<!--            android:id="@+id/compass"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignParentRight="true"-->
+<!--            app:layout_constraintEnd_toEndOf="@+id/map_view"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/logout" />-->
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/navigationView"
-        android:layout_width="match_parent"
-        android:layout_height="210px"
-        android:orientation="horizontal"
-        android:background="#CCFFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/coach_mark_master_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#80000000"
+            android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/bulletinBoard"
-            android:layout_width="108px"
-            android:layout_height="108px"
-            android:layout_marginStart="147px"
-            android:layout_marginTop="21px"
-            android:background="@drawable/bulletinboard_nonclick"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <Button
+                android:id="@+id/logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:text="로그아웃"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="195px"
-            android:layout_height="39px"
-            android:layout_marginStart="102px"
-            android:layout_marginTop="12px"
-            android:text="공동돌봄게시판"
-            android:textColor="#333333"
-            android:textSize="29px"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bulletinBoard" />
+            <Button
+                android:id="@+id/groupButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:background="#FFFFFF"
+                android:text="그룹 참여"
+                app:layout_constraintEnd_toEndOf="@id/logout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
-            android:id="@+id/group"
-            android:layout_width="108px"
-            android:layout_height="108px"
-            android:layout_marginTop="21px"
-            android:background="@drawable/group_nonclick"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <ImageButton
+                android:id="@+id/makeGroup_1"
+                android:layout_width="144px"
+                android:layout_height="144px"
+                android:layout_marginStart="60px"
+                android:layout_marginBottom="258px"
+                android:background="@drawable/make_group"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <TextView
-            android:layout_width="57px"
-            android:layout_height="39px"
-            android:layout_marginTop="12px"
-            android:text="그룹"
-            android:textColor="#333333"
-            android:textSize="29px"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/group" />
+            <TextView
+                android:layout_width="735px"
+                android:layout_height="138px"
+                android:layout_marginStart="252px"
+                android:layout_marginBottom="258px"
+                android:text="그룹과 피보호자의 계정을 만들고 가족들의 안전을 지키세요!"
+                android:textColor="#F6F6F6"
+                android:textSize="53px"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <ImageButton
-            android:id="@+id/settings"
-            android:layout_width="108px"
-            android:layout_height="108px"
-            android:layout_marginTop="21px"
-            android:layout_marginEnd="147px"
-            android:background="@drawable/settings_nonclick"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
-            android:layout_width="111px"
-            android:layout_height="39px"
-            android:layout_marginTop="12px"
-            android:layout_marginEnd="147px"
-            android:text="개인설정"
-            android:textColor="#333333"
-            android:textSize="29px"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/settings" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
+            <ImageButton
+                android:id="@+id/makeGroup_2"
+                android:layout_width="144px"
+                android:layout_height="144px"
+                android:layout_marginStart="60px"
+                android:layout_marginBottom="258px"
+                android:background="@drawable/make_group"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/navigationView"
+            android:layout_width="match_parent"
+            android:layout_height="210px"
+            android:layout_gravity="bottom"
+            android:background="#CCFFFFFF"
+            android:orientation="horizontal">
 
+            <ImageButton
+                android:id="@+id/bulletinBoard"
+                android:layout_width="108px"
+                android:layout_height="108px"
+                android:layout_marginStart="147px"
+                android:layout_marginTop="21px"
+                android:background="@drawable/bulletinboard_nonclick"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="195px"
+                android:layout_height="39px"
+                android:layout_marginStart="102px"
+                android:layout_marginTop="12px"
+                android:text="공동돌봄게시판"
+                android:textColor="#333333"
+                android:textSize="29px"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bulletinBoard" />
 
+            <ImageButton
+                android:id="@+id/group"
+                android:layout_width="108px"
+                android:layout_height="108px"
+                android:layout_marginTop="21px"
+                android:background="@drawable/group_nonclick"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
+            <TextView
+                android:layout_width="57px"
+                android:layout_height="39px"
+                android:layout_marginTop="12px"
+                android:text="그룹"
+                android:textColor="#333333"
+                android:textSize="29px"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/group" />
 
+            <ImageButton
+                android:id="@+id/settings"
+                android:layout_width="108px"
+                android:layout_height="108px"
+                android:layout_marginTop="21px"
+                android:layout_marginEnd="147px"
+                android:background="@drawable/settings_nonclick"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="111px"
+                android:layout_height="39px"
+                android:layout_marginTop="12px"
+                android:layout_marginEnd="147px"
+                android:text="개인설정"
+                android:textColor="#333333"
+                android:textSize="29px"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/settings" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

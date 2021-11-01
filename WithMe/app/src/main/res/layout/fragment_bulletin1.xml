@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clickable="true"
+    android:background="#FFFFFF"
+    tools:context=".bulletin.Bulletin1">
+
+    <!-- TODO: Update blank fragment layout -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFFFF">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="205.5px"
+            android:background="@drawable/just_bottom_line"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/textView21"
+                android:layout_width="135px"
+                android:layout_height="60px"
+                android:layout_marginStart="60px"
+                android:layout_marginTop="114px"
+                android:text="게시판"
+                android:textColor="#222222"
+                android:textSize="48px"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="201px"
+                android:layout_height="60px"
+                android:layout_marginStart="36px"
+                android:layout_marginTop="114px"
+                android:text="내가 쓴 글"
+                android:textColor="#BDBDBD"
+                android:textSize="48px"
+                app:layout_constraintStart_toEndOf="@+id/textView21"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/write"
+                android:layout_width="108px"
+                android:layout_height="108px"
+                android:layout_marginTop="96px"
+                android:layout_marginEnd="60px"
+                android:background="@drawable/write"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/region"
+            android:layout_width="120px"
+            android:layout_height="39px"
+            android:layout_marginTop="76.5px"
+            android:layout_marginEnd="528px"
+            android:text="지역 선택"
+            android:textColor="#A6A29D"
+            android:textSize="30px"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:spinnerMode="dropdown"
+            android:layout_width="270px"
+            android:layout_height="60px"
+            android:layout_marginTop="57px"
+            android:layout_marginEnd="60px"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/navigationView"
+            android:layout_width="match_parent"
+            android:layout_height="210px"
+            android:layout_gravity="bottom"
+            android:background="@drawable/just_bottom_line"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <ImageButton
+                android:id="@+id/bulletinBoard"
+                android:layout_width="108px"
+                android:layout_height="108px"
+                android:layout_marginStart="147px"
+                android:layout_marginTop="21px"
+                android:background="@drawable/bulletinboard_click"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="195px"
+                android:layout_height="39px"
+                android:layout_marginStart="102px"
+                android:layout_marginTop="12px"
+                android:text="공동돌봄게시판"
+                android:textColor="#333333"
+                android:textSize="29px"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bulletinBoard" />
+
+            <ImageButton
+                android:id="@+id/group"
+                android:layout_width="108px"
+                android:layout_height="108px"
+                android:layout_marginTop="21px"
+                android:background="@drawable/group_nonclick"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="57px"
+                android:layout_height="39px"
+                android:layout_marginTop="12px"
+                android:text="그룹"
+                android:textColor="#333333"
+                android:textSize="29px"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/group" />
+
+            <ImageButton
+                android:id="@+id/settings"
+                android:layout_width="108px"
+                android:layout_height="108px"
+                android:layout_marginTop="21px"
+                android:layout_marginEnd="147px"
+                android:background="@drawable/settings_nonclick"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="111px"
+                android:layout_height="39px"
+                android:layout_marginTop="12px"
+                android:layout_marginEnd="147px"
+                android:text="개인설정"
+                android:textColor="#333333"
+                android:textSize="29px"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/settings" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</FrameLayout>

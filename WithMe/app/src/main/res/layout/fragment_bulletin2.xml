@@ -1,0 +1,745 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".bulletin.Bulletin2"
+    android:background="#FFFFFF">
+
+    <!-- TODO: Update blank fragment layout -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:background="#FFFFFFFF">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="205.5px"
+            android:background="@drawable/just_bottom_line"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/textView20"
+                android:layout_width="135px"
+                android:layout_height="60px"
+                android:layout_marginStart="60px"
+                android:layout_marginTop="114px"
+                android:text="게시판"
+                android:textColor="#222222"
+                android:textSize="48px"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="201px"
+                android:layout_height="60px"
+                android:layout_marginStart="36px"
+                android:layout_marginTop="114px"
+                android:text="내가 쓴 글"
+                android:textColor="#BDBDBD"
+                android:textSize="48px"
+                app:layout_constraintStart_toEndOf="@+id/textView20"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/write"
+                android:layout_width="108px"
+                android:layout_height="108px"
+                android:layout_marginTop="96px"
+                android:layout_marginEnd="60px"
+                android:background="@drawable/write"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:layout_width="189px"
+            android:layout_height="60px"
+            android:layout_marginStart="60px"
+            android:layout_marginTop="46.5px"
+            android:text="지역 선택"
+            android:textColor="#222222"
+            android:textSize="48px"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
+
+        <ImageButton
+            android:layout_width="63px"
+            android:layout_height="63px"
+            android:layout_marginTop="55.5px"
+            android:layout_marginEnd="90px"
+            android:background="@drawable/x_button_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/region_large"
+            android:layout_width="960px"
+            android:layout_height="1250px"
+            android:layout_marginTop="253.5px"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout3">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="450px"
+                android:layout_height="108px"
+                android:id="@+id/seoul"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="90px"
+                    android:layout_height="60px"
+                    android:text="서울"
+                    android:textColor="#333333"
+                    android:textSize="48px"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/seoul_click"
+                    android:layout_width="108px"
+                    android:layout_height="108px"
+                    android:background="@drawable/show_more"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/detail_seoul"
+                android:layout_width="match_parent"
+                android:layout_height="200px"
+                android:background="#123123"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view2">
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="462px"
+                android:layout_height="3px"
+                android:layout_marginTop="21px"
+                android:background="#E9E9E9"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/seoul" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/gyeongi"
+                android:layout_width="450px"
+                android:layout_height="108px"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="90px"
+                    android:layout_height="60px"
+                    android:text="경기"
+                    android:textColor="#333333"
+                    android:textSize="48px"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:layout_width="108px"
+                    android:layout_height="108px"
+                    android:background="@drawable/show_more"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/view3"
+                android:layout_width="462px"
+                android:layout_height="3px"
+                android:layout_marginTop="21px"
+                android:background="#E9E9E9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/seoul" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/incheon"
+                android:layout_width="450px"
+                android:layout_height="108px"
+                android:layout_marginTop="18px"
+                app:layout_constraintStart_toStartOf="@+id/seoul"
+                app:layout_constraintTop_toBottomOf="@id/detail_seoul">
+
+                <TextView
+                    android:layout_width="90px"
+                    android:layout_height="60px"
+                    android:text="인천"
+                    android:textColor="#333333"
+                    android:textSize="48px"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:layout_width="108px"
+                    android:layout_height="108px"
+                    android:background="@drawable/show_more"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/view4"
+                android:layout_width="462px"
+                android:layout_height="3px"
+                android:layout_marginTop="21px"
+                android:background="#E9E9E9"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/incheon" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/gangwon"
+                android:layout_width="450px"
+                android:layout_height="108px"
+                android:layout_marginTop="18px"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detail_seoul">
+
+                <TextView
+                    android:layout_width="90px"
+                    android:layout_height="60px"
+                    android:text="강원"
+                    android:textColor="#333333"
+                    android:textSize="48px"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:layout_width="108px"
+                    android:layout_height="108px"
+                    android:background="@drawable/show_more"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:layout_width="462px"
+                android:layout_height="3px"
+                android:layout_marginTop="21px"
+                android:background="#E9E9E9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/gangwon" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/jeonbuk"
+                android:layout_width="450px"
+                android:layout_height="108px"
+                android:layout_marginTop="51px"
+                app:layout_constraintStart_toStartOf="@+id/seoul"
+                app:layout_constraintTop_toBottomOf="@+id/incheon">
+
+                <TextView
+                    android:layout_width="90px"
+                    android:layout_height="60px"
+                    android:text="전북"
+                    android:textColor="#333333"
+                    android:textSize="48px"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:layout_width="108px"
+                    android:layout_height="108px"
+                    android:background="@drawable/show_more"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:layout_width="462px"
+                android:layout_height="3px"
+                android:layout_marginTop="21px"
+                android:background="#E9E9E9"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/jeonbuk" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/jeonnam"
+                android:layout_width="450px"
+                android:layout_height="108px"
+                android:layout_marginTop="51px"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/incheon">
+
+                <TextView
+                    android:layout_width="90px"
+                    android:layout_height="60px"
+                    android:text="전남"
+                    android:textColor="#333333"
+                    android:textSize="48px"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:layout_width="108px"
+                    android:layout_height="108px"
+                    android:background="@drawable/show_more"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:layout_width="462px"
+                android:layout_height="3px"
+                android:layout_marginTop="21px"
+                android:background="#E9E9E9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/jeonnam" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/gyeongbuk"
+                android:layout_width="450px"
+                android:layout_height="108px"
+                android:layout_marginTop="51px"
+                app:layout_constraintStart_toStartOf="@+id/seoul"
+                app:layout_constraintTop_toBottomOf="@+id/jeonbuk">
+
+                <TextView
+                    android:layout_width="90px"
+                    android:layout_height="60px"
+                    android:text="경북"
+                    android:textColor="#333333"
+                    android:textSize="48px"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:layout_width="108px"
+                    android:layout_height="108px"
+                    android:background="@drawable/show_more"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:layout_width="462px"
+                android:layout_height="3px"
+                android:layout_marginTop="21px"
+                android:background="#E9E9E9"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/gyeongbuk" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/gyeongnam"
+                android:layout_width="450px"
+                android:layout_height="108px"
+                android:layout_marginTop="51px"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/jeonbuk">
+
+                <TextView
+                    android:layout_width="90px"
+                    android:layout_height="60px"
+                    android:text="경남"
+                    android:textColor="#333333"
+                    android:textSize="48px"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:layout_width="108px"
+                    android:layout_height="108px"
+                    android:background="@drawable/show_more"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:layout_width="462px"
+                android:layout_height="3px"
+                android:layout_marginTop="21px"
+                android:background="#E9E9E9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/gyeongnam" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/choongbuk"
+                android:layout_width="450px"
+                android:layout_height="108px"
+                android:layout_marginTop="51px"
+                app:layout_constraintStart_toStartOf="@+id/seoul"
+                app:layout_constraintTop_toBottomOf="@+id/gyeongbuk">
+
+                <TextView
+                    android:layout_width="90px"
+                    android:layout_height="60px"
+                    android:text="충북"
+                    android:textColor="#333333"
+                    android:textSize="48px"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:layout_width="108px"
+                    android:layout_height="108px"
+                    android:background="@drawable/show_more"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/view6"
+                android:layout_width="462px"
+                android:layout_height="3px"
+                android:layout_marginTop="21px"
+                android:background="#E9E9E9"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/choongbuk" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/choongnam"
+                android:layout_width="450px"
+                android:layout_height="108px"
+                android:layout_marginTop="51px"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/gyeongbuk">
+
+                <TextView
+                    android:layout_width="90px"
+                    android:layout_height="60px"
+                    android:text="충남"
+                    android:textColor="#333333"
+                    android:textSize="48px"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:layout_width="108px"
+                    android:layout_height="108px"
+                    android:background="@drawable/show_more"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:layout_width="462px"
+                android:layout_height="3px"
+                android:layout_marginTop="21px"
+                android:background="#E9E9E9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/choongnam" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ulsan"
+                android:layout_width="450px"
+                android:layout_height="108px"
+                android:layout_marginTop="51px"
+                app:layout_constraintStart_toStartOf="@+id/seoul"
+                app:layout_constraintTop_toBottomOf="@+id/choongbuk">
+
+                <TextView
+                    android:layout_width="90px"
+                    android:layout_height="60px"
+                    android:text="울산"
+                    android:textColor="#333333"
+                    android:textSize="48px"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:layout_width="108px"
+                    android:layout_height="108px"
+                    android:background="@drawable/show_more"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/view5"
+                android:layout_width="462px"
+                android:layout_height="3px"
+                android:layout_marginTop="21px"
+                android:background="#E9E9E9"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ulsan" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/daejeon"
+                android:layout_width="450px"
+                android:layout_height="108px"
+                android:layout_marginTop="51px"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/choongbuk">
+
+                <TextView
+                    android:layout_width="90px"
+                    android:layout_height="60px"
+                    android:text="대전"
+                    android:textColor="#333333"
+                    android:textSize="48px"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:layout_width="108px"
+                    android:layout_height="108px"
+                    android:background="@drawable/show_more"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:layout_width="462px"
+                android:layout_height="3px"
+                android:layout_marginTop="21px"
+                android:background="#E9E9E9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/daejeon" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/gwangju"
+                android:layout_width="450px"
+                android:layout_height="108px"
+                android:layout_marginTop="51px"
+                app:layout_constraintStart_toStartOf="@+id/seoul"
+                app:layout_constraintTop_toBottomOf="@+id/ulsan">
+
+                <TextView
+                    android:layout_width="90px"
+                    android:layout_height="60px"
+                    android:text="광주"
+                    android:textColor="#333333"
+                    android:textSize="48px"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:layout_width="108px"
+                    android:layout_height="108px"
+                    android:background="@drawable/show_more"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/view7"
+                android:layout_width="462px"
+                android:layout_height="3px"
+                android:layout_marginTop="21px"
+                android:background="#E9E9E9"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/gwangju" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/jeju"
+                android:layout_width="450px"
+                android:layout_height="108px"
+                android:layout_marginTop="51px"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ulsan">
+
+                <TextView
+                    android:layout_width="90px"
+                    android:layout_height="60px"
+                    android:text="제주"
+                    android:textColor="#333333"
+                    android:textSize="48px"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:layout_width="108px"
+                    android:layout_height="108px"
+                    android:background="@drawable/show_more"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:layout_width="462px"
+                android:layout_height="3px"
+                android:layout_marginTop="21px"
+                android:background="#E9E9E9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/jeju" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/busan"
+                android:layout_width="450px"
+                android:layout_height="108px"
+                android:layout_marginTop="51px"
+                app:layout_constraintStart_toStartOf="@+id/seoul"
+                app:layout_constraintTop_toBottomOf="@+id/gwangju">
+
+                <TextView
+                    android:layout_width="90px"
+                    android:layout_height="60px"
+                    android:text="부산"
+                    android:textColor="#333333"
+                    android:textSize="48px"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:layout_width="108px"
+                    android:layout_height="108px"
+                    android:background="@drawable/show_more"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:layout_width="462px"
+                android:layout_height="3px"
+                android:layout_marginTop="21px"
+                android:background="#E9E9E9"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/busan" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/daegu"
+                android:layout_width="450px"
+                android:layout_height="108px"
+                android:layout_marginTop="51px"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/gwangju">
+
+                <TextView
+                    android:layout_width="90px"
+                    android:layout_height="60px"
+                    android:text="대구"
+                    android:textColor="#333333"
+                    android:textSize="48px"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:layout_width="108px"
+                    android:layout_height="108px"
+                    android:background="@drawable/show_more"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:layout_width="462px"
+                android:layout_height="3px"
+                android:layout_marginTop="21px"
+                android:background="#E9E9E9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/daegu" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/navigationView"
+            android:layout_width="match_parent"
+            android:layout_height="210px"
+            android:layout_gravity="bottom"
+            android:background="@drawable/just_bottom_line"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <ImageButton
+                android:id="@+id/bulletinBoard"
+                android:layout_width="108px"
+                android:layout_height="108px"
+                android:layout_marginStart="147px"
+                android:layout_marginTop="21px"
+                android:background="@drawable/bulletinboard_click"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="195px"
+                android:layout_height="39px"
+                android:layout_marginStart="102px"
+                android:layout_marginTop="12px"
+                android:text="공동돌봄게시판"
+                android:textColor="#333333"
+                android:textSize="29px"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bulletinBoard" />
+
+            <ImageButton
+                android:id="@+id/group"
+                android:layout_width="108px"
+                android:layout_height="108px"
+                android:layout_marginTop="21px"
+                android:background="@drawable/group_nonclick"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="57px"
+                android:layout_height="39px"
+                android:layout_marginTop="12px"
+                android:text="그룹"
+                android:textColor="#333333"
+                android:textSize="29px"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/group" />
+
+            <ImageButton
+                android:id="@+id/settings"
+                android:layout_width="108px"
+                android:layout_height="108px"
+                android:layout_marginTop="21px"
+                android:layout_marginEnd="147px"
+                android:background="@drawable/settings_nonclick"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="111px"
+                android:layout_height="39px"
+                android:layout_marginTop="12px"
+                android:layout_marginEnd="147px"
+                android:text="개인설정"
+                android:textColor="#333333"
+                android:textSize="29px"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/settings" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</FrameLayout>

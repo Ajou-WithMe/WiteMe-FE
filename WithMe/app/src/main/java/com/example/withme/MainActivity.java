@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
 import android.content.Intent;
@@ -12,14 +14,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
+import com.example.withme.bulletin.Bulletin1;
+import com.example.withme.bulletin.Bulletin2;
 import com.example.withme.group.GroupActivity1;
+import com.example.withme.group.GroupAddActivity1;
+import com.example.withme.group.GroupAddActivity2;
 import com.example.withme.intro.DescriptionActivity;
-import com.example.withme.user.LoginActivity;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
-import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.CameraPosition;
 import com.naver.maps.map.LocationTrackingMode;
 import com.naver.maps.map.MapView;
@@ -29,10 +32,6 @@ import com.naver.maps.map.UiSettings;
 import com.naver.maps.map.overlay.LocationOverlay;
 import com.naver.maps.map.overlay.OverlayImage;
 import com.naver.maps.map.util.FusedLocationSource;
-import com.naver.maps.map.widget.CompassView;
-import com.naver.maps.map.widget.LocationButtonView;
-
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -47,8 +46,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private ImageButton makeGroup1, makeGroup2;
     private NaverMap naverMap;
     private MapView mapView;
-    private Button logout;
+    private Button logout, groupButton;
     private FusedLocationSource fusedLocationSource;
+    private ImageButton bulletinBoard, group;
+
+    Bulletin1 bulletin1;
+    Bulletin2 bulletin2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +64,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         coachMark = (ConstraintLayout) findViewById(R.id.coach_mark_master_view);
         makeGroup1 = (ImageButton) findViewById(R.id.makeGroup_1);
         makeGroup2 = (ImageButton) findViewById(R.id.makeGroup_2);
+        bulletinBoard = (ImageButton) findViewById(R.id.bulletinBoard);
+        group = (ImageButton) findViewById(R.id.group);
 
         logout = (Button) findViewById(R.id.logout);
+        groupButton = (Button)findViewById(R.id.groupButton);
+
+        bulletin1 = new Bulletin1();
+        bulletin2 = new Bulletin2();
 
         // 네이버 지도
         mapView = (MapView) findViewById(R.id.map_view);
@@ -70,6 +79,32 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapView.getMapAsync(this);
 
         fusedLocationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
+
+        group.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog();
+                bottomSheetDialog.show(getSupportFragmentManager(), "bottomSheet");
+            }
+        });
+
+        groupButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, GroupAddActivity1.class);
+                startActivity(intent);
+            }
+        });
+
+        bulletinBoard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, bulletin1)
+                        .commit();
+            }
+        });
 
 
         logout.setOnClickListener(new View.OnClickListener() {
@@ -103,21 +138,38 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 startActivity(intent);
             }
         });
-
-
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (fusedLocationSource.onRequestPermissionsResult(requestCode, permissions, grantResults)) {
             if(!fusedLocationSource.isActivated()) { //권한 거부됨
-                naverMap.setLocationTrackingMode(LocationTrackingMode.None);
+                naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
             } else {
                 naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
             }
             return;
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+
+
+    public void onFragmentChange(int index){
+        if(index == 2) {
+            FragmentManager manager = getSupportFragmentManager();
+
+            FragmentTransaction transaction = manager.beginTransaction();
+
+            transaction.replace(R.id.fragment_container, bulletin2).commit();
+            transaction.addToBackStack(null);
+
+        }
+
+//        }else if(index ==1){
+//            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment2).commit();
+//        }
     }
 
     @Override
