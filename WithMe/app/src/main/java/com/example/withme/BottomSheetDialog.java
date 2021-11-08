@@ -3,6 +3,7 @@ package com.example.withme;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.airbnb.lottie.L;
 import com.bumptech.glide.Glide;
+import com.example.withme.group.GroupAddActivity1;
 import com.example.withme.group.GroupAddActivity2;
 import com.example.withme.retorfit.RetrofitAPI;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -51,7 +53,9 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
     private View view;
     private Context context;
     private String accessToken;
-    private TextView numGroup, numProtector;
+    private TextView numGroup, numProtector, addGroup;
+    private ScrollView scrollView;
+    private ConstraintLayout groupDetail;
     private LinearLayout groupLayout, protectorLayout;
     private JSONArray data, protectors;
     private JSONObject groupSpecific;
@@ -78,16 +82,31 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.bottom_sheet_layout, container, false);
 
+        addGroup = (TextView) view.findViewById(R.id.addGroup);
+
         numGroup = (TextView) view.findViewById(R.id.numGroup);
         numProtector = (TextView) view.findViewById(R.id.numProtector);
+
         groupLayout = (LinearLayout) view.findViewById(R.id.groupLayout);
         protectorLayout = (LinearLayout) view.findViewById(R.id.protectorLayout);
+
+        scrollView = (ScrollView) view.findViewById(R.id.scrollView);
+
+        groupDetail = (ConstraintLayout) view.findViewById(R.id.groupDetail);
 
         Bundle bundle = getArguments();
         if (bundle != null) {
             accessToken = bundle.getString("AccessToken");
             Log.e("accessToken", accessToken);
         }
+
+        addGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), GroupAddActivity1.class);
+                startActivity(intent);
+            }
+        });
 
         retrofitAPI.getParty(accessToken).enqueue(new Callback<ResponseBody>() {
             @Override
@@ -133,7 +152,11 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
                                 textView.setTextSize(16);
                                 textView.setTextColor(Color.parseColor("#BDBDBD"));
 
-                                Glide.with(getActivity().getApplicationContext()).load(profile).into(circleImageView);
+                                if (type != 2) {
+                                    Glide.with(getActivity().getApplicationContext()).load(profile).into(circleImageView);
+                                } else {
+                                    Glide.with(getActivity().getApplicationContext()).load(profile).into(circleImageView);
+                                }
 
                                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                                         ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -156,6 +179,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
                                 linearLayout.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
+                                        protectorLayout.removeAllViews();
                                         Log.e("layout", String.valueOf(linearLayout.getId()));
                                         for (int j=0; j<circleImageViews.size(); j++) {
                                             circleImageViews.get(j).setBorderWidth(0);
@@ -209,7 +233,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
 
                                                                 Glide.with(getActivity().getApplicationContext()).load(profile).into(circleImageViewProtector);
                                                                 if (profile.equals("null")) {
-                                                                    circleImageViewProtector.setBackgroundResource(R.drawable.maskgroup);
+                                                                    circleImageViewProtector.setBackgroundResource(R.drawable.solo_profile);
                                                                 }
 
                                                                 LinearLayout.LayoutParams lpProtector = new LinearLayout.LayoutParams(

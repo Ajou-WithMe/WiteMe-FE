@@ -45,17 +45,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/groupButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:background="#FFFFFF"
-                android:text="그룹 참여"
-                app:layout_constraintEnd_toEndOf="@id/logout"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <ImageButton
                 android:id="@+id/makeGroup_1"
                 android:layout_width="144px"

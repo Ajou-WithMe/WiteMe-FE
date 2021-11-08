@@ -74,7 +74,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         group = (ImageButton) findViewById(R.id.group);
 
         logout = (Button) findViewById(R.id.logout);
-        groupButton = (Button)findViewById(R.id.groupButton);
 
         bulletin1 = new Bulletin1();
         bulletin2 = new Bulletin2();
@@ -92,14 +91,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 BottomSheetDialog bottomSheetDialog = new BottomSheetDialog();
                 bottomSheetDialog.show(getSupportFragmentManager(), "bottomSheet");
                 bottomSheetDialog.setArguments(bundle);
-            }
-        });
-
-        groupButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, GroupAddActivity1.class);
-                startActivity(intent);
             }
         });
 
