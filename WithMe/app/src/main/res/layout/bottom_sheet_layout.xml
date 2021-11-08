@@ -66,14 +66,94 @@
     </HorizontalScrollView>
 
     <ScrollView
-        android:id="@+id/groupDetail"
-        android:visibility="invisible"
+        android:id="@+id/scrollView"
         android:layout_width="960px"
         android:layout_height="1140px"
         android:layout_marginTop="45px"
+        android:fillViewport="true"
         android:background="@drawable/group_detail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView26"
+                android:layout_width="244px"
+                android:layout_height="54px"
+                android:layout_marginStart="42px"
+                android:layout_marginTop="57px"
+                android:text="함께하는 사람"
+                android:textColor="#222222"
+                android:textSize="42px"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/numProtector"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12px"
+                android:layout_marginTop="57px"
+                android:textColor="#394AE2"
+                android:textSize="42px"
+                app:layout_constraintStart_toEndOf="@+id/textView26"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="156px"
+                android:layout_height="54px"
+                android:layout_marginTop="57px"
+                android:layout_marginEnd="57px"
+                android:text="그룹정보"
+                android:textColor="#A6A29D"
+                android:textSize="42px"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView27"
+                android:layout_width="135px"
+                android:layout_height="60px"
+                android:layout_marginStart="42px"
+                android:layout_marginTop="57px"
+                android:text="보호자"
+                android:textColor="#333333"
+                android:textSize="48px"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView26" />
+
+            <HorizontalScrollView
+                android:id="@+id/horizontalScrollView2"
+                android:layout_width="match_parent"
+                android:layout_height="210px"
+                android:layout_marginTop="36px"
+                app:layout_constraintTop_toBottomOf="@+id/textView27">
+
+                <LinearLayout
+                    android:id="@+id/protectorLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal" />
+            </HorizontalScrollView>
+
+            <TextView
+                android:layout_width="177px"
+                android:layout_height="60px"
+                android:layout_marginStart="42px"
+                android:layout_marginTop="96px"
+                android:text="피보호자"
+                android:textColor="#333333"
+                android:textSize="48px"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView2" />
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

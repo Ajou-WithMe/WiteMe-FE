@@ -19,6 +19,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Query;
 
 public interface RetrofitAPI {
 
@@ -63,6 +64,9 @@ public interface RetrofitAPI {
 
     @GET("/party/all")
     Call<ResponseBody> getParty(@Header("AccessToken") String accessToken);
+
+    @GET("/party/detail")
+    Call<ResponseBody> getPartyDetail(@Header("AccessToken") String accessToken, @Query("code") String code);
 
     @POST("/partyMember")
     Call<ResponseBody> postPartyMember(@Header("AccessToken") String accessToken, @Body HashMap<String, Object> param);

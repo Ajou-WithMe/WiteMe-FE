@@ -22,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.airbnb.lottie.L;
 import com.bumptech.glide.Glide;
 import com.example.withme.group.GroupAddActivity2;
 import com.example.withme.retorfit.RetrofitAPI;
@@ -33,6 +34,7 @@ import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -49,16 +51,15 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
     private View view;
     private Context context;
     private String accessToken;
-    private TextView numGroup;
-    private LinearLayout groupLayout;
-    private JSONArray data;
-    private ScrollView groupDetail;
+    private TextView numGroup, numProtector;
+    private LinearLayout groupLayout, protectorLayout;
+    private JSONArray data, protectors;
     private JSONObject groupSpecific;
     ArrayList<CircleImageView> circleImageViews = new ArrayList<>();
     ArrayList<TextView> textViews = new ArrayList<>();
     ArrayList<String> codes = new ArrayList<>();
 
-    int group_num;
+    int group_num, protector_num;
     int i=0;
 
     Retrofit retrofit = new retrofit2.Retrofit.Builder()
@@ -78,8 +79,9 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
         view = inflater.inflate(R.layout.bottom_sheet_layout, container, false);
 
         numGroup = (TextView) view.findViewById(R.id.numGroup);
+        numProtector = (TextView) view.findViewById(R.id.numProtector);
         groupLayout = (LinearLayout) view.findViewById(R.id.groupLayout);
-        groupDetail = (ScrollView) view.findViewById(R.id.groupDetail);
+        protectorLayout = (LinearLayout) view.findViewById(R.id.protectorLayout);
 
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -163,8 +165,78 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
                                         circleImageViews.get(linearLayout.getId()).setBorderWidth(9);
 
                                         textView.setTextColor(Color.parseColor("#000000"));
-                                        groupDetail.setVisibility(View.VISIBLE);
 
+                                        retrofitAPI.getPartyDetail(accessToken, codes.get(linearLayout.getId())).enqueue(new Callback<ResponseBody>() {
+                                            @Override
+                                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                                if (response.isSuccessful()) {
+                                                    try {
+                                                        JSONObject jsonObject = new JSONObject(response.body().string());
+                                                        JSONObject data = jsonObject.getJSONObject("data");
+                                                        protectors = data.getJSONArray("protector");
+                                                        boolean success = jsonObject.getBoolean("success");
+                                                        Log.e("protector", String.valueOf(protectors));
+                                                        if (success == true) {
+                                                            protector_num = protectors.length();
+                                                            numProtector.setText(String.valueOf(protector_num));
+
+                                                            for (int k = 0; k < protector_num; k++) {
+                                                                JSONObject protector = protectors.getJSONObject(k);
+                                                                String name = protector.getString("name");
+                                                                Log.e("protector", k + ", " + name);
+
+                                                                String uid = protector.getString("uid");
+                                                                String profile = protector.getString("profile");
+                                                                int type = protector.getInt("type");
+
+                                                                LinearLayout linearLayoutProtector= new LinearLayout(getActivity().getApplicationContext());
+                                                                linearLayoutProtector.setId(k);
+                                                                ViewGroup.LayoutParams layout= new LinearLayout.LayoutParams(144, 210);
+
+                                                                linearLayoutProtector.setLayoutParams(layout);
+                                                                linearLayoutProtector.setOrientation(LinearLayout.VERTICAL);
+
+                                                                protectorLayout.addView(linearLayoutProtector);
+
+                                                                CircleImageView circleImageViewProtector = new CircleImageView(getActivity().getApplicationContext());
+                                                                ViewGroup.LayoutParams circle= new LinearLayout.LayoutParams(144, 144);
+                                                                circleImageViewProtector.setLayoutParams(circle);
+
+                                                                TextView textViewProtector = new TextView(getActivity().getApplicationContext());
+                                                                textViewProtector.setText(name);
+                                                                textViewProtector.setTextSize(16);
+                                                                textViewProtector.setTextColor(Color.parseColor("#333333"));
+
+                                                                Glide.with(getActivity().getApplicationContext()).load(profile).into(circleImageViewProtector);
+                                                                if (profile.equals("null")) {
+                                                                    circleImageViewProtector.setBackgroundResource(R.drawable.maskgroup);
+                                                                }
+
+                                                                LinearLayout.LayoutParams lpProtector = new LinearLayout.LayoutParams(
+                                                                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                                                                        ViewGroup.LayoutParams.WRAP_CONTENT);
+                                                                lpProtector.setMargins(48,0,0,0);
+                                                                linearLayoutProtector.setLayoutParams(lpProtector);
+
+                                                                linearLayoutProtector.addView(circleImageViewProtector);
+
+                                                                lp_text.gravity = Gravity.CENTER;
+                                                                textViewProtector.setLayoutParams(lp_text);
+                                                                linearLayoutProtector.addView(textViewProtector);
+                                                            }
+                                                        }
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                    } catch (IOException e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+                                            }
+                                            @Override
+                                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                                Log.e("party detail", String.valueOf(false));
+                                            }
+                                        });
                                     }
                                 });
                             }
