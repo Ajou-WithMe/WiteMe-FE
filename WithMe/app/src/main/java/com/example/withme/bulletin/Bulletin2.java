@@ -61,6 +61,5 @@ public class Bulletin2 extends Fragment {
         });
 
         return rootView;
-
     }
 }

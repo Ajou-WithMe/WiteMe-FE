@@ -58,8 +58,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        SharedPreferences sf = getSharedPreferences("storeAccessToken", MODE_PRIVATE);
+        String accessToken = sf.getString("AccessToken", "");
+
         Intent intent = new Intent(this, GroupActivity1.class);
         Intent intent1 = new Intent(this, DescriptionActivity.class);
+
+        Bundle bundle = new Bundle(1); // 파라미터의 숫자는 전달하려는 값의 갯수
+        bundle.putString("AccessToken", accessToken);
 
         coachMark = (ConstraintLayout) findViewById(R.id.coach_mark_master_view);
         makeGroup1 = (ImageButton) findViewById(R.id.makeGroup_1);
@@ -85,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onClick(View v) {
                 BottomSheetDialog bottomSheetDialog = new BottomSheetDialog();
                 bottomSheetDialog.show(getSupportFragmentManager(), "bottomSheet");
+                bottomSheetDialog.setArguments(bundle);
             }
         });
 

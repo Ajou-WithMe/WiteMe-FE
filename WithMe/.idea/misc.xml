@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../Library/Android/sdk/platforms/android-30/data/res/layout/simple_spinner_dropdown_item.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable-v24/group_detail.xml" value="0.22407407407407406" />
         <entry key="app/src/main/res/drawable-v24/radius_1.xml" value="0.26927083333333335" />
         <entry key="app/src/main/res/drawable-v24/radius_2.xml" value="0.1" />
         <entry key="app/src/main/res/drawable-v24/radius_2_yellow.xml" value="0.24351851851851852" />
