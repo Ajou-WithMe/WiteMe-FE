@@ -2,7 +2,9 @@ package com.example.withme.user;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -11,10 +13,13 @@ import android.widget.EditText;
 import com.example.withme.R;
 import com.example.withme.retorfit.RetrofitAPI;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import okhttp3.ResponseBody;
@@ -29,6 +34,7 @@ public class FindEmailActivity extends AppCompatActivity {
     private EditText etName, etPhoneNumber;
     private Button enterComplete;
     String name, phoneNumber;
+    ArrayList<String> emailList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +68,16 @@ public class FindEmailActivity extends AppCompatActivity {
                         try {
                             jsonObject = new JSONObject(response.body().string());
                             if (response.isSuccessful()) {
-                                Log.e("Find Email", String.valueOf(jsonObject));
+                                JSONArray data = jsonObject.getJSONArray("data");
+                                Log.e("Find Email", String.valueOf(data));
+
+                                for (int i=0; i<data.length(); i++) {
+                                    emailList.add(data.getString(i));
+                                }
+
+                                Intent intent = new Intent(FindEmailActivity.this, FindEmailActivity2.class);
+                                intent.putExtra("data", emailList);
+                                startActivity(intent);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

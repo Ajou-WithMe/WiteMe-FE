@@ -17,16 +17,19 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.withme.MainActivity;
 import com.example.withme.R;
 import com.example.withme.retorfit.RetrofitAPI;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.HashMap;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,7 +42,7 @@ public class GroupAddActivity2 extends AppCompatActivity {
     private EditText groupCode;
     private TextView warningMessage;
     private Button getInGroup;
-    private String code;
+    private String code, profile, name;
 
     private Dialog dialog;
 
@@ -100,25 +103,24 @@ public class GroupAddActivity2 extends AppCompatActivity {
         getInGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HashMap<String, Object> input = new HashMap<>();
-
-                input.put("code", code);
-
-                retrofitAPI.postPartyMember(accessToken, input).enqueue(new Callback<ResponseBody>() {
+                retrofitAPI.getParty(accessToken, code).enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if (response.isSuccessful()) {
                             JSONObject jsonObject = null;
                             try {
                                 jsonObject = new JSONObject(response.body().string());
-                                String data = jsonObject.getString("data");
                                 boolean success = jsonObject.getBoolean("success");
 
-                                Log.e("Party Member", String.valueOf(jsonObject));
-
                                 if (success == false) {
+                                    String data = jsonObject.getString("data");
+                                    Log.e("Party", String.valueOf(jsonObject));
+
                                     Toast.makeText(GroupAddActivity2.this, data, Toast.LENGTH_SHORT).show();
                                 } else {
+                                    JSONObject data = jsonObject.getJSONObject("data");
+                                    profile = data.getString("profile");
+                                    name = data.getString("name");
                                     if (getInGroup.isEnabled()) {
                                         openDialog();
                                     }
@@ -145,6 +147,11 @@ public class GroupAddActivity2 extends AppCompatActivity {
 
         Button yes = dialog.findViewById(R.id.yes);
         Button no = dialog.findViewById(R.id.no);
+        CircleImageView circleImageView = dialog.findViewById(R.id.profileImage);
+        TextView groupName = dialog.findViewById(R.id.groupName);
+
+        Glide.with(this).load(profile).into(circleImageView);
+        groupName.setText(name);
 
         yes.setOnClickListener(new View.OnClickListener() {
             @Override

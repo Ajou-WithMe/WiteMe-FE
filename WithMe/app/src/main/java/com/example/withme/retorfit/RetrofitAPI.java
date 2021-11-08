@@ -63,7 +63,10 @@ public interface RetrofitAPI {
     Call<GetProfile> getProfile(@Header("AccessToken") String accessToken);
 
     @GET("/party/all")
-    Call<ResponseBody> getParty(@Header("AccessToken") String accessToken);
+    Call<ResponseBody> getAllParty(@Header("AccessToken") String accessToken);
+
+    @GET("/party")
+    Call<ResponseBody> getParty(@Header("AccessToken") String accessToken, @Query("code") String code);
 
     @GET("/party/detail")
     Call<ResponseBody> getPartyDetail(@Header("AccessToken") String accessToken, @Query("code") String code);

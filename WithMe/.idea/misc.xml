@@ -13,6 +13,7 @@
         <entry key="app/src/main/res/drawable-v24/radius_5.xml" value="0.5220370961976097" />
         <entry key="app/src/main/res/drawable-v24/radius_5_button.xml" value="0.1" />
         <entry key="app/src/main/res/drawable-v24/radius_5_button_no.xml" value="0.24351851851851852" />
+        <entry key="app/src/main/res/drawable-v24/radius_6_button_no.xml" value="0.2518518518518518" />
         <entry key="app/src/main/res/drawable/alert_white_border.xml" value="0.24351851851851852" />
         <entry key="app/src/main/res/drawable/custom_spinner_list.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/edittext_rounded_corner_sign4_selected_false.xml" value="0.1" />
@@ -24,6 +25,7 @@
         <entry key="app/src/main/res/drawable/radius_1_nonclickable.xml" value="0.24351851851851852" />
         <entry key="app/src/main/res/layout/activity_description.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_find_email.xml" value="0.18659420289855072" />
+        <entry key="app/src/main/res/layout/activity_find_email2.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_find_password.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_find_password2.xml" value="0.22146739130434784" />
         <entry key="app/src/main/res/layout/activity_find_password3.xml" value="0.25" />
@@ -43,7 +45,7 @@
         <entry key="app/src/main/res/layout/activity_sign_up3.xml" value="0.12310030395136778" />
         <entry key="app/src/main/res/layout/activity_sign_up4_1.xml" value="0.12310030395136778" />
         <entry key="app/src/main/res/layout/activity_sign_up4_2.xml" value="0.17119565217391305" />
-        <entry key="app/src/main/res/layout/bottom_sheet_layout.xml" value="0.19298245614035087" />
+        <entry key="app/src/main/res/layout/bottom_sheet_layout.xml" value="0.5835918685478138" />
         <entry key="app/src/main/res/layout/description_frame1.xml" value="0.25" />
         <entry key="app/src/main/res/layout/description_frame2.xml" value="0.20606884057971014" />
         <entry key="app/src/main/res/layout/description_frame3.xml" value="0.2" />

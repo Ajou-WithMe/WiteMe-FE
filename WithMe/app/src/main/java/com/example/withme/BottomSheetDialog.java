@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -94,6 +95,8 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
 
         groupDetail = (ConstraintLayout) view.findViewById(R.id.groupDetail);
 
+        scrollView.setVisibility(View.INVISIBLE);
+
         Bundle bundle = getArguments();
         if (bundle != null) {
             accessToken = bundle.getString("AccessToken");
@@ -108,7 +111,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
             }
         });
 
-        retrofitAPI.getParty(accessToken).enqueue(new Callback<ResponseBody>() {
+        retrofitAPI.getAllParty(accessToken).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
@@ -152,10 +155,10 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
                                 textView.setTextSize(16);
                                 textView.setTextColor(Color.parseColor("#BDBDBD"));
 
-                                if (type != 2) {
-                                    Glide.with(getActivity().getApplicationContext()).load(profile).into(circleImageView);
-                                } else {
-                                    Glide.with(getActivity().getApplicationContext()).load(profile).into(circleImageView);
+                                Glide.with(getActivity().getApplicationContext()).load(profile).into(circleImageView);
+                                if (type == 2) {
+                                    circleImageView.setAlpha(0.8f);
+                                    circleImageView.setClickable(false);
                                 }
 
                                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
@@ -179,88 +182,105 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
                                 linearLayout.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        protectorLayout.removeAllViews();
-                                        Log.e("layout", String.valueOf(linearLayout.getId()));
-                                        for (int j=0; j<circleImageViews.size(); j++) {
-                                            circleImageViews.get(j).setBorderWidth(0);
-                                            textViews.get(j).setTextColor(Color.parseColor("#BDBDBD"));
-                                        }
-                                        circleImageViews.get(linearLayout.getId()).setBorderColor(Color.parseColor("#FED537"));
-                                        circleImageViews.get(linearLayout.getId()).setBorderWidth(9);
+                                        if (type == 2) {
+                                            Log.e("not clickable", "not clickable");
+                                        } else {
+                                            scrollView.setVisibility(View.VISIBLE);
+                                            protectorLayout.removeAllViews();
+                                            Log.e("layout", String.valueOf(linearLayout.getId()));
+                                            for (int j=0; j<circleImageViews.size(); j++) {
+                                                circleImageViews.get(j).setBorderWidth(0);
+                                                textViews.get(j).setTextColor(Color.parseColor("#BDBDBD"));
+                                            }
+                                            circleImageViews.get(linearLayout.getId()).setBorderColor(Color.parseColor("#FED537"));
+                                            circleImageViews.get(linearLayout.getId()).setBorderWidth(9);
 
-                                        textView.setTextColor(Color.parseColor("#000000"));
+                                            textView.setTextColor(Color.parseColor("#000000"));
 
-                                        retrofitAPI.getPartyDetail(accessToken, codes.get(linearLayout.getId())).enqueue(new Callback<ResponseBody>() {
-                                            @Override
-                                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                                if (response.isSuccessful()) {
-                                                    try {
-                                                        JSONObject jsonObject = new JSONObject(response.body().string());
-                                                        JSONObject data = jsonObject.getJSONObject("data");
-                                                        protectors = data.getJSONArray("protector");
-                                                        boolean success = jsonObject.getBoolean("success");
-                                                        Log.e("protector", String.valueOf(protectors));
-                                                        if (success == true) {
-                                                            protector_num = protectors.length();
-                                                            numProtector.setText(String.valueOf(protector_num));
+                                            retrofitAPI.getPartyDetail(accessToken, codes.get(linearLayout.getId())).enqueue(new Callback<ResponseBody>() {
+                                                @Override
+                                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                                    if (response.isSuccessful()) {
+                                                        try {
+                                                            JSONObject jsonObject = new JSONObject(response.body().string());
+                                                            JSONObject data = jsonObject.getJSONObject("data");
+                                                            protectors = data.getJSONArray("protector");
+                                                            boolean success = jsonObject.getBoolean("success");
+                                                            Log.e("protector", String.valueOf(protectors));
+                                                            if (success == true) {
+                                                                protector_num = protectors.length();
+                                                                numProtector.setText(String.valueOf(protector_num));
 
-                                                            for (int k = 0; k < protector_num; k++) {
-                                                                JSONObject protector = protectors.getJSONObject(k);
-                                                                String name = protector.getString("name");
-                                                                Log.e("protector", k + ", " + name);
+                                                                for (int k = 0; k < protector_num; k++) {
+                                                                    JSONObject protector = protectors.getJSONObject(k);
+                                                                    String name = protector.getString("name");
+                                                                    Log.e("protector", k + ", " + name);
 
-                                                                String uid = protector.getString("uid");
-                                                                String profile = protector.getString("profile");
-                                                                int type = protector.getInt("type");
+                                                                    String uid = protector.getString("uid");
+                                                                    String profile = protector.getString("profile");
+                                                                    int type = protector.getInt("type");
 
-                                                                LinearLayout linearLayoutProtector= new LinearLayout(getActivity().getApplicationContext());
-                                                                linearLayoutProtector.setId(k);
-                                                                ViewGroup.LayoutParams layout= new LinearLayout.LayoutParams(144, 210);
+                                                                    LinearLayout linearLayoutProtector= new LinearLayout(getActivity().getApplicationContext());
+                                                                    linearLayoutProtector.setId(k);
+                                                                    ViewGroup.LayoutParams layout= new LinearLayout.LayoutParams(144, 210);
 
-                                                                linearLayoutProtector.setLayoutParams(layout);
-                                                                linearLayoutProtector.setOrientation(LinearLayout.VERTICAL);
+                                                                    linearLayoutProtector.setLayoutParams(layout);
+                                                                    linearLayoutProtector.setOrientation(LinearLayout.VERTICAL);
 
-                                                                protectorLayout.addView(linearLayoutProtector);
+                                                                    protectorLayout.addView(linearLayoutProtector);
 
-                                                                CircleImageView circleImageViewProtector = new CircleImageView(getActivity().getApplicationContext());
-                                                                ViewGroup.LayoutParams circle= new LinearLayout.LayoutParams(144, 144);
-                                                                circleImageViewProtector.setLayoutParams(circle);
+                                                                    CircleImageView circleImageViewProtector = new CircleImageView(getActivity().getApplicationContext());
+                                                                    ViewGroup.LayoutParams circle= new LinearLayout.LayoutParams(144, 144);
+                                                                    circleImageViewProtector.setLayoutParams(circle);
 
-                                                                TextView textViewProtector = new TextView(getActivity().getApplicationContext());
-                                                                textViewProtector.setText(name);
-                                                                textViewProtector.setTextSize(16);
-                                                                textViewProtector.setTextColor(Color.parseColor("#333333"));
+                                                                    TextView textViewProtector = new TextView(getActivity().getApplicationContext());
+                                                                    textViewProtector.setText(name);
+                                                                    textViewProtector.setTextSize(16);
+                                                                    textViewProtector.setTextColor(Color.parseColor("#333333"));
 
-                                                                Glide.with(getActivity().getApplicationContext()).load(profile).into(circleImageViewProtector);
-                                                                if (profile.equals("null")) {
-                                                                    circleImageViewProtector.setBackgroundResource(R.drawable.solo_profile);
+                                                                    Glide.with(getActivity().getApplicationContext()).load(profile).into(circleImageViewProtector);
+                                                                    if (profile.equals("null")) {
+                                                                        circleImageViewProtector.setBackgroundResource(R.drawable.solo_white);
+                                                                    }
+
+                                                                    LinearLayout.LayoutParams lpProtector = new LinearLayout.LayoutParams(
+                                                                            ViewGroup.LayoutParams.WRAP_CONTENT,
+                                                                            ViewGroup.LayoutParams.WRAP_CONTENT);
+                                                                    lpProtector.setMargins(48,0,0,0);
+                                                                    linearLayoutProtector.setLayoutParams(lpProtector);
+
+                                                                    linearLayoutProtector.addView(circleImageViewProtector);
+
+                                                                    lp_text.gravity = Gravity.CENTER;
+                                                                    textViewProtector.setLayoutParams(lp_text);
+                                                                    linearLayoutProtector.addView(textViewProtector);
                                                                 }
+                                                                ImageView addButton = new ImageView(getActivity().getApplicationContext());
+                                                                ViewGroup.LayoutParams add= new LinearLayout.LayoutParams(144, 210);
+                                                                addButton.setLayoutParams(add);
+                                                                addButton.setBackgroundResource(R.drawable.plus);
 
-                                                                LinearLayout.LayoutParams lpProtector = new LinearLayout.LayoutParams(
-                                                                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                                                                        ViewGroup.LayoutParams.WRAP_CONTENT);
-                                                                lpProtector.setMargins(48,0,0,0);
-                                                                linearLayoutProtector.setLayoutParams(lpProtector);
+                                                                LinearLayout.LayoutParams lpProtector = new LinearLayout.LayoutParams(144, 210);
+                                                                lpProtector.setMargins(60,0,0,0);
+                                                                addButton.setLayoutParams(lpProtector);
 
-                                                                linearLayoutProtector.addView(circleImageViewProtector);
+                                                                protectorLayout.addView(addButton);
 
-                                                                lp_text.gravity = Gravity.CENTER;
-                                                                textViewProtector.setLayoutParams(lp_text);
-                                                                linearLayoutProtector.addView(textViewProtector);
                                                             }
+                                                        } catch (JSONException e) {
+                                                            e.printStackTrace();
+                                                        } catch (IOException e) {
+                                                            e.printStackTrace();
                                                         }
-                                                    } catch (JSONException e) {
-                                                        e.printStackTrace();
-                                                    } catch (IOException e) {
-                                                        e.printStackTrace();
                                                     }
                                                 }
-                                            }
-                                            @Override
-                                            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                                Log.e("party detail", String.valueOf(false));
-                                            }
-                                        });
+                                                @Override
+                                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                                    Log.e("party detail", String.valueOf(false));
+                                                }
+                                            });
+                                        }
+
                                     }
                                 });
                             }
