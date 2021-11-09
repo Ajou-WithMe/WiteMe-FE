@@ -8,11 +8,13 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.JsonReader;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,7 +24,9 @@ import android.widget.Toast;
 import com.airbnb.lottie.L;
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.withme.R;
-import com.example.withme.OldVertex;
+import com.example.withme.retorfit.RetrofitAPI;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.CameraPosition;
 import com.naver.maps.map.MapView;
@@ -34,14 +38,26 @@ import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.OverlayImage;
 import com.naver.maps.map.overlay.PolygonOverlay;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class GroupActivity5 extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -52,21 +68,32 @@ public class GroupActivity5 extends AppCompatActivity implements OnMapReadyCallb
     private Button safeZoneComplete, nextActivity;
     private ConstraintLayout safeZoneDrawAlarm;
     private double longitudeGapPlus, longitudeGapMinus;
+    private JsonArray Vertexes = new JsonArray();
     PolygonOverlay polygonOverlay1 = new PolygonOverlay();
     private ArrayList<LatLng> latLngs = new ArrayList<LatLng>();
     private ArrayList<Marker> markers = new ArrayList<Marker>();
-    private List Vertex = new ArrayList();
-
-    private OldVertex oldVertex = new OldVertex();
-
     double latitude, longitude;
-    String name, message;
+    String name, message, accessToken;
 
+    Retrofit retrofit = new retrofit2.Retrofit.Builder()
+            .baseUrl("http://121.154.58.201:8000")
+            .addConverterFactory(GsonConverterFactory.create()) //gson converter 생성, gson은 JSON을 자바 클래스로 바꾸는데 사용된다.
+            .build();
+    RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+
+    Retrofit retrofit2 = new retrofit2.Retrofit.Builder()
+            .baseUrl("http://3.38.11.108:8080")
+            .addConverterFactory(GsonConverterFactory.create()) //gson converter 생성, gson은 JSON을 자바 클래스로 바꾸는데 사용된다.
+            .build();
+    RetrofitAPI retrofitAPI2 = retrofit.create(RetrofitAPI.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group5);
+
+        SharedPreferences sf = getSharedPreferences("storeAccessToken", MODE_PRIVATE);
+        accessToken = sf.getString("AccessToken", "");
 
         Intent intent = getIntent();
         name = intent.getStringExtra("name");
@@ -168,7 +195,11 @@ public class GroupActivity5 extends AppCompatActivity implements OnMapReadyCallb
             public void onMapClick(@NonNull PointF pointF, @NonNull LatLng latLng) {
 
                 safeZoneDrawAlarm.setVisibility(View.INVISIBLE);
-                Vertex.add("(" + latLng.latitude + "," + latLng.longitude + ")");
+                JsonObject Vertex = new JsonObject();
+                Vertex.addProperty("latitude", latLng.latitude);
+                Vertex.addProperty("longitude", latLng.longitude);
+
+                Vertexes.add(Vertex);
                 latLngs.add(new LatLng(latLng.latitude, latLng.longitude));
 
                 Marker marker = new Marker();
@@ -187,28 +218,60 @@ public class GroupActivity5 extends AppCompatActivity implements OnMapReadyCallb
             public void onClick(View v) {
 
                 if (latLngs.size() < 3) {
-//                    Log.e("size", String.valueOf(polygonOverlay1.getCoords()));
-                    Toast.makeText(GroupActivity5.this, "적어도 두개 이상의 점을 찍어야합니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GroupActivity5.this, "적어도 세 개 이상의 점을 찍어야합니다.", Toast.LENGTH_SHORT).show();
                     for (int i=0; i < markers.size(); i++) {
                         markers.get(i).setMap(null);
                     }
                     polygonOverlay1.setMap(null);
                     markers.clear();
                     latLngs.clear();
-                    Vertex.clear();
+                    while(Vertexes.size()>0)
+                    {
+                        Vertexes.remove(0);
+                    }
                 } else {
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                oldVertex.safeZone(Vertex, name);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }).start();
-                    Log.e("oldVertex", String.valueOf(Vertex));
+                    HashMap<String, JsonArray> input = new HashMap<>();
+                    input.put("safeZone", Vertexes);
+                    retrofitAPI.safeZoneVerification(accessToken, input).enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                if (response.isSuccessful()) {
+                                    JSONObject jsonObject = null;
+                                    try {
+                                        jsonObject = new JSONObject(response.body().string());
+                                        boolean success = jsonObject.getBoolean("success");
 
+                                        if (success == false) {
+                                            int data = jsonObject.getInt("data");
+                                            Log.e("safe zone", String.valueOf(jsonObject));
+
+                                            if(data == 2) {
+                                                Toast.makeText(GroupActivity5.this, "가로 길이가 너무 짧아요 더 크게 그려주세요", Toast.LENGTH_SHORT).show();
+                                            } else if (data == 3) {
+                                                Toast.makeText(GroupActivity5.this, "세로 길이가 너무 짧아요 더 크게 그려주세요", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                Toast.makeText(GroupActivity5.this, "가로, 세로 길이가 너무 짧아요 더 크게 그려주세요", Toast.LENGTH_SHORT).show();
+                                            }
+                                        } else {
+                                            JSONObject data = jsonObject.getJSONObject("data");
+                                            double temp_x = data.getDouble("temp_x");
+                                            double temp_y = data.getDouble("temp_y");
+
+                                            Log.e("x, y", temp_x + ", " + temp_y);
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                            }
+                        });
                     polygonOverlay1.setCoords(latLngs);
                     polygonOverlay1.setOutlineColor(Color.parseColor("#FED537"));
                     polygonOverlay1.setOutlineWidth(18);
@@ -229,7 +292,9 @@ public class GroupActivity5 extends AppCompatActivity implements OnMapReadyCallb
                 for (int i=0; i < markers.size(); i++) {
                     markers.get(i).setMap(null);
                 }
-                Vertex.clear();
+                while (Vertexes.size() > 0) {
+                    Vertexes.remove(0);
+                }
                 markers.clear();
                 latLngs.clear();
                 refactor.setVisibility(View.INVISIBLE);

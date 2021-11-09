@@ -7,8 +7,14 @@ import com.example.withme.retorfit.GetProfile;
 import com.example.withme.retorfit.PostEmail;
 import com.example.withme.retorfit.SignUpDuplicate;
 import com.example.withme.retorfit.UploadImage;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
@@ -80,5 +86,12 @@ public interface RetrofitAPI {
 
     @POST("/party")
     Call<ResponseBody> postCreateParty(@Header("AccessToken") String accessToken, @Body HashMap<String, Object> param);
+
+    @POST("/zone_manage/certify_zone/")
+    Call<ResponseBody> safeZoneVerification(@Header("AccessToken")String accessToken, @Body HashMap<String, JsonArray> param);
+
+    @POST("safeZone/init")
+    Call<ResponseBody> saveInitSafeZone(@Header("AccessToken")String accessToken, @Body HashMap<String, JSONArray> param);
+
 
 }
