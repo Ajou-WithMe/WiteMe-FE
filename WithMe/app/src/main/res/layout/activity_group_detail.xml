@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".group.GroupDetailActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="204px"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/just_bottom_line">
+
+        <TextView
+            android:layout_width="233px"
+            android:layout_height="69px"
+            android:layout_marginTop="111px"
+            android:text="그룹 정보"
+            android:gravity="center_horizontal"
+            android:textColor="#000000"
+            android:textSize="53px"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/xButton"
+            android:layout_width="72px"
+            android:layout_height="72px"
+            android:layout_marginTop="108px"
+            android:layout_marginEnd="24px"
+            android:background="@drawable/x_button_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="300px"
+        android:layout_height="330px"
+        android:layout_marginTop="483px"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profileImage"
+            android:layout_width="300px"
+            android:layout_height="300px"
+            android:src="@drawable/solo_profile" />
+
+        <ImageView
+            android:id="@+id/editProfile"
+            android:layout_width="96px"
+            android:layout_height="96px"
+            android:src="@drawable/edit_profile"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/textView32"
+        android:layout_width="117px"
+        android:layout_height="54px"
+        android:layout_marginStart="60px"
+        android:layout_marginTop="132px"
+        android:text="그룹명"
+        android:textColor="#333333"
+        android:textSize="42px"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout4"
+        android:layout_width="744px"
+        android:layout_height="123px"
+        android:layout_marginStart="99px"
+        android:layout_marginTop="96px"
+        android:background="@drawable/edittext_group_description"
+        app:layout_constraintStart_toEndOf="@+id/textView32"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout">
+
+        <EditText
+            android:id="@+id/groupName"
+            android:layout_width="600px"
+            android:layout_height="match_parent"
+            android:background="#00000000"
+            android:focusable="false"
+            android:paddingLeft="36px"
+            android:text=""
+            android:textColor="#333333"
+            android:textSize="42px"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/revise"
+            android:layout_width="69px"
+            android:layout_height="54px"
+            android:layout_marginEnd="39px"
+            android:text="수정"
+            android:textColor="#F7BD03"
+            android:textSize="36px"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:visibility="invisible"
+            android:id="@+id/complete"
+            android:layout_width="69px"
+            android:layout_height="54px"
+            android:layout_marginEnd="39px"
+            android:text="완료"
+            android:textColor="#F7BD03"
+            android:textSize="36px"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:layout_width="156px"
+        android:layout_height="54px"
+        android:layout_marginStart="60px"
+        android:layout_marginTop="117px"
+        android:text="그룹코드"
+        android:textColor="#333333"
+        android:textSize="42px"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView32" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="744px"
+        android:layout_height="123px"
+        android:layout_marginStart="99px"
+        android:layout_marginTop="48px"
+        android:background="@drawable/edittext_group_description"
+        app:layout_constraintStart_toEndOf="@+id/textView32"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout4">
+
+        <EditText
+            android:id="@+id/codeName"
+            android:layout_width="600px"
+            android:layout_height="match_parent"
+            android:background="#00000000"
+            android:focusable="false"
+            android:paddingLeft="36px"
+            android:text=""
+            android:textColor="#333333"
+            android:textSize="42px"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="69px"
+            android:layout_height="54px"
+            android:layout_marginEnd="39px"
+            android:text="복사"
+            android:textColor="#F7BD03"
+            android:textSize="36px"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

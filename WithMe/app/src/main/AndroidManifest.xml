@@ -20,6 +20,12 @@
         android:theme="@style/Theme.WithMe"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".group.GroupDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".group.ProtectionPersonActivity1"
+            android:exported="false" />
+        <activity
             android:name=".user.FindEmailActivity2"
             android:exported="false" />
         <activity
