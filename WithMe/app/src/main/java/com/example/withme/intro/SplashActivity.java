@@ -16,6 +16,7 @@ import com.example.withme.R;
 import com.example.withme.intro.DescriptionActivity;
 import com.example.withme.retorfit.GetProfile;
 import com.example.withme.retorfit.RetrofitAPI;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,6 +32,9 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        String token = FirebaseMessaging.getInstance().getToken().getResult();
+        Log.e("FCM token", token);
 
         Retrofit retrofit = new retrofit2.Retrofit.Builder()
                 .baseUrl("http://withme-lb-1691720831.ap-northeast-2.elb.amazonaws.com")

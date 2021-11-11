@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "336167031073",
+    "project_id": "withme-caa96",
+    "storage_bucket": "withme-caa96.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:336167031073:android:83f90396ae3e757a10ee60",
+        "android_client_info": {
+          "package_name": "com.example.withme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "336167031073-6e6vmj4vfq6h7ljkdckror63dcg1en2q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdNl63WzewYjXRROBQvj5lwbYdu81WNgU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "336167031073-6e6vmj4vfq6h7ljkdckror63dcg1en2q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
