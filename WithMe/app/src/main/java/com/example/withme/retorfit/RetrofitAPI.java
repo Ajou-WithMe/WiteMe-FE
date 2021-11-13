@@ -72,6 +72,9 @@ public interface RetrofitAPI {
     @GET("/party/all")
     Call<ResponseBody> getAllParty(@Header("AccessToken") String accessToken);
 
+    @GET("/partyMember/allProtection")
+    Call<ResponseBody> getAllprotection(@Header("AccessToken") String accessToken);
+
     @GET("/party")
     Call<ResponseBody> getParty(@Header("AccessToken") String accessToken, @Query("code") String code);
 

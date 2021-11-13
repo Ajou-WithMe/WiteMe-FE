@@ -58,7 +58,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
     // 초기 변수 설정
     private View view;
     private Context context;
-    private String accessToken;
+    private String accessToken, protectionPersonUid;
     private TextView numGroup, numProtector, addGroup, groupDescription;
     private ScrollView scrollView;
     private ConstraintLayout groupDetail;
@@ -246,7 +246,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
                                                                     String name = protectionPerson.getString("name");
                                                                     Log.e("protectionPerson", l + ", " + name);
 
-                                                                    String uid = protectionPerson.getString("uid");
+                                                                    protectionPersonUid = protectionPerson.getString("uid");
                                                                     String profile = protectionPerson.getString("profile");
                                                                     int type = protectionPerson.getInt("type");
 
@@ -316,8 +316,44 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
                                                                     reviseProtectionPerson.setOnClickListener(new View.OnClickListener() {
                                                                         @Override
                                                                         public void onClick(View v) {
-                                                                            Intent intent = new Intent(getActivity(), ProtectionPersonActivity1.class);
-                                                                            startActivity(intent);
+                                                                            retrofitAPI.getAllprotection(accessToken).enqueue(new Callback<ResponseBody>() {
+                                                                                @Override
+                                                                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                                                                    if (response.isSuccessful()) {
+                                                                                        try {
+                                                                                            JSONObject jsonObject = new JSONObject(response.body().string());
+                                                                                            Log.e("getALlProtection", String.valueOf(jsonObject));
+                                                                                            boolean success = jsonObject.getBoolean("success");
+
+                                                                                            if (success == true) {
+                                                                                                Intent intent = new Intent(getActivity(), ProtectionPersonActivity1.class);
+                                                                                                JSONArray data = jsonObject.getJSONArray("data");
+                                                                                                Log.e("Protection", String.valueOf(data));
+                                                                                                int protectionPersonNum = data.length();
+                                                                                                for (int i = 0; i<protectionPersonNum; i++) {
+                                                                                                    JSONObject protectionPerson = (JSONObject) data.get(i);
+                                                                                                    String protectionUID = protectionPerson.getString("uid");
+                                                                                                    String protectionName = protectionPerson.getString("name");
+
+                                                                                                    if (protectionPersonUid.equals(protectionUID)) {
+                                                                                                        intent.putExtra("name", protectionName);
+                                                                                                    }
+                                                                                                }
+                                                                                                startActivity(intent);
+
+                                                                                            }
+                                                                                        } catch (JSONException e) {
+                                                                                            e.printStackTrace();
+                                                                                        } catch (IOException e) {
+                                                                                            e.printStackTrace();
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                                @Override
+                                                                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                                                                                }
+                                                                            });
                                                                         }
                                                                     });
                                                                 }
