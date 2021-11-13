@@ -33,9 +33,6 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        String token = FirebaseMessaging.getInstance().getToken().getResult();
-        Log.e("FCM token", token);
-
         Retrofit retrofit = new retrofit2.Retrofit.Builder()
                 .baseUrl("http://withme-lb-1691720831.ap-northeast-2.elb.amazonaws.com")
                 .addConverterFactory(GsonConverterFactory.create()) //gson converter 생성, gson은 JSON을 자바 클래스로 바꾸는데 사용된다.
