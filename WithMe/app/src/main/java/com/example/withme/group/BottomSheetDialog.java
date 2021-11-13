@@ -1,4 +1,4 @@
-package com.example.withme;
+package com.example.withme.group;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -27,6 +27,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.airbnb.lottie.L;
 import com.bumptech.glide.Glide;
+import com.example.withme.R;
 import com.example.withme.group.GroupAddActivity1;
 import com.example.withme.group.GroupAddActivity2;
 import com.example.withme.group.GroupDetailActivity;
@@ -200,6 +201,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
                                                 public void onClick(View v) {
                                                     Intent intent = new Intent(getActivity(), GroupDetailActivity.class);
                                                     intent.putExtra("name", name);
+                                                    intent.putExtra("profile", profile);
                                                     intent.putExtra("code", code);
                                                     startActivity(intent);
                                                 }
@@ -310,6 +312,14 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
                                                                     linearLayoutProtectionPerson.addView(textViewProtectionPerson);
                                                                     linearLayoutToggle.addView(reviseProtectionPerson);
                                                                     linearLayoutToggle.addView(switchButton);
+
+                                                                    reviseProtectionPerson.setOnClickListener(new View.OnClickListener() {
+                                                                        @Override
+                                                                        public void onClick(View v) {
+                                                                            Intent intent = new Intent(getActivity(), ProtectionPersonActivity1.class);
+                                                                            startActivity(intent);
+                                                                        }
+                                                                    });
                                                                 }
                                                                 ImageView addButtonProtectionPerson = new ImageView(getActivity().getApplicationContext());
                                                                 LinearLayout.LayoutParams addProtectionPerson= new LinearLayout.LayoutParams(588, 144);

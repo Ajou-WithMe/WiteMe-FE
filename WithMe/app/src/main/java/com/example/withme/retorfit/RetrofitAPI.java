@@ -24,6 +24,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Query;
 
@@ -74,6 +75,12 @@ public interface RetrofitAPI {
     @GET("/party")
     Call<ResponseBody> getParty(@Header("AccessToken") String accessToken, @Query("code") String code);
 
+    @PUT("/party")
+    Call<ResponseBody> updateParty(@Header("AccessToken") String accessToken, @Body HashMap<String, Object> param);
+
+    @POST("/party")
+    Call<ResponseBody> postCreateParty(@Header("AccessToken") String accessToken, @Body HashMap<String, Object> param);
+
     @GET("/party/detail")
     Call<ResponseBody> getPartyDetail(@Header("AccessToken") String accessToken, @Query("code") String code);
 
@@ -83,9 +90,6 @@ public interface RetrofitAPI {
     @Multipart
     @POST("/file/profile")
     Call<UploadImage> uploadImage(@Header("AccessToken") String accessToken, @Part MultipartBody.Part postImg);
-
-    @POST("/party")
-    Call<ResponseBody> postCreateParty(@Header("AccessToken") String accessToken, @Body HashMap<String, Object> param);
 
     @POST("/zone_manage/certify_zone/")
     Call<ResponseBody> safeZoneVerification(@Header("AccessToken")String accessToken, @Body HashMap<String, JsonArray> param);

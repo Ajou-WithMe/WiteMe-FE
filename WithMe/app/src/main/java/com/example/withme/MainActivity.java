@@ -18,9 +18,8 @@ import android.widget.ImageButton;
 
 import com.example.withme.bulletin.Bulletin1;
 import com.example.withme.bulletin.Bulletin2;
+import com.example.withme.group.BottomSheetDialog;
 import com.example.withme.group.GroupActivity1;
-import com.example.withme.group.GroupAddActivity1;
-import com.example.withme.group.GroupAddActivity2;
 import com.example.withme.intro.DescriptionActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
