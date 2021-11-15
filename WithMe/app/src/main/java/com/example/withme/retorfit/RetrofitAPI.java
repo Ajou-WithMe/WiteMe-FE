@@ -20,6 +20,7 @@ import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
@@ -89,6 +90,9 @@ public interface RetrofitAPI {
 
     @POST("/partyMember")
     Call<ResponseBody> postPartyMember(@Header("AccessToken") String accessToken, @Body HashMap<String, Object> param);
+
+    @DELETE("/partyMember")
+    Call<ResponseBody> exitPartyMember(@Header("AccessToken") String accessToken, @Query("code") String code);
 
     @Multipart
     @POST("/file/profile")

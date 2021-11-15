@@ -146,7 +146,7 @@ public class LocationService extends Service {
         builder.setDefaults(NotificationCompat.DEFAULT_ALL); // 기본 설정
         builder.setContentText("Running"); // 설정한 세부 텍스트
         builder.setContentIntent(pendingIntent); // 실행할 작업이 담긴 PendingIntent
-        builder.setAutoCancel(false); // 터치하면 자동으로 지워지게 하는 것인데, false로 그렇게 못하게 해놓음
+        builder.setAutoCancel(true); // 터치하면 자동으로 지워지게 하는 것인데, false로 그렇게 못하게 해놓음
         builder.setPriority(NotificationCompat.PRIORITY_MAX);
 
         //Initialize new location request

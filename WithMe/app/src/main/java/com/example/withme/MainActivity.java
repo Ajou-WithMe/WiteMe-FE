@@ -177,7 +177,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 startForegroundService(intent);
             }
-            Toast.makeText(this, "Location Service Started", Toast.LENGTH_SHORT).show();
         }
     }
 

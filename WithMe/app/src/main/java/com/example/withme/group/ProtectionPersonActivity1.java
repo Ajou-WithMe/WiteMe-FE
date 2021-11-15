@@ -13,6 +13,8 @@ import android.provider.MediaStore;
 import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +36,7 @@ public class ProtectionPersonActivity1 extends AppCompatActivity {
     private EditText protectionName;
     private CircleImageView profileImage;
     private TextView tvPassword, tvAddress, reviseProtectionPerson;
+    private ImageButton deleteProtectionPerson;
     private LinearLayout passwordLayout, addressLayout;
     private Uri selectedImageUri;
 
@@ -46,6 +49,8 @@ public class ProtectionPersonActivity1 extends AppCompatActivity {
 
         protectionName = (EditText) findViewById(R.id.name);
 
+        deleteProtectionPerson = (ImageButton) findViewById(R.id.deleteProtectionPerson);
+
         profileImage = (CircleImageView) findViewById(R.id.profileImage);
 
         tvPassword = (TextView) findViewById(R.id.tvPassword);
@@ -54,6 +59,13 @@ public class ProtectionPersonActivity1 extends AppCompatActivity {
 
         passwordLayout = (LinearLayout)findViewById(R.id.password);
         addressLayout = (LinearLayout) findViewById(R.id.addressLayout);
+
+        deleteProtectionPerson.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override

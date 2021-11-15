@@ -3,15 +3,19 @@ package com.example.withme.group;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -28,6 +32,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.acl.Group;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -43,13 +48,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class GroupDetailActivity extends AppCompatActivity {
 
-    private String code, name, profile, selectedImagePath, imageFromServer;
+    private String code, name, profile, selectedImagePath, imageFromServer, accessToken;
+    private Dialog dialog;
     private TextView revise, complete;
     private EditText groupName, codeName;
     private boolean success;
     private Uri selectedImageUri;
     private CircleImageView profileImage;
-    private ImageButton xButton;
+    private ImageButton xButton, exitGroup;
 
     private final int GET_GALLERY_IMAGE = 200;
 
@@ -60,7 +66,7 @@ public class GroupDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_group_detail);
 
         SharedPreferences sf = getSharedPreferences("storeAccessToken", MODE_PRIVATE);
-        String accessToken = sf.getString("AccessToken", "");
+        accessToken = sf.getString("AccessToken", "");
 
         Retrofit retrofit = new retrofit2.Retrofit.Builder()
                 .baseUrl("http://withme-lb-1691720831.ap-northeast-2.elb.amazonaws.com")
@@ -76,6 +82,7 @@ public class GroupDetailActivity extends AppCompatActivity {
         profileImage = (CircleImageView) findViewById(R.id.profileImage);
 
         xButton = (ImageButton) findViewById(R.id.xButton);
+        exitGroup = (ImageButton) findViewById(R.id.exitGroup);
 
         groupName = (EditText) findViewById(R.id.groupName);
         codeName = (EditText) findViewById(R.id.codeName);
@@ -87,6 +94,14 @@ public class GroupDetailActivity extends AppCompatActivity {
         codeName.setText(code);
 
         Glide.with(this).load(profile).into(profileImage);
+
+        exitGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog = new Dialog(GroupDetailActivity.this);
+                openDialog();
+            }
+        });
 
         xButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -237,5 +252,66 @@ public class GroupDetailActivity extends AppCompatActivity {
 
         cursor.close();
         return path;
+    }
+
+    private void openDialog() {
+        dialog.setContentView(R.layout.exit_group_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        Button no = dialog.findViewById(R.id.no);
+        Button yes = dialog.findViewById(R.id.yes);
+
+        no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GroupDetailActivity.this, MainActivity.class);
+                Retrofit retrofit = new retrofit2.Retrofit.Builder()
+                        .baseUrl("http://withme-lb-1691720831.ap-northeast-2.elb.amazonaws.com")
+                        .addConverterFactory(GsonConverterFactory.create()) //gson converter 생성, gson은 JSON을 자바 클래스로 바꾸는데 사용된다.
+                        .build();
+                RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+
+                retrofitAPI.exitPartyMember(accessToken, code).enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful()) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response.body().string());
+                                boolean success = jsonObject.getBoolean("success");
+
+                                Log.e("exitPartyMember", jsonObject.toString());
+
+                                if (success == true) {
+                                    String data = jsonObject.getString("data");
+                                    Toast.makeText(getApplicationContext(), data, Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Log.e("exitPartyMember", t.getMessage());
+
+                    }
+                });
+                dialog.dismiss();
+                startActivity(intent);
+            }
+        });
+
+
+        dialog.show();
     }
 }

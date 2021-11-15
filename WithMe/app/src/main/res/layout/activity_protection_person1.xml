@@ -211,7 +211,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addressLayout" />
 
-    <ImageView
+    <ImageButton
         android:id="@+id/deleteProtectionPerson"
         android:layout_width="346.5px"
         android:layout_height="63px"
