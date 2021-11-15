@@ -1,4 +1,4 @@
-package com.example.withme.location;
+package com.example.withme;
 
 public class Constants {
     static final int LOCATION_SERVICE_ID = 175;

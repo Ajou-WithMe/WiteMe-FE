@@ -1,4 +1,4 @@
-package com.example.withme.location;
+package com.example.withme;
 
 import android.Manifest;
 import android.app.NotificationChannel;
@@ -19,7 +19,6 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 
-import com.example.withme.R;
 import com.example.withme.retorfit.RetrofitAPI;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;

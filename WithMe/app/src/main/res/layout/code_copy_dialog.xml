@@ -8,36 +8,23 @@
     android:background="@drawable/invite_protector">
 
     <TextView
-        android:id="@+id/textView12"
-        android:layout_width="612px"
-        android:layout_height="60px"
-        android:layout_marginStart="75px"
-        android:layout_marginTop="114px"
-        android:text="함께할 보호자를 초대해보세요!"
-        android:textColor="#222222"
-        android:textSize="48px"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/textView13"
         android:layout_width="502px"
         android:layout_height="54px"
-        android:layout_marginStart="75px"
-        android:layout_marginTop="21px"
-        android:text="복사된 코드를 전달해주세요!"
+        android:layout_marginStart="66px"
+        android:layout_marginTop="141px"
+        android:text="코드가 복사되었습니다."
         android:textColor="#333333"
-        android:textSize="42px"
+        android:textSize="48px"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView12" />
-
+        app:layout_constraintTop_toTopOf="parent" />
     <Button
-        android:id="@+id/kakaoTalk"
+        android:id="@+id/close"
         android:layout_width="813px"
         android:layout_height="141px"
-        android:layout_marginTop="87px"
+        android:layout_marginTop="132px"
         android:background="@drawable/radius_5_button"
-        android:text="그룹 코드 복사"
+        android:text="닫기"
         android:textColor="#333333"
         android:textSize="42px"
         app:layout_constraintEnd_toEndOf="parent"

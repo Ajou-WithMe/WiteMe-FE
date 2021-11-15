@@ -1,4 +1,4 @@
-package com.example.withme.location;
+package com.example.withme;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,7 +9,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
 import android.app.ActivityManager;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,14 +21,11 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.example.withme.R;
 import com.example.withme.bulletin.Bulletin1;
 import com.example.withme.bulletin.Bulletin2;
 import com.example.withme.group.BottomSheetDialog;
 import com.example.withme.group.GroupActivity1;
 import com.example.withme.intro.DescriptionActivity;
-import com.example.withme.location.Constants;
-import com.example.withme.location.LocationService;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -71,9 +67,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     Bulletin1 bulletin1;
     Bulletin2 bulletin2;
-
-    BroadcastReceiver receiver;
-    Intent intentMyService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

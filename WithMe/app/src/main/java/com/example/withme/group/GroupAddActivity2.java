@@ -18,7 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.withme.location.MainActivity;
+import com.example.withme.MainActivity;
 import com.example.withme.R;
 import com.example.withme.retorfit.RetrofitAPI;
 

@@ -13,7 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.example.withme.location.MainActivity;
+import com.example.withme.MainActivity;
 import com.example.withme.R;
 
 public class Bulletin1 extends Fragment {

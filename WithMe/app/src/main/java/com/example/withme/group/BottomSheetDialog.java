@@ -1,11 +1,16 @@
 package com.example.withme.group;
 
+import static android.content.Context.CLIPBOARD_SERVICE;
 import static android.content.Context.MODE_PRIVATE;
 
+import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -27,6 +32,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.airbnb.lottie.L;
 import com.bumptech.glide.Glide;
+import com.example.withme.MainActivity;
 import com.example.withme.R;
 import com.example.withme.group.GroupAddActivity1;
 import com.example.withme.group.GroupAddActivity2;
@@ -58,6 +64,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
     // 초기 변수 설정
     private View view;
     private Context context;
+    private Dialog dialog;
     private String accessToken, protectionPersonUid;
     private TextView numGroup, numProtector, addGroup, groupDescription;
     private ScrollView scrollView;
@@ -420,6 +427,14 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
 
                                                                 protectorLayout.addView(addButton);
 
+                                                                addButton.setOnClickListener(new View.OnClickListener() {
+                                                                    @Override
+                                                                    public void onClick(View v) {
+                                                                        dialog = new Dialog(getActivity());
+                                                                        openDialogCode(code);
+                                                                    }
+                                                                });
+
                                                             }
                                                         } catch (JSONException e) {
                                                             e.printStackTrace();
@@ -455,5 +470,43 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
             }
         });
         return view;
+    }
+
+    private void openDialogCode(String code) {
+        dialog.setContentView(R.layout.invite_protector_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        Button kakaoTalk = dialog.findViewById(R.id.kakaoTalk);
+
+        kakaoTalk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //클립보드 사용 코드
+                ClipboardManager clipboardManager = (ClipboardManager) getActivity().getApplicationContext().getSystemService(CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText("CODE", code); //클립보드에 ID라는 이름표로 id 값을 복사하여 저장
+                clipboardManager.setPrimaryClip(clipData);
+                Log.e("code", code);
+
+                dialog.dismiss();
+
+                openDialogComplete();
+            }
+        });
+        dialog.show();
+    }
+
+    private void openDialogComplete() {
+        dialog.setContentView(R.layout.code_copy_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        Button close = dialog.findViewById(R.id.close);
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 }

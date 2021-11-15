@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.withme.location.MainActivity;
+import com.example.withme.MainActivity;
 import com.example.withme.R;
 
 public class GroupActivity6 extends AppCompatActivity {

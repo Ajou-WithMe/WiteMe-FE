@@ -18,7 +18,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.withme.location.MainActivity;
+import com.example.withme.MainActivity;
 import com.example.withme.R;
 import com.example.withme.retorfit.RetrofitAPI;
 import com.kakao.auth.ISessionCallback;
