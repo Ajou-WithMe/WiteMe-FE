@@ -11,12 +11,10 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
-import com.example.withme.MainActivity;
+import com.example.withme.location.MainActivity;
 import com.example.withme.R;
-import com.example.withme.intro.DescriptionActivity;
 import com.example.withme.retorfit.GetProfile;
 import com.example.withme.retorfit.RetrofitAPI;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 import retrofit2.Call;
 import retrofit2.Callback;

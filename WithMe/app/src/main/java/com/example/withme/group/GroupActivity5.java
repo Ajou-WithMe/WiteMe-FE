@@ -76,7 +76,7 @@ public class GroupActivity5 extends AppCompatActivity implements OnMapReadyCallb
     String name, message, accessToken;
 
     Retrofit retrofit = new retrofit2.Retrofit.Builder()
-            .baseUrl("http://121.154.58.201:8000")
+            .baseUrl("http://3.37.163.203:8000")
             .addConverterFactory(GsonConverterFactory.create()) //gson converter 생성, gson은 JSON을 자바 클래스로 바꾸는데 사용된다.
             .build();
     RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
@@ -247,10 +247,36 @@ public class GroupActivity5 extends AppCompatActivity implements OnMapReadyCallb
 
                                             if(data == 2) {
                                                 Toast.makeText(GroupActivity5.this, "가로 길이가 너무 짧아요 더 크게 그려주세요", Toast.LENGTH_SHORT).show();
+                                                polygonOverlay1.setCoords(latLngs);
+                                                polygonOverlay1.setOutlineColor(Color.parseColor("#FF302B"));
+                                                polygonOverlay1.setOutlineWidth(18);
+                                                polygonOverlay1.setColor(Color.parseColor("#4DFF302B"));
+                                                polygonOverlay1.setMap(naverMap);
+
+                                                nextActivity.setVisibility(View.INVISIBLE);
+                                                safeZoneComplete.setVisibility(View.INVISIBLE);
+
                                             } else if (data == 3) {
                                                 Toast.makeText(GroupActivity5.this, "세로 길이가 너무 짧아요 더 크게 그려주세요", Toast.LENGTH_SHORT).show();
+                                                polygonOverlay1.setCoords(latLngs);
+                                                polygonOverlay1.setOutlineColor(Color.parseColor("#FF302B"));
+                                                polygonOverlay1.setOutlineWidth(18);
+                                                polygonOverlay1.setColor(Color.parseColor("#4DFF302B"));
+                                                polygonOverlay1.setMap(naverMap);
+
+                                                nextActivity.setVisibility(View.INVISIBLE);
+                                                safeZoneComplete.setVisibility(View.INVISIBLE);
+
                                             } else {
                                                 Toast.makeText(GroupActivity5.this, "가로, 세로 길이가 너무 짧아요 더 크게 그려주세요", Toast.LENGTH_SHORT).show();
+                                                polygonOverlay1.setCoords(latLngs);
+                                                polygonOverlay1.setOutlineColor(Color.parseColor("#FF302B"));
+                                                polygonOverlay1.setOutlineWidth(18);
+                                                polygonOverlay1.setColor(Color.parseColor("#4DFF302B"));
+                                                polygonOverlay1.setMap(naverMap);
+
+                                                nextActivity.setVisibility(View.INVISIBLE);
+                                                safeZoneComplete.setVisibility(View.INVISIBLE);
                                             }
                                         } else {
                                             JSONObject data = jsonObject.getJSONObject("data");
@@ -258,6 +284,14 @@ public class GroupActivity5 extends AppCompatActivity implements OnMapReadyCallb
                                             double temp_y = data.getDouble("temp_y");
 
                                             Log.e("x, y", temp_x + ", " + temp_y);
+                                            polygonOverlay1.setCoords(latLngs);
+                                            polygonOverlay1.setOutlineColor(Color.parseColor("#FED537"));
+                                            polygonOverlay1.setOutlineWidth(18);
+                                            polygonOverlay1.setColor(Color.parseColor("#80FED537"));
+                                            polygonOverlay1.setMap(naverMap);
+
+                                            nextActivity.setVisibility(View.VISIBLE);
+                                            safeZoneComplete.setVisibility(View.INVISIBLE);
                                         }
                                     } catch (JSONException e) {
                                         e.printStackTrace();
@@ -272,15 +306,7 @@ public class GroupActivity5 extends AppCompatActivity implements OnMapReadyCallb
 
                             }
                         });
-                    polygonOverlay1.setCoords(latLngs);
-                    polygonOverlay1.setOutlineColor(Color.parseColor("#FED537"));
-                    polygonOverlay1.setOutlineWidth(18);
-                    polygonOverlay1.setColor(Color.parseColor("#80FED537"));
-                    polygonOverlay1.setMap(naverMap);
-
                     refactor.setVisibility(View.VISIBLE);
-                    nextActivity.setVisibility(View.VISIBLE);
-                    safeZoneComplete.setVisibility(View.INVISIBLE);
                 }
             }
         });

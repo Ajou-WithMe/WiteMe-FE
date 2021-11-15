@@ -9,16 +9,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListPopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.example.withme.MainActivity;
+import com.example.withme.location.MainActivity;
 import com.example.withme.R;
-
-import java.lang.reflect.Field;
 
 public class Bulletin1 extends Fragment {
 

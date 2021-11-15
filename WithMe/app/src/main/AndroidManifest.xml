@@ -3,10 +3,15 @@
     package="com.example.withme">
     <!-- 인터넷 사용 권한 설정 -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.BOOT_COMPLETED" />
 
     <application
         android:name=".user.GlobalApplication"
@@ -110,9 +115,12 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
+        <service android:name=".location.LocationService"
+            android:foregroundServiceType="location"
+            android:exported="false"
+            android:enabled="true"/>
         <activity
-            android:name=".MainActivity"
+            android:name=".location.MainActivity"
             android:screenOrientation="portrait" />
     </application>
-
 </manifest>

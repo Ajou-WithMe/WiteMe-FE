@@ -97,6 +97,9 @@ public interface RetrofitAPI {
     @POST("/zone_manage/certify_zone/")
     Call<ResponseBody> safeZoneVerification(@Header("AccessToken")String accessToken, @Body HashMap<String, JsonArray> param);
 
+    @POST("/location")
+    Call<ResponseBody> saveLocation(@Header("AccessToken") String accessToken, @Body HashMap<String, Object> param);
+
     @POST("safeZone/init")
     Call<ResponseBody> saveInitSafeZone(@Header("AccessToken")String accessToken, @Body HashMap<String, JSONArray> param);
 

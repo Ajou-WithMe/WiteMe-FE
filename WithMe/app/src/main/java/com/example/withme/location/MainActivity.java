@@ -1,4 +1,4 @@
-package com.example.withme;
+package com.example.withme.location;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,19 +8,29 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
+import android.app.ActivityManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
+import com.example.withme.R;
 import com.example.withme.bulletin.Bulletin1;
 import com.example.withme.bulletin.Bulletin2;
 import com.example.withme.group.BottomSheetDialog;
 import com.example.withme.group.GroupActivity1;
 import com.example.withme.intro.DescriptionActivity;
+import com.example.withme.location.Constants;
+import com.example.withme.location.LocationService;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -38,28 +48,39 @@ import com.naver.maps.map.util.FusedLocationSource;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
+    private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
 
     private static final String[] PERMISSION = {
             Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_BACKGROUND_LOCATION
     };
+
+    private String accessToken;
 
     private ConstraintLayout coachMark;
     private ImageButton makeGroup1, makeGroup2;
     private NaverMap naverMap;
     private MapView mapView;
     private Button logout, groupButton;
+    private FusedLocationProviderClient mFusedLocationClient;
+    private boolean mLocationPermissionGranted = false;
     private FusedLocationSource fusedLocationSource;
     private ImageButton bulletinBoard, group;
 
     Bulletin1 bulletin1;
     Bulletin2 bulletin2;
 
+    BroadcastReceiver receiver;
+    Intent intentMyService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        startLocationService();
 
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
@@ -77,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 });
 
         SharedPreferences sf = getSharedPreferences("storeAccessToken", MODE_PRIVATE);
-        String accessToken = sf.getString("AccessToken", "");
+        accessToken = sf.getString("AccessToken", "");
 
         Intent intent = new Intent(this, GroupActivity1.class);
         Intent intent1 = new Intent(this, DescriptionActivity.class);
@@ -156,21 +177,45 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
     }
 
+    private void startLocationService() {
+        if(!isLocationServiceRunning()) {
+            Intent intent = new Intent(this, LocationService.class);
+            intent.setAction(Constants.ACTION_START_LOCATION_SERVICE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(intent);
+            }
+            Toast.makeText(this, "Location Service Started", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private boolean isLocationServiceRunning() {
+        ActivityManager activityManager =
+                (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        if(activityManager != null) {
+            for (ActivityManager.RunningServiceInfo service:
+                    activityManager.getRunningServices(Integer.MAX_VALUE)) {
+                if(LocationService.class.getName().equals(service.service.getClassName())){
+                    if(service.foreground) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        return false;
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (fusedLocationSource.onRequestPermissionsResult(requestCode, permissions, grantResults)) {
-            if(!fusedLocationSource.isActivated()) { //권한 거부됨
-                naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
-            } else {
-                naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
-            }
-            return;
-        }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == REQUEST_CODE_LOCATION_PERMISSION && grantResults.length > 0) {
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                startLocationService();
+            }else {
+                Toast.makeText(this, "Permission denied!", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
-
-
 
     public void onFragmentChange(int index){
         if(index == 2) {
@@ -180,12 +225,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             transaction.replace(R.id.fragment_container, bulletin2).commit();
             transaction.addToBackStack(null);
-
         }
-
-//        }else if(index ==1){
-//            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment2).commit();
-//        }
     }
 
     @Override

@@ -18,16 +18,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.withme.MainActivity;
+import com.example.withme.location.MainActivity;
 import com.example.withme.R;
 import com.example.withme.retorfit.RetrofitAPI;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.ResponseBody;
