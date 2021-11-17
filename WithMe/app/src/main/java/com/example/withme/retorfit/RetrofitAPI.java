@@ -119,6 +119,9 @@ public interface RetrofitAPI {
     @POST("/location")
     Call<ResponseBody> saveLocation(@Header("AccessToken") String accessToken, @Body HashMap<String, Object> param);
 
+    @GET("/safeZone")
+    Call<ResponseBody> findSafeZone(@Header("AccessToken") String accessToken, @Query("uid") String uid);
+
     @POST("safeZone/init")
     Call<ResponseBody> saveInitSafeZone(@Header("AccessToken")String accessToken, @Body HashMap<String, JSONArray> param);
 

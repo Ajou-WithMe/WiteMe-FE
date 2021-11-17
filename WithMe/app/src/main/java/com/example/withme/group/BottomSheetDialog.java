@@ -81,6 +81,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
     ArrayList<TextView> textViews = new ArrayList<>();
     ArrayList<String> codes = new ArrayList<>();
     ArrayList<String> protectionPersonName = new ArrayList<>();
+    ArrayList<String> protectionPersonUids = new ArrayList<>();
 
     int group_num, protector_num, protectionPerson_num;
     int i=0;
@@ -283,11 +284,13 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
                                                                     for (int l = 0; l < protectionPerson_num; l++) {
                                                                         JSONObject protectionPerson = protectionPersons.getJSONObject(l);
                                                                         String name = protectionPerson.getString("name");
-                                                                        protectionPersonName.add(name);
 
                                                                         protectionPersonUid = protectionPerson.getString("uid");
                                                                         String profile = protectionPerson.getString("profile");
                                                                         int type = protectionPerson.getInt("type");
+
+                                                                        protectionPersonName.add(name);
+                                                                        protectionPersonUids.add(protectionPersonUid);
 
                                                                         LinearLayout linearLayoutProtectionPerson = new LinearLayout(getActivity().getApplicationContext());
                                                                         linearLayoutProtectionPerson.setId(l);
@@ -395,6 +398,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
                                                                     protectionPersonLayout.addView(addButtonProtectionPerson);
 
                                                                     setStringArrayPref(getActivity().getApplicationContext(), "name", protectionPersonName);
+                                                                    setStringArrayPref(getActivity().getApplicationContext(), "uid", protectionPersonUids);
 
                                                                     addButtonProtectionPerson.setOnClickListener(new View.OnClickListener() {
                                                                         @Override

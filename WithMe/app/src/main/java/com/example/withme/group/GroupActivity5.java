@@ -77,13 +77,13 @@ public class GroupActivity5 extends AppCompatActivity implements OnMapReadyCallb
     boolean clickable = true;
 
     Retrofit retrofit = new retrofit2.Retrofit.Builder()
-            .baseUrl("http://3.37.163.203:8000")
+            .baseUrl("http://121.154.58.201:8000")
             .addConverterFactory(GsonConverterFactory.create()) //gson converter 생성, gson은 JSON을 자바 클래스로 바꾸는데 사용된다.
             .build();
     RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
 
     Retrofit retrofit2 = new retrofit2.Retrofit.Builder()
-            .baseUrl("http://121.154.58.201:8000/zone_manage/")
+            .baseUrl("http://3.37.163.203:8000")
             .addConverterFactory(GsonConverterFactory.create()) //gson converter 생성, gson은 JSON을 자바 클래스로 바꾸는데 사용된다.
             .build();
     RetrofitAPI retrofitAPI2 = retrofit2.create(RetrofitAPI.class);
@@ -233,7 +233,7 @@ public class GroupActivity5 extends AppCompatActivity implements OnMapReadyCallb
                 } else {
                     HashMap<String, Object> input = new HashMap<>();
                     input.put("safeZone", Vertexes);
-                    retrofitAPI.safeZoneVerification(accessToken, input).enqueue(new Callback<ResponseBody>() {
+                    retrofitAPI2.safeZoneVerification(accessToken, input).enqueue(new Callback<ResponseBody>() {
                             @Override
                             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                 if (response.isSuccessful()) {
@@ -339,7 +339,7 @@ public class GroupActivity5 extends AppCompatActivity implements OnMapReadyCallb
                 HashMap<String, Object> input = new HashMap<>();
                 input.put("safeZone", Vertexes);
                 input.put("uid", uid);
-                retrofitAPI2.safeZoneInsert(accessToken, input).enqueue(new Callback<ResponseBody>() {
+                retrofitAPI.safeZoneInsert(accessToken, input).enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if (response.isSuccessful()) {

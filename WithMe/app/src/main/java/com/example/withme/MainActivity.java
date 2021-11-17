@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private String accessToken;
     private ArrayList<String> protectionPersonName = new ArrayList<>();
+    private ArrayList<String> protectionPersonUid = new ArrayList<>();
 
     private ConstraintLayout coachMark;
     private LinearLayout protectionPersonLayout;
@@ -105,7 +106,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_main);
 
         protectionPersonName = getStringArrayPref(getApplicationContext(), "name");
-        Log.e("protectionPersonName!", protectionPersonName.toString());
+        protectionPersonUid = getStringArrayPref(getApplicationContext(), "uid");
+        Log.e("main_Name", protectionPersonName.toString());
+        Log.e("main_uid", protectionPersonUid.toString());
 
         SharedPreferences sf = getSharedPreferences("storeAccessToken", MODE_PRIVATE);
         accessToken = sf.getString("AccessToken", "");
@@ -190,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         for (int i = 0; i < protectionPersonName.size(); i++) {
             String name = protectionPersonName.get(i);
-            Log.e("name", name);
+            String uid = protectionPersonUid.get(i);
 
             RelativeLayout relativeLayout = new RelativeLayout(this);
             RelativeLayout.LayoutParams relativeLayoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -202,6 +205,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             CircleImageView circleImageView = new CircleImageView(this);
             RelativeLayout.LayoutParams circle= new RelativeLayout.LayoutParams(144, 144);
             circleImageView.setLayoutParams(circle);
+            circleImageView.setClickable(true);
             circleImageView.setBackgroundResource(R.drawable.oval_shape_green);
 
             TextView textView = new TextView(this);
@@ -221,6 +225,41 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             protectionPersonLayout.addView(relativeLayout);
             relativeLayout.addView(circleImageView);
             relativeLayout.addView(textView);
+
+            circleImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.e("clicked", name + ", "+ uid);
+                    retrofitAPI.findSafeZone(accessToken, uid).enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            if (response.isSuccessful()) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response.body().string());
+                                    boolean success = jsonObject.getBoolean("success");
+
+                                    if (success == true) {
+                                        JSONArray data = jsonObject.getJSONArray("data");
+                                        Log.e("findSafeZone", data.toString());
+                                    } else {
+                                        Log.e("findSafeZone", "false");
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            Log.e("findSafeZone", "false");
+                        }
+                    });
+
+                }
+            });
         }
 
         group.setOnClickListener(new View.OnClickListener() {
