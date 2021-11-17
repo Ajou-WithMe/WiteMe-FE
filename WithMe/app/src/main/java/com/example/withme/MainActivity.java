@@ -37,6 +37,7 @@ import com.example.withme.group.GroupActivity1;
 import com.example.withme.intro.DescriptionActivity;
 import com.example.withme.retorfit.RetrofitAPI;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -44,7 +45,10 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
+import com.naver.maps.geometry.LatLng;
+import com.naver.maps.map.CameraAnimation;
 import com.naver.maps.map.CameraPosition;
+import com.naver.maps.map.CameraUpdate;
 import com.naver.maps.map.LocationTrackingMode;
 import com.naver.maps.map.MapView;
 import com.naver.maps.map.NaverMap;
@@ -52,6 +56,7 @@ import com.naver.maps.map.OnMapReadyCallback;
 import com.naver.maps.map.UiSettings;
 import com.naver.maps.map.overlay.LocationOverlay;
 import com.naver.maps.map.overlay.OverlayImage;
+import com.naver.maps.map.overlay.PolygonOverlay;
 import com.naver.maps.map.util.FusedLocationSource;
 
 import org.json.JSONArray;
@@ -61,6 +66,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.ResponseBody;
@@ -82,8 +88,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     };
 
     private String accessToken;
+    private JSONObject coordinate1, coordinate2, coordinate3, coordinate4;
     private ArrayList<String> protectionPersonName = new ArrayList<>();
     private ArrayList<String> protectionPersonUid = new ArrayList<>();
+    private ArrayList<LatLng> latLngs = new ArrayList<LatLng>();
+    private ArrayList<PolygonOverlay> polygons = new ArrayList<>();
+    private JSONArray safeZoneCoord;
 
     private ConstraintLayout coachMark;
     private LinearLayout protectionPersonLayout;
@@ -100,6 +110,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     Bulletin1 bulletin1;
     Bulletin2 bulletin2;
 
+    Retrofit retrofit = new retrofit2.Retrofit.Builder()
+            .baseUrl("http://withme-lb-1691720831.ap-northeast-2.elb.amazonaws.com")
+            .addConverterFactory(GsonConverterFactory.create()) //gson converter 생성, gson은 JSON을 자바 클래스로 바꾸는데 사용된다.
+            .build();
+    RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+
+    Retrofit retrofit2 = new retrofit2.Retrofit.Builder()
+            .baseUrl("http://3.38.11.108:8080")
+            .addConverterFactory(GsonConverterFactory.create()) //gson converter 생성, gson은 JSON을 자바 클래스로 바꾸는데 사용된다.
+            .build();
+    RetrofitAPI retrofitAPI2 = retrofit2.create(RetrofitAPI.class);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,12 +134,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         SharedPreferences sf = getSharedPreferences("storeAccessToken", MODE_PRIVATE);
         accessToken = sf.getString("AccessToken", "");
-
-        Retrofit retrofit = new retrofit2.Retrofit.Builder()
-                .baseUrl("http://withme-lb-1691720831.ap-northeast-2.elb.amazonaws.com")
-                .addConverterFactory(GsonConverterFactory.create()) //gson converter 생성, gson은 JSON을 자바 클래스로 바꾸는데 사용된다.
-                .build();
-        RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
 
         startLocationService();
 
@@ -190,77 +206,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             }
         });
-
-        for (int i = 0; i < protectionPersonName.size(); i++) {
-            String name = protectionPersonName.get(i);
-            String uid = protectionPersonUid.get(i);
-
-            RelativeLayout relativeLayout = new RelativeLayout(this);
-            RelativeLayout.LayoutParams relativeLayoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            relativeLayout.setLayoutParams(relativeLayoutParams);
-            relativeLayoutParams.setMargins(51,0,0,0);
-            relativeLayout.setId(i);
-            relativeLayout.setGravity(Gravity.CENTER_VERTICAL);
-
-            CircleImageView circleImageView = new CircleImageView(this);
-            RelativeLayout.LayoutParams circle= new RelativeLayout.LayoutParams(144, 144);
-            circleImageView.setLayoutParams(circle);
-            circleImageView.setClickable(true);
-            circleImageView.setBackgroundResource(R.drawable.oval_shape_green);
-
-            TextView textView = new TextView(this);
-            RelativeLayout.LayoutParams text = new RelativeLayout.LayoutParams(
-                    144,
-                    144
-            );
-            textView.setGravity(Gravity.CENTER);
-            textView.setPadding(20,0,20,0);
-            textView.setText(name);
-            textView.setTextSize(12);
-            textView.setMaxLines(1);
-            textView.setEllipsize(TextUtils.TruncateAt.END);
-            textView.setTextColor(Color.parseColor("#FFFFFF"));
-            textView.setLayoutParams(text);
-
-            protectionPersonLayout.addView(relativeLayout);
-            relativeLayout.addView(circleImageView);
-            relativeLayout.addView(textView);
-
-            circleImageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.e("clicked", name + ", "+ uid);
-                    retrofitAPI.findSafeZone(accessToken, uid).enqueue(new Callback<ResponseBody>() {
-                        @Override
-                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                            if (response.isSuccessful()) {
-                                try {
-                                    JSONObject jsonObject = new JSONObject(response.body().string());
-                                    boolean success = jsonObject.getBoolean("success");
-
-                                    if (success == true) {
-                                        JSONArray data = jsonObject.getJSONArray("data");
-                                        Log.e("findSafeZone", data.toString());
-                                    } else {
-                                        Log.e("findSafeZone", "false");
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<ResponseBody> call, Throwable t) {
-                            Log.e("findSafeZone", "false");
-                        }
-                    });
-
-                }
-            });
-        }
 
         group.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -369,25 +314,152 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         UiSettings uiSettings = naverMap.getUiSettings();
         uiSettings.setCompassEnabled(false);
         uiSettings.setScaleBarEnabled(false);
-        uiSettings.setZoomControlEnabled(false);
+        uiSettings.setZoomControlEnabled(true);
         uiSettings.setRotateGesturesEnabled(false);
 
         this.naverMap = naverMap;
 
+
+
+        for (int i = 0; i < protectionPersonName.size(); i++) {
+            String name = protectionPersonName.get(i);
+            String uid = protectionPersonUid.get(i);
+
+            RelativeLayout relativeLayout = new RelativeLayout(this);
+            RelativeLayout.LayoutParams relativeLayoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            relativeLayout.setLayoutParams(relativeLayoutParams);
+            relativeLayoutParams.setMargins(51,0,0,0);
+            relativeLayout.setId(i);
+            relativeLayout.setGravity(Gravity.CENTER_VERTICAL);
+
+            CircleImageView circleImageView = new CircleImageView(this);
+            RelativeLayout.LayoutParams circle= new RelativeLayout.LayoutParams(144, 144);
+            circleImageView.setLayoutParams(circle);
+            circleImageView.setClickable(true);
+            circleImageView.setBackgroundResource(R.drawable.oval_shape_green);
+
+            TextView textView = new TextView(this);
+            RelativeLayout.LayoutParams text = new RelativeLayout.LayoutParams(
+                    144,
+                    144
+            );
+            textView.setGravity(Gravity.CENTER);
+            textView.setPadding(20,0,20,0);
+            textView.setText(name);
+            textView.setTextSize(12);
+            textView.setMaxLines(1);
+            textView.setEllipsize(TextUtils.TruncateAt.END);
+            textView.setTextColor(Color.parseColor("#FFFFFF"));
+            textView.setLayoutParams(text);
+
+            protectionPersonLayout.addView(relativeLayout);
+            relativeLayout.addView(circleImageView);
+            relativeLayout.addView(textView);
+
+            circleImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    for (int i = 0; i < polygons.size(); i++) {
+                        PolygonOverlay a = polygons.get(i);
+                        a.setMap(null);
+                    }
+                    retrofitAPI2.getUserCurrentLocation(accessToken, uid).enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            if (response.isSuccessful()) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response.body().string());
+                                    boolean success = jsonObject.getBoolean("success");
+
+                                    if (success == true) {
+                                        JSONObject data = jsonObject.getJSONObject("data");
+                                        double latitude = data.getDouble("latitude");
+                                        double longitude = data.getDouble("longitude");
+
+                                        Log.e("location", latitude + ", " + longitude);
+
+                                        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(new LatLng(latitude, longitude));
+                                        naverMap.moveCamera(cameraUpdate);
+                                    } else {
+                                        Log.e("location", "success false");
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            Log.e("location", "전송 실패");
+                        }
+                    });
+                    retrofitAPI2.findSafeZone(accessToken, uid).enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            if (response.isSuccessful()) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response.body().string());
+                                    boolean success = jsonObject.getBoolean("success");
+
+                                    if (success == true) {
+                                        safeZoneCoord = jsonObject.getJSONArray("data");
+                                        for (int i=0; i < (safeZoneCoord.length() / 4); i++) {
+                                            PolygonOverlay polygon = new PolygonOverlay();
+
+                                            coordinate1 = (JSONObject) safeZoneCoord.get(i*4);
+                                            double lat1 = coordinate1.getDouble("latitude");
+                                            double long1 = coordinate1.getDouble("longitude");
+
+                                            coordinate2 = (JSONObject) safeZoneCoord.get(i*4+1);
+                                            double lat2 = coordinate2.getDouble("latitude");
+                                            double long2 = coordinate2.getDouble("longitude");
+
+                                            coordinate3 = (JSONObject) safeZoneCoord.get(i*4+2);
+                                            double lat3 = coordinate3.getDouble("latitude");
+                                            double long3 = coordinate3.getDouble("longitude");
+
+                                            coordinate4 = (JSONObject) safeZoneCoord.get(i*4+3);
+                                            double lat4 = coordinate4.getDouble("latitude");
+                                            double long4 = coordinate4.getDouble("longitude");
+
+                                            polygon.setCoords(Arrays.asList(
+                                                    new LatLng(lat1, long1),
+                                                    new LatLng(lat2, long2),
+                                                    new LatLng(lat3, long3),
+                                                    new LatLng(lat4, long4)
+                                            ));
+                                            polygon.setOutlineColor(Color.TRANSPARENT);
+                                            polygon.setColor(Color.parseColor("#803E791A"));
+                                            polygon.setMap(naverMap);
+
+                                            polygons.add(polygon);
+                                        }
+                                    } else {
+                                        Log.e("findSafeZone", "false");
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            Log.e("findSafeZone", "false");
+                        }
+                    });
+
+                }
+            });
+        }
+
         LocationOverlay locationOverlay = naverMap.getLocationOverlay();
         locationOverlay.setVisible(true);
-
-        locationOverlay.setIcon(OverlayImage.fromResource(R.drawable.sub_icon));
-        locationOverlay.setIconWidth(70);
-        locationOverlay.setIconHeight(70);
-
-        naverMap.setLocationSource(fusedLocationSource); //현재 위치
-        naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
-        CameraPosition cameraPosition = naverMap.getCameraPosition();
-
-        CameraPosition currentPosition = new CameraPosition(cameraPosition.target, 12.1);
-
-        naverMap.setCameraPosition(currentPosition);
 
         ActivityCompat.requestPermissions(this, PERMISSION, LOCATION_PERMISSION_REQUEST_CODE);
     }
