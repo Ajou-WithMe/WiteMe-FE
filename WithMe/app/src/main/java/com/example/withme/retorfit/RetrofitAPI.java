@@ -88,11 +88,14 @@ public interface RetrofitAPI {
     @POST("/partyMember")
     Call<ResponseBody> postPartyMember(@Header("AccessToken") String accessToken, @Body HashMap<String, Object> param);
 
+    @DELETE("/partyMember")
+    Call<ResponseBody> exitPartyMember(@Header("AccessToken") String accessToken, @Query("code") String code);
+
     @GET("/partyMember/allProtection")
     Call<ResponseBody> getAllprotection(@Header("AccessToken") String accessToken);
 
-    @DELETE("/partyMember")
-    Call<ResponseBody> exitPartyMember(@Header("AccessToken") String accessToken, @Query("code") String code);
+    @POST("/partyMember/approval")
+    Call<ResponseBody> approvalPartyMember(@Header("AccessToken") String accessToken, @Body HashMap<String, Object> param);
 
     @GET("/protection")
     Call<ResponseBody> getProtectionDetail(@Header("AccessToken") String accessToken, @Query("uid") String uid);

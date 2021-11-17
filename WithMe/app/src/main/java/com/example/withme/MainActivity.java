@@ -13,14 +13,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.withme.bulletin.Bulletin1;
 import com.example.withme.bulletin.Bulletin2;
 import com.example.withme.group.BottomSheetDialog;
@@ -31,6 +40,8 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.naver.maps.map.CameraPosition;
@@ -48,7 +59,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -68,11 +82,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     };
 
     private String accessToken;
+    private ArrayList<String> protectionPersonName = new ArrayList<>();
 
     private ConstraintLayout coachMark;
+    private LinearLayout protectionPersonLayout;
     private ImageButton makeGroup1, makeGroup2;
     private NaverMap naverMap;
     private MapView mapView;
+    private CircleImageView circleImageView;
     private Button logout, groupButton;
     private FusedLocationProviderClient mFusedLocationClient;
     private boolean mLocationPermissionGranted = false;
@@ -86,6 +103,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        protectionPersonName = getStringArrayPref(getApplicationContext(), "name");
+        Log.e("protectionPersonName!", protectionPersonName.toString());
 
         SharedPreferences sf = getSharedPreferences("storeAccessToken", MODE_PRIVATE);
         accessToken = sf.getString("AccessToken", "");
@@ -120,6 +140,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         bundle.putString("AccessToken", accessToken);
 
         coachMark = (ConstraintLayout) findViewById(R.id.coach_mark_master_view);
+        protectionPersonLayout = (LinearLayout) findViewById(R.id.protectionPersonLayout);
+
         makeGroup1 = (ImageButton) findViewById(R.id.makeGroup_1);
         makeGroup2 = (ImageButton) findViewById(R.id.makeGroup_2);
         bulletinBoard = (ImageButton) findViewById(R.id.bulletinBoard);
@@ -165,6 +187,41 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             }
         });
+
+        for (int i = 0; i < protectionPersonName.size(); i++) {
+            String name = protectionPersonName.get(i);
+            Log.e("name", name);
+
+            RelativeLayout relativeLayout = new RelativeLayout(this);
+            RelativeLayout.LayoutParams relativeLayoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            relativeLayout.setLayoutParams(relativeLayoutParams);
+            relativeLayoutParams.setMargins(51,0,0,0);
+            relativeLayout.setId(i);
+            relativeLayout.setGravity(Gravity.CENTER_VERTICAL);
+
+            CircleImageView circleImageView = new CircleImageView(this);
+            RelativeLayout.LayoutParams circle= new RelativeLayout.LayoutParams(144, 144);
+            circleImageView.setLayoutParams(circle);
+            circleImageView.setBackgroundResource(R.drawable.oval_shape_green);
+
+            TextView textView = new TextView(this);
+            RelativeLayout.LayoutParams text = new RelativeLayout.LayoutParams(
+                    144,
+                    144
+            );
+            textView.setGravity(Gravity.CENTER);
+            textView.setPadding(20,0,20,0);
+            textView.setText(name);
+            textView.setTextSize(12);
+            textView.setMaxLines(1);
+            textView.setEllipsize(TextUtils.TruncateAt.END);
+            textView.setTextColor(Color.parseColor("#FFFFFF"));
+            textView.setLayoutParams(text);
+
+            protectionPersonLayout.addView(relativeLayout);
+            relativeLayout.addView(circleImageView);
+            relativeLayout.addView(textView);
+        }
 
         group.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -289,10 +346,28 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
         CameraPosition cameraPosition = naverMap.getCameraPosition();
 
-        CameraPosition currentPosition = new CameraPosition(cameraPosition.target, 17);
+        CameraPosition currentPosition = new CameraPosition(cameraPosition.target, 12.1);
 
         naverMap.setCameraPosition(currentPosition);
 
         ActivityCompat.requestPermissions(this, PERMISSION, LOCATION_PERMISSION_REQUEST_CODE);
+    }
+
+    private ArrayList<String> getStringArrayPref(Context context, String key) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String json = prefs.getString(key, null);
+        ArrayList<String> urls = new ArrayList<String>();
+        if (json != null) {
+            try {
+                JSONArray a = new JSONArray(json);
+                for (int i = 0; i < a.length(); i++) {
+                    String url = a.optString(i);
+                    urls.add(url);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return urls;
     }
 }

@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -40,6 +41,7 @@ import com.example.withme.group.GroupDetailActivity;
 import com.example.withme.group.ProtectionPersonActivity1;
 import com.example.withme.retorfit.RetrofitAPI;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.gson.Gson;
 import com.kyleduo.switchbutton.SwitchButton;
 
 import org.json.JSONArray;
@@ -50,6 +52,7 @@ import org.w3c.dom.Text;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.ResponseBody;
@@ -65,6 +68,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
     private View view;
     private Context context;
     private Dialog dialog;
+    private ImageView bottomSheetButton;
     private String accessToken, protectionPersonUid;
     private TextView numGroup, numProtector, addGroup, groupDescription;
     private ScrollView scrollView;
@@ -72,9 +76,11 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
     private LinearLayout groupLayout, protectorLayout, protectionPersonLayout;
     private JSONArray data, protectors, protectionPersons;
     private JSONObject groupSpecific;
+    final String sharedName = "protectedPerson";
     ArrayList<CircleImageView> circleImageViews = new ArrayList<>();
     ArrayList<TextView> textViews = new ArrayList<>();
     ArrayList<String> codes = new ArrayList<>();
+    ArrayList<String> protectionPersonName = new ArrayList<>();
 
     int group_num, protector_num, protectionPerson_num;
     int i=0;
@@ -100,6 +106,8 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
         numGroup = (TextView) view.findViewById(R.id.numGroup);
         numProtector = (TextView) view.findViewById(R.id.numProtector);
 
+        bottomSheetButton = (ImageView) view.findViewById(R.id.bottomSheetButton);
+
         groupLayout = (LinearLayout) view.findViewById(R.id.groupLayout);
         protectorLayout = (LinearLayout) view.findViewById(R.id.protectorLayout);
         protectionPersonLayout = (LinearLayout) view.findViewById(R.id.protectionPersonLayout);
@@ -115,6 +123,15 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
         if (bundle != null) {
             accessToken = bundle.getString("AccessToken");
         }
+
+        bottomSheetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                getActivity().finish();
+                getActivity().startActivity(intent);
+            }
+        });
 
         addGroup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,6 +215,8 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
 
                                         }
                                         else {
+                                            protectionPersonName.clear();
+
                                             groupDescription.setOnClickListener(new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
@@ -264,7 +283,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
                                                                     for (int l = 0; l < protectionPerson_num; l++) {
                                                                         JSONObject protectionPerson = protectionPersons.getJSONObject(l);
                                                                         String name = protectionPerson.getString("name");
-                                                                        Log.e("protectionPerson", l + ", " + name);
+                                                                        protectionPersonName.add(name);
 
                                                                         protectionPersonUid = protectionPerson.getString("uid");
                                                                         String profile = protectionPerson.getString("profile");
@@ -374,6 +393,8 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
                                                                     addButtonProtectionPerson.setBackgroundResource(R.drawable.add_protection_person);
 
                                                                     protectionPersonLayout.addView(addButtonProtectionPerson);
+
+                                                                    setStringArrayPref(getActivity().getApplicationContext(), "name", protectionPersonName);
 
                                                                     addButtonProtectionPerson.setOnClickListener(new View.OnClickListener() {
                                                                         @Override
@@ -521,5 +542,20 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
             }
         });
         dialog.show();
+    }
+
+    private void setStringArrayPref(Context context, String key, ArrayList<String> values) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+        JSONArray a = new JSONArray();
+        for (int i = 0; i < values.size(); i++) {
+            a.put(values.get(i));
+        }
+        if (!values.isEmpty()) {
+            editor.putString(key, a.toString());
+        } else {
+            editor.putString(key, null);
+        }
+        editor.apply();
     }
 }

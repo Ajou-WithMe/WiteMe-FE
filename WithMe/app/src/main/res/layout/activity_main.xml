@@ -30,6 +30,31 @@
 <!--            app:layout_constraintTop_toBottomOf="@+id/logout" />-->
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <HorizontalScrollView
+                android:id="@+id/horizontalScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="144px"
+                android:layout_marginBottom="303px"
+                android:scrollbars="none"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <LinearLayout
+                    android:id="@+id/protectionPersonLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="144px"
+                    android:orientation="horizontal">
+
+                </LinearLayout>
+            </HorizontalScrollView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/coach_mark_master_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

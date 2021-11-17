@@ -24,6 +24,8 @@
         <entry key="app/src/main/res/drawable/invite_protector.xml" value="0.2651282051282051" />
         <entry key="app/src/main/res/drawable/just_bottom_line.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/just_top_line.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/oval_shape.xml" value="0.26927083333333335" />
+        <entry key="app/src/main/res/drawable/oval_shape_red.xml" value="0.26927083333333335" />
         <entry key="app/src/main/res/drawable/radius_1_clickable.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/radius_1_login.xml" value="0.24351851851851852" />
         <entry key="app/src/main/res/drawable/radius_1_nonclickable.xml" value="0.24351851851851852" />
