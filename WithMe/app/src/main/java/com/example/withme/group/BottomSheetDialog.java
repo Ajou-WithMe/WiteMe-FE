@@ -69,7 +69,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
     private TextView numGroup, numProtector, addGroup, groupDescription;
     private ScrollView scrollView;
     private ConstraintLayout groupDetail;
-    private LinearLayout groupLayout, protectorLayout, real, protectionPersonLayout;
+    private LinearLayout groupLayout, protectorLayout, protectionPersonLayout;
     private JSONArray data, protectors, protectionPersons;
     private JSONObject groupSpecific;
     ArrayList<CircleImageView> circleImageViews = new ArrayList<>();
@@ -102,8 +102,6 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
 
         groupLayout = (LinearLayout) view.findViewById(R.id.groupLayout);
         protectorLayout = (LinearLayout) view.findViewById(R.id.protectorLayout);
-        real = (LinearLayout) view.findViewById(R.id.real);
-        real.setOrientation(LinearLayout.VERTICAL);
         protectionPersonLayout = (LinearLayout) view.findViewById(R.id.protectionPersonLayout);
         protectionPersonLayout.setOrientation(LinearLayout.HORIZONTAL);
 
@@ -116,7 +114,6 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             accessToken = bundle.getString("AccessToken");
-            Log.e("accessToken", accessToken);
         }
 
         addGroup.setOnClickListener(new View.OnClickListener() {
@@ -134,12 +131,10 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
                     try {
                         JSONObject jsonObject = new JSONObject(response.body().string());
                         data = jsonObject.getJSONArray("data");
-                        Log.e("data", String.valueOf(data));
                         boolean success = jsonObject.getBoolean("success");
 
                         if (success == true) {
                             group_num = data.length();
-                            Log.e("Party number", String.valueOf(group_num));
                             numGroup.setText(String.valueOf(group_num));
 
                             for (i=0; i<group_num; i++) {
@@ -200,7 +195,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
                                     @Override
                                     public void onClick(View v) {
                                         if (type == 2) {
-                                            Log.e("not clickable", "not clickable");
+
                                         }
                                         else {
                                             groupDescription.setOnClickListener(new View.OnClickListener() {
@@ -216,7 +211,6 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
                                             scrollView.setVisibility(View.VISIBLE);
                                             protectorLayout.removeAllViews();
                                             protectionPersonLayout.removeAllViews();
-                                            Log.e("layout", String.valueOf(linearLayout.getId()));
                                             for (int j=0; j<circleImageViews.size(); j++) {
                                                 circleImageViews.get(j).setBorderWidth(0);
                                                 textViews.get(j).setTextColor(Color.parseColor("#BDBDBD"));
@@ -255,9 +249,17 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
                                                                     addButtonProtectionPerson.setLayoutParams(addProtectionPerson);
                                                                     addButtonProtectionPerson.setBackgroundResource(R.drawable.add_protection_person);
 
-                                                                    real.removeAllViews();;
-                                                                    real.addView(protectionPersonLayout);
-                                                                    real.addView(addButtonProtectionPerson);
+                                                                    protectionPersonLayout.removeAllViews();
+                                                                    protectionPersonLayout.addView(addButtonProtectionPerson);
+
+                                                                    addButtonProtectionPerson.setOnClickListener(new View.OnClickListener() {
+                                                                        @Override
+                                                                        public void onClick(View v) {
+                                                                            Intent intent = new Intent(getActivity(), GroupActivity3.class);
+                                                                            intent.putExtra("code", code);
+                                                                            startActivity(intent);
+                                                                        }
+                                                                    });
                                                                 } else {
                                                                     for (int l = 0; l < protectionPerson_num; l++) {
                                                                         JSONObject protectionPerson = protectionPersons.getJSONObject(l);
@@ -269,16 +271,11 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
                                                                         int type = protectionPerson.getInt("type");
 
                                                                         LinearLayout linearLayoutProtectionPerson = new LinearLayout(getActivity().getApplicationContext());
-                                                                        LinearLayout linearLayoutToggle = new LinearLayout(getActivity().getApplicationContext());
                                                                         linearLayoutProtectionPerson.setId(l);
-                                                                        linearLayoutToggle.setId(l);
                                                                         linearLayoutProtectionPerson.setOrientation(LinearLayout.HORIZONTAL);
-                                                                        linearLayoutToggle.setOrientation(LinearLayout.HORIZONTAL);
 
-                                                                        real.removeAllViews();
-                                                                        real.addView(protectionPersonLayout);
                                                                         protectionPersonLayout.addView(linearLayoutProtectionPerson);
-                                                                        protectionPersonLayout.addView(linearLayoutToggle);
+                                                                        protectionPersonLayout.setOrientation(LinearLayout.VERTICAL);
 
                                                                         CircleImageView circleImageViewProtectionPerson = new CircleImageView(getActivity().getApplicationContext());
                                                                         LinearLayout.LayoutParams circle = new LinearLayout.LayoutParams(144, 144);
@@ -292,14 +289,16 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
                                                                         ImageView reviseProtectionPerson = new ImageView(getActivity().getApplicationContext());
                                                                         reviseProtectionPerson.setBackgroundResource(R.drawable.revise_protection_person);
                                                                         LinearLayout.LayoutParams pencil = new LinearLayout.LayoutParams(108, 108);
-                                                                        pencil.gravity = Gravity.CENTER_VERTICAL;
                                                                         reviseProtectionPerson.setLayoutParams(pencil);
+                                                                        pencil.gravity = Gravity.CENTER_VERTICAL;
+                                                                        reviseProtectionPerson.setX(100);
 
                                                                         SwitchButton switchButton = new SwitchButton(getActivity().getApplicationContext());
                                                                         LinearLayout.LayoutParams toggles = new LinearLayout.LayoutParams(141, 72);
                                                                         toggles.setMargins(57, 0, 0, 0 );
                                                                         switchButton.setLayoutParams(toggles);
-                                                                        toggles.gravity = Gravity.CENTER_VERTICAL | Gravity.RIGHT;
+                                                                        toggles.gravity = Gravity.CENTER_VERTICAL;
+                                                                        switchButton.setX(110);
 
                                                                         Glide.with(getActivity().getApplicationContext()).load(profile).into(circleImageViewProtectionPerson);
                                                                         if (profile.equals("null")) {
@@ -307,20 +306,13 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
                                                                         }
 
                                                                         LinearLayout.LayoutParams lpProtectorPerson = new LinearLayout.LayoutParams(
-                                                                                540,
+                                                                                1000,
                                                                                 144);
                                                                         lpProtectorPerson.setMargins(42,72,0,0);
                                                                         linearLayoutProtectionPerson.setLayoutParams(lpProtectorPerson);
 
-                                                                        LinearLayout.LayoutParams lpToggle = new LinearLayout.LayoutParams(
-                                                                                360,
-                                                                                144
-                                                                        );
-                                                                        lpToggle.setMargins(0, 72, 42, 0);
-                                                                        linearLayoutToggle.setLayoutParams(lpToggle);
-
                                                                         LinearLayout.LayoutParams text_protectionPerson = new LinearLayout.LayoutParams(
-                                                                                ViewGroup.LayoutParams.WRAP_CONTENT,
+                                                                                250,
                                                                                 ViewGroup.LayoutParams.WRAP_CONTENT);
                                                                         text_protectionPerson.setMargins(36,0,0,0);
                                                                         textViewProtectionPerson.setLayoutParams(text_protectionPerson);
@@ -328,8 +320,8 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
 
                                                                         linearLayoutProtectionPerson.addView(circleImageViewProtectionPerson);
                                                                         linearLayoutProtectionPerson.addView(textViewProtectionPerson);
-                                                                        linearLayoutToggle.addView(reviseProtectionPerson);
-                                                                        linearLayoutToggle.addView(switchButton);
+                                                                        linearLayoutProtectionPerson.addView(reviseProtectionPerson);
+                                                                        linearLayoutProtectionPerson.addView(switchButton);
 
                                                                         reviseProtectionPerson.setOnClickListener(new View.OnClickListener() {
                                                                             @Override
@@ -340,7 +332,6 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
                                                                                         if (response.isSuccessful()) {
                                                                                             try {
                                                                                                 JSONObject jsonObject = new JSONObject(response.body().string());
-                                                                                                Log.e("getALlProtection", String.valueOf(jsonObject));
                                                                                                 boolean success = jsonObject.getBoolean("success");
 
                                                                                                 if (success == true) {
@@ -355,6 +346,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
 
                                                                                                         if (protectionPersonUid.equals(protectionUID)) {
                                                                                                             intent.putExtra("name", protectionName);
+                                                                                                            intent.putExtra("uid", protectionPersonUid);
                                                                                                         }
                                                                                                     }
                                                                                                     startActivity(intent);
@@ -381,7 +373,16 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
                                                                     addButtonProtectionPerson.setLayoutParams(addProtectionPerson);
                                                                     addButtonProtectionPerson.setBackgroundResource(R.drawable.add_protection_person);
 
-                                                                    real.addView(addButtonProtectionPerson);
+                                                                    protectionPersonLayout.addView(addButtonProtectionPerson);
+
+                                                                    addButtonProtectionPerson.setOnClickListener(new View.OnClickListener() {
+                                                                        @Override
+                                                                        public void onClick(View v) {
+                                                                            Intent intent = new Intent(getActivity(), GroupActivity3.class);
+                                                                            intent.putExtra("code", code);
+                                                                            startActivity(intent);
+                                                                        }
+                                                                    });
                                                                 }
 
                                                                 for (int k = 0; k < protector_num; k++) {

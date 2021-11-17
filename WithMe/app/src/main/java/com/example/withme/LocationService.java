@@ -58,13 +58,10 @@ public class LocationService extends Service {
                 double longitude = locationResult.getLastLocation().getLongitude();
                 double speed = locationResult.getLastLocation().getSpeed();
 
-                Log.e("LOCATION_UPDATE", latitude + ", " + longitude + ", " + speed);
-
                 HashMap<String, Object> input = new HashMap<>();
                 input.put("latitude", latitude);
                 input.put("longitude", longitude);
                 input.put("speed", speed);
-
 
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl("http://3.38.11.108:8080")

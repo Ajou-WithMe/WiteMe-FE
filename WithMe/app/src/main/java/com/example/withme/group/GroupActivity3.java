@@ -113,6 +113,7 @@ public class GroupActivity3 extends AppCompatActivity {
         startWithMe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(GroupActivity3.this, GroupActivity6.class);
 
                 File file = new File(selectedImagePath);
                 RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), file);
@@ -132,6 +133,8 @@ public class GroupActivity3 extends AppCompatActivity {
                             if (!data.getData().equals("이미지 파일이 아닙니다.")) {
                                 imageFromServer = data.getData();
 
+                                Intent intent = new Intent(GroupActivity3.this, GroupActivity6.class);
+                                intent.putExtra("profile", imageFromServer);
                                 HashMap<String, Object> input = new HashMap<>();
                                 input.put("name", name);
                                 input.put("email", id);
@@ -154,6 +157,12 @@ public class GroupActivity3 extends AppCompatActivity {
 
                                                 if (success == false) {
                                                     Toast.makeText(GroupActivity3.this, "이미 회원가입된 아이디입니다.", Toast.LENGTH_SHORT).show();
+                                                } else {
+                                                    intent1.putExtra("uid", data);
+                                                    intent1.putExtra("latitude", latitude);
+                                                    intent1.putExtra("longitude", longitude);
+                                                    startActivity(intent1);
+
                                                 }
                                             } catch (JSONException e) {
                                                 e.printStackTrace();
@@ -179,9 +188,6 @@ public class GroupActivity3 extends AppCompatActivity {
 
                     }
                 });
-                intent1.putExtra("latitude", latitude);
-                intent1.putExtra("longitude", longitude);
-                startActivity(intent1);
             }
         });
 

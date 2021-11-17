@@ -63,6 +63,8 @@
         <entry key="app/src/main/res/layout/group_dialog.xml" value="0.18659420289855072" />
         <entry key="app/src/main/res/layout/invite_protector_dialog.xml" value="0.25" />
         <entry key="app/src/main/res/layout/login_failure_dialog.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/protection_person_delete_dialog.xml" value="0.19293478260869565" />
+        <entry key="app/src/main/res/layout/protection_person_re_delete_dialog.xml" value="0.19293478260869565" />
         <entry key="app/src/main/res/layout/safezone_dialog.xml" value="0.1" />
         <entry key="app/src/main/res/layout/spinner_item.xml" value="0.1" />
         <entry key="app/src/main/res/xml/spinner_item.xml" value="0.18659420289855072" />

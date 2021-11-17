@@ -73,7 +73,8 @@ public class GroupActivity5 extends AppCompatActivity implements OnMapReadyCallb
     private ArrayList<LatLng> latLngs = new ArrayList<LatLng>();
     private ArrayList<Marker> markers = new ArrayList<Marker>();
     double latitude, longitude;
-    String name, message, accessToken;
+    String name, message, accessToken, uid;
+    boolean clickable = true;
 
     Retrofit retrofit = new retrofit2.Retrofit.Builder()
             .baseUrl("http://3.37.163.203:8000")
@@ -82,10 +83,10 @@ public class GroupActivity5 extends AppCompatActivity implements OnMapReadyCallb
     RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
 
     Retrofit retrofit2 = new retrofit2.Retrofit.Builder()
-            .baseUrl("http://3.38.11.108:8080")
+            .baseUrl("http://121.154.58.201:8000/zone_manage/")
             .addConverterFactory(GsonConverterFactory.create()) //gson converter 생성, gson은 JSON을 자바 클래스로 바꾸는데 사용된다.
             .build();
-    RetrofitAPI retrofitAPI2 = retrofit.create(RetrofitAPI.class);
+    RetrofitAPI retrofitAPI2 = retrofit2.create(RetrofitAPI.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +98,7 @@ public class GroupActivity5 extends AppCompatActivity implements OnMapReadyCallb
 
         Intent intent = getIntent();
         name = intent.getStringExtra("name");
+        uid = intent.getStringExtra("uid");
 
         safeZoneDrawAlarm = (ConstraintLayout) findViewById(R.id.safeZoneDrawAlarm);
 
@@ -169,9 +171,6 @@ public class GroupActivity5 extends AppCompatActivity implements OnMapReadyCallb
                 new LatLng(latitude-(2.15/109.958489), longitude + (longitudeGapPlus))
         ));
 
-        Log.e("distance", String.valueOf(distance(latitude, longitude, latitude, longitude+(longitudeGapPlus), "kilometer")));
-        Log.e("distance", String.valueOf(distance(latitude, longitude, latitude, longitude-(longitudeGapMinus), "kilometer")));
-
         polygonOverlay.setOutlineColor(Color.parseColor("#3E791A"));
         polygonOverlay.setOutlineWidth(18);
         polygonOverlay.setColor(Color.TRANSPARENT);
@@ -194,23 +193,25 @@ public class GroupActivity5 extends AppCompatActivity implements OnMapReadyCallb
             @Override
             public void onMapClick(@NonNull PointF pointF, @NonNull LatLng latLng) {
 
-                safeZoneDrawAlarm.setVisibility(View.INVISIBLE);
-                JsonObject Vertex = new JsonObject();
-                Vertex.addProperty("latitude", latLng.latitude);
-                Vertex.addProperty("longitude", latLng.longitude);
+                if (clickable == true) {
+                    safeZoneDrawAlarm.setVisibility(View.INVISIBLE);
+                    JsonObject Vertex = new JsonObject();
+                    Vertex.addProperty("latitude", latLng.latitude);
+                    Vertex.addProperty("longitude", latLng.longitude);
 
-                Vertexes.add(Vertex);
-                latLngs.add(new LatLng(latLng.latitude, latLng.longitude));
+                    Vertexes.add(Vertex);
+                    latLngs.add(new LatLng(latLng.latitude, latLng.longitude));
 
-                Marker marker = new Marker();
+                    Marker marker = new Marker();
 
-                marker.setPosition(new LatLng(latLng.latitude, latLng.longitude));
-                marker.setIcon(OverlayImage.fromResource(R.drawable.marker_safezone));
-                marker.setWidth(80);
-                marker.setHeight(125);
-                marker.setMap(naverMap);
+                    marker.setPosition(new LatLng(latLng.latitude, latLng.longitude));
+                    marker.setIcon(OverlayImage.fromResource(R.drawable.marker_safezone));
+                    marker.setWidth(80);
+                    marker.setHeight(125);
+                    marker.setMap(naverMap);
 
-                markers.add(marker); }
+                    markers.add(marker); }
+                }
         });
 
         safeZoneComplete.setOnClickListener(new View.OnClickListener() {
@@ -230,7 +231,7 @@ public class GroupActivity5 extends AppCompatActivity implements OnMapReadyCallb
                         Vertexes.remove(0);
                     }
                 } else {
-                    HashMap<String, JsonArray> input = new HashMap<>();
+                    HashMap<String, Object> input = new HashMap<>();
                     input.put("safeZone", Vertexes);
                     retrofitAPI.safeZoneVerification(accessToken, input).enqueue(new Callback<ResponseBody>() {
                             @Override
@@ -290,6 +291,8 @@ public class GroupActivity5 extends AppCompatActivity implements OnMapReadyCallb
                                             polygonOverlay1.setColor(Color.parseColor("#80FED537"));
                                             polygonOverlay1.setMap(naverMap);
 
+                                            clickable = false;
+
                                             nextActivity.setVisibility(View.VISIBLE);
                                             safeZoneComplete.setVisibility(View.INVISIBLE);
                                         }
@@ -333,8 +336,38 @@ public class GroupActivity5 extends AppCompatActivity implements OnMapReadyCallb
         nextActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(GroupActivity5.this, GroupActivity6.class);
-                startActivity(intent);
+                HashMap<String, Object> input = new HashMap<>();
+                input.put("safeZone", Vertexes);
+                input.put("uid", uid);
+                retrofitAPI2.safeZoneInsert(accessToken, input).enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful()) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response.body().string());
+                                boolean success = jsonObject.getBoolean("success");
+
+                                if (success == true) {
+                                    Intent intent = new Intent(GroupActivity5.this, GroupActivity6.class);
+                                    startActivity(intent);
+                                } else {
+                                    Log.e("safeZoneInsert", "오류");
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            Log.e("safeZoneInsert", "오류");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Log.e("safeZoneInsert", "오류");
+                    }
+                });
             }
         });
     }

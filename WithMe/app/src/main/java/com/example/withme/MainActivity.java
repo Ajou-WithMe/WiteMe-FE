@@ -26,6 +26,7 @@ import com.example.withme.bulletin.Bulletin2;
 import com.example.withme.group.BottomSheetDialog;
 import com.example.withme.group.GroupActivity1;
 import com.example.withme.intro.DescriptionActivity;
+import com.example.withme.retorfit.RetrofitAPI;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -41,6 +42,19 @@ import com.naver.maps.map.UiSettings;
 import com.naver.maps.map.overlay.LocationOverlay;
 import com.naver.maps.map.overlay.OverlayImage;
 import com.naver.maps.map.util.FusedLocationSource;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -73,6 +87,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        SharedPreferences sf = getSharedPreferences("storeAccessToken", MODE_PRIVATE);
+        accessToken = sf.getString("AccessToken", "");
+
+        Retrofit retrofit = new retrofit2.Retrofit.Builder()
+                .baseUrl("http://withme-lb-1691720831.ap-northeast-2.elb.amazonaws.com")
+                .addConverterFactory(GsonConverterFactory.create()) //gson converter 생성, gson은 JSON을 자바 클래스로 바꾸는데 사용된다.
+                .build();
+        RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+
         startLocationService();
 
         FirebaseMessaging.getInstance().getToken()
@@ -89,9 +112,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         Log.e("FCM", token);
                     }
                 });
-
-        SharedPreferences sf = getSharedPreferences("storeAccessToken", MODE_PRIVATE);
-        accessToken = sf.getString("AccessToken", "");
 
         Intent intent = new Intent(this, GroupActivity1.class);
         Intent intent1 = new Intent(this, DescriptionActivity.class);
@@ -117,6 +137,35 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         fusedLocationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
 
+        retrofitAPI.getAllParty(accessToken).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body().string());
+                        boolean success = jsonObject.getBoolean("success");
+
+                        if (success == true) {
+                            JSONArray data = jsonObject.getJSONArray("data");
+                            if (data.length() > 0) {
+                                coachMark.setVisibility(View.GONE);
+                                makeGroup2.setVisibility(View.GONE);
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+
         group.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,7 +184,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         .commit();
             }
         });
-
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -236,7 +284,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         locationOverlay.setIcon(OverlayImage.fromResource(R.drawable.sub_icon));
         locationOverlay.setIconWidth(70);
         locationOverlay.setIconHeight(70);
-        locationOverlay.setSubIcon(OverlayImage.fromResource(R.drawable.maskgroup));
 
         naverMap.setLocationSource(fusedLocationSource); //현재 위치
         naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);

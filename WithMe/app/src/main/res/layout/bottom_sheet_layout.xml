@@ -178,17 +178,12 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView31">
                 <LinearLayout
-                    android:id="@+id/real"
+                    android:id="@+id/protectionPersonLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-                    <LinearLayout
-                        android:id="@+id/protectionPersonLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                    </LinearLayout>
                 </LinearLayout>
+
             </ScrollView>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

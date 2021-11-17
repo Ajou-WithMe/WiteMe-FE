@@ -187,7 +187,6 @@ public class GroupActivity1 extends AppCompatActivity {
 
                                     @Override
                                     public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                        Log.e("create Party", "전송 실패");
                                         Log.e("create Party", t.getMessage());
                                     }
                                 });
@@ -197,7 +196,6 @@ public class GroupActivity1 extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<UploadImage> call, Throwable t) {
-                        Log.e("make Profile", "전송 실패");
                         Log.e("make Profile", t.getMessage());
                     }
                 });

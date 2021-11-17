@@ -73,8 +73,6 @@ public class SplashActivity extends AppCompatActivity {
                             editor.putString("AccessToken", newAccessToken);
                             editor.commit();
                         }
-                        Log.e("성공 시", String.valueOf(data.getStatus()));
-                        Log.e("성공 시", String.valueOf(data.isSuccess()));
                         Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
                             @Override

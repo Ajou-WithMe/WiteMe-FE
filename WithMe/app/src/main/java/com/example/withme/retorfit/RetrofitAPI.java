@@ -73,9 +73,6 @@ public interface RetrofitAPI {
     @GET("/party/all")
     Call<ResponseBody> getAllParty(@Header("AccessToken") String accessToken);
 
-    @GET("/partyMember/allProtection")
-    Call<ResponseBody> getAllprotection(@Header("AccessToken") String accessToken);
-
     @GET("/party")
     Call<ResponseBody> getParty(@Header("AccessToken") String accessToken, @Query("code") String code);
 
@@ -91,15 +88,30 @@ public interface RetrofitAPI {
     @POST("/partyMember")
     Call<ResponseBody> postPartyMember(@Header("AccessToken") String accessToken, @Body HashMap<String, Object> param);
 
+    @GET("/partyMember/allProtection")
+    Call<ResponseBody> getAllprotection(@Header("AccessToken") String accessToken);
+
     @DELETE("/partyMember")
     Call<ResponseBody> exitPartyMember(@Header("AccessToken") String accessToken, @Query("code") String code);
+
+    @GET("/protection")
+    Call<ResponseBody> getProtectionDetail(@Header("AccessToken") String accessToken, @Query("uid") String uid);
+
+    @PUT("/protection")
+    Call<ResponseBody> updateProtectionProfile(@Header("AccessToken") String accessToken, @Body HashMap<String, Object> param);
+
+    @DELETE("/protection/quit")
+    Call<ResponseBody> deleteProtection(@Header("AccessToken") String accessToken, @Query("uid") String uid);
 
     @Multipart
     @POST("/file/profile")
     Call<UploadImage> uploadImage(@Header("AccessToken") String accessToken, @Part MultipartBody.Part postImg);
 
     @POST("/zone_manage/certify_zone/")
-    Call<ResponseBody> safeZoneVerification(@Header("AccessToken")String accessToken, @Body HashMap<String, JsonArray> param);
+    Call<ResponseBody> safeZoneVerification(@Header("AccessToken")String accessToken, @Body HashMap<String, Object> param);
+
+    @POST("/zone_manage/certify_put/")
+    Call<ResponseBody> safeZoneInsert(@Header("AccessToken") String accessToken, @Body HashMap<String, Object> param);
 
     @POST("/location")
     Call<ResponseBody> saveLocation(@Header("AccessToken") String accessToken, @Body HashMap<String, Object> param);
