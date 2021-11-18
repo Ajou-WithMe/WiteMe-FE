@@ -339,7 +339,7 @@ public class GroupActivity5 extends AppCompatActivity implements OnMapReadyCallb
                 HashMap<String, Object> input = new HashMap<>();
                 input.put("safeZone", Vertexes);
                 input.put("uid", uid);
-                retrofitAPI.safeZoneInsert(accessToken, input).enqueue(new Callback<ResponseBody>() {
+                retrofitAPI2.safeZoneInsert(accessToken, input).enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if (response.isSuccessful()) {
