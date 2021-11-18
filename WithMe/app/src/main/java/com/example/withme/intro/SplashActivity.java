@@ -13,9 +13,14 @@ import android.widget.ImageView;
 
 import com.example.withme.MainActivity;
 import com.example.withme.R;
-import com.example.withme.retorfit.GetProfile;
 import com.example.withme.retorfit.RetrofitAPI;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -58,62 +63,69 @@ public class SplashActivity extends AppCompatActivity {
         Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
         Intent intent2 = new Intent(getApplicationContext(), DescriptionActivity.class);
 
-        retrofitAPI.getProfile(accessToken).enqueue(new Callback<GetProfile>() {
+        retrofitAPI.getProfile(accessToken).enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<GetProfile> call, Response<GetProfile> response) {
-                GetProfile data = response.body();
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 String newAccessToken = response.headers().get("AccessToken");
-
                 if (response.isSuccessful()) {
-                    if (data.isSuccess() == true) {
-                        if(newAccessToken == null) {
-                            Log.e("바뀐 access token", "null"); // 무시!
-                        } else {
-                            Log.e("바뀐 access token", newAccessToken);
-                            editor.putString("AccessToken", newAccessToken);
-                            editor.commit();
-                        }
-                        Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                startActivity(intent1);
-                                overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-                                finish();
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body().string());
+                        boolean success = jsonObject.getBoolean("success");
+                        int status = jsonObject.getInt("status");
+                        if (success == true) {
+                            if(newAccessToken == null) {
+                                Log.e("바뀐 access token", "null"); // 무시!
+                            } else {
+                                Log.e("바뀐 access token", newAccessToken);
+                                editor.putString("AccessToken", newAccessToken);
+                                editor.commit();
                             }
-                        }, 2000); // 인트로 화면 로딩 시간
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    startActivity(intent1);
+                                    overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+                                    finish();
+                                }
+                            }, 2000); // 인트로 화면 로딩 시간
 
-                    } else {
-                        if (data.getStatus() == 401) { // 인증 오류!
-                            Handler handler = new Handler();
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-                                    finish();
-                                    startActivity(intent2);
-                                }
-                            }, 2000); // 인트로 화면 로딩 시간
-                            Log.e("인증 오류", String.valueOf(data.getStatus()));
-                            Log.e("인증 오류", String.valueOf(data.isSuccess()));
                         } else {
-                            Handler handler = new Handler();
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-                                    finish();
-                                    startActivity(intent2);
-                                }
-                            }, 2000); // 인트로 화면 로딩 시간
-                            Log.e("인증 오류는 아니지만 다른 오류", String.valueOf(data.getStatus()));
-                            Log.e("인증 오류는 아니지만 다른 오류", String.valueOf(data.isSuccess()));
+                            if (status == 401) { // 인증 오류!
+                                Handler handler = new Handler();
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+                                        finish();
+                                        startActivity(intent2);
+                                    }
+                                }, 2000); // 인트로 화면 로딩 시간
+                                Log.e("인증 오류", String.valueOf(status));
+                                Log.e("인증 오류", String.valueOf(success));
+                            } else {
+                                Handler handler = new Handler();
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+                                        finish();
+                                        startActivity(intent2);
+                                    }
+                                }, 2000); // 인트로 화면 로딩 시간
+                                Log.e("인증 오류는 아니지만 다른 오류", String.valueOf(status));
+                                Log.e("인증 오류는 아니지만 다른 오류", String.valueOf(success));
+                            }
                         }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 }
             }
             @Override
-            public void onFailure(Call<GetProfile> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.e("failure", t.getMessage());
                 Log.e("failure", "전송 실패");
                 startActivity(intent2);
