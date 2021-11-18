@@ -2,19 +2,9 @@ package com.example.withme.retorfit;
 
 import android.location.Location;
 
-import com.example.withme.retorfit.EmailSignUp;
-import com.example.withme.retorfit.GetProfile;
-import com.example.withme.retorfit.PostEmail;
-import com.example.withme.retorfit.SignUpDuplicate;
-import com.example.withme.retorfit.UploadImage;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
@@ -68,7 +58,7 @@ public interface RetrofitAPI {
     Call <ResponseBody> postProtection(@Header("AccessToken") String accessToken, @Body HashMap<String, Object> param);
 
     @GET("/user/mypage")
-    Call<GetProfile> getProfile(@Header("AccessToken") String accessToken);
+    Call<ResponseBody> getProfile(@Header("AccessToken") String accessToken);
 
     @GET("/party/all")
     Call<ResponseBody> getAllParty(@Header("AccessToken") String accessToken);
