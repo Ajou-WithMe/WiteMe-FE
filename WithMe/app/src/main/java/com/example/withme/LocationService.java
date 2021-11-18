@@ -44,7 +44,6 @@ public class LocationService extends Service {
 
     @Override
     public void onCreate() {
-        super.onCreate();
         SharedPreferences sf = getSharedPreferences("storeAccessToken", MODE_PRIVATE);
         accessToken = sf.getString("AccessToken", "");
     }
@@ -105,7 +104,7 @@ public class LocationService extends Service {
     }
 
     private void startLocationService() {
-        String channelId = "location_notification_channel";
+        String channelId = "locationNotificationChannel";
 
         // NotificationManager로 알람을 관리한다
         // 객체 생성
