@@ -96,6 +96,9 @@ public interface RetrofitAPI {
     @DELETE("/protection/quit")
     Call<ResponseBody> deleteProtection(@Header("AccessToken") String accessToken, @Query("uid") String uid);
 
+    @POST("/notification/out")
+    Call<ResponseBody> outOfSafeZoneNotification(@Header("AccessToken") String accessToken);
+
     @Multipart
     @POST("/file/profile")
     Call<UploadImage> uploadImage(@Header("AccessToken") String accessToken, @Part MultipartBody.Part postImg);
@@ -106,6 +109,9 @@ public interface RetrofitAPI {
     @POST("/zone_manage/certify_put/")
     Call<ResponseBody> safeZoneInsert(@Header("AccessToken") String accessToken, @Body HashMap<String, Object> param);
 
+    @POST("/zone_manage/certify_gps/")
+    Call<ResponseBody> newDataGPS(@Header("AccessToken") String accessToken, @Body HashMap<String, Object> param);
+
     @POST("/location")
     Call<ResponseBody> saveLocation(@Header("AccessToken") String accessToken, @Body HashMap<String, Object> param);
 
@@ -115,8 +121,7 @@ public interface RetrofitAPI {
     @GET("/safeZone")
     Call<ResponseBody> findSafeZone(@Header("AccessToken") String accessToken, @Query("uid") String uid);
 
-    @POST("safeZone/init")
-    Call<ResponseBody> saveInitSafeZone(@Header("AccessToken")String accessToken, @Body HashMap<String, JSONArray> param);
-
+    @GET("safeZone/misssing")
+    Call<ResponseBody> findVisitOftenAndDistanceAfterMissing (@Header("AccessToken") String accessToken, @Query("uid") String uid);
 
 }

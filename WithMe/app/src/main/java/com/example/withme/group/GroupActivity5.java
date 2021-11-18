@@ -88,6 +88,12 @@ public class GroupActivity5 extends AppCompatActivity implements OnMapReadyCallb
             .build();
     RetrofitAPI retrofitAPI2 = retrofit2.create(RetrofitAPI.class);
 
+    Retrofit retrofit3 = new retrofit2.Retrofit.Builder()
+            .baseUrl("http://3.37.163.203:8040/zone_manage/certify_put/")
+            .addConverterFactory(GsonConverterFactory.create()) //gson converter 생성, gson은 JSON을 자바 클래스로 바꾸는데 사용된다.
+            .build();
+    RetrofitAPI retrofitAPI3 = retrofit3.create(RetrofitAPI.class);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -339,7 +345,7 @@ public class GroupActivity5 extends AppCompatActivity implements OnMapReadyCallb
                 HashMap<String, Object> input = new HashMap<>();
                 input.put("safeZone", Vertexes);
                 input.put("uid", uid);
-                retrofitAPI2.safeZoneInsert(accessToken, input).enqueue(new Callback<ResponseBody>() {
+                retrofitAPI3.safeZoneInsert(accessToken, input).enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if (response.isSuccessful()) {

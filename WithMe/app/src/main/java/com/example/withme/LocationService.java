@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.IBinder;
 import android.os.Looper;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,6 +30,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.nio.channels.InterruptedByTimeoutException;
 import java.util.HashMap;
 
 import okhttp3.ResponseBody;
@@ -57,10 +59,16 @@ public class LocationService extends Service {
                 double longitude = locationResult.getLastLocation().getLongitude();
                 double speed = locationResult.getLastLocation().getSpeed();
 
-                HashMap<String, Object> input = new HashMap<>();
-                input.put("latitude", latitude);
-                input.put("longitude", longitude);
-                input.put("speed", speed);
+                HashMap<String, Object> input1 = new HashMap<>();
+                input1.put("latitude", latitude);
+                input1.put("longitude", longitude);
+                input1.put("speed", speed);
+
+                Log.e("input", latitude + ", " + longitude);
+
+                HashMap<String, Object> input2 = new HashMap<>();
+                input2.put("latitude", latitude);
+                input2.put("longitude", longitude);
 
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl("http://3.38.11.108:8080")
@@ -68,7 +76,19 @@ public class LocationService extends Service {
                         .build();
                 RetrofitAPI retrofitApi = retrofit.create(RetrofitAPI.class);
 
-                retrofitApi.saveLocation(accessToken, input).enqueue(new Callback<ResponseBody>() {
+                Retrofit retrofit2 = new Retrofit.Builder()
+                        .baseUrl("http://3.37.163.203:8000")
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                RetrofitAPI retrofitApi2 = retrofit2.create(RetrofitAPI.class);
+
+                Retrofit retrofit3 = new Retrofit.Builder()
+                        .baseUrl(" http://withme-lb-1691720831.ap-northeast-2.elb.amazonaws.com")
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                RetrofitAPI retrofitApi3 = retrofit3.create(RetrofitAPI.class);
+
+                retrofitApi.saveLocation(accessToken, input1).enqueue(new Callback<ResponseBody>() {
 
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -78,6 +98,72 @@ public class LocationService extends Service {
                                 boolean success = jsonObject.getBoolean("success");
                                 if (success == true) {
                                     Log.e("location", jsonObject.toString());
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Log.e("Location", t.getMessage());
+                    }
+                });
+
+                retrofitApi2.newDataGPS(accessToken, input2).enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful()) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response.body().string());
+                                boolean success = jsonObject.getBoolean("success");
+                                if (success == true) {
+                                    int data = jsonObject.getInt("data");
+
+                                    if (data == 1) { // safe zone 내부로 판단
+                                        Log.e("out or not", String.valueOf(data));
+                                    } else { // 와부일 경우로 판단
+                                        Log.e("out or not", String.valueOf(data));
+                                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                                                Intent.FLAG_ACTIVITY_SINGLE_TOP |
+                                                Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        intent.putExtra("out", data);
+                                        startActivity(intent);
+                                        retrofitApi3.outOfSafeZoneNotification(accessToken).enqueue(new Callback<ResponseBody>() {
+                                            @Override
+                                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                                if (response.isSuccessful()) {
+                                                    try {
+                                                        JSONObject jsonObject = new JSONObject(response.body().string());
+                                                        Log.e("Notification", jsonObject.toString());
+                                                        boolean success = jsonObject.getBoolean("success");
+
+                                                        if (success == true) {
+                                                            Log.e("Notification", jsonObject.getString("data"));
+                                                        } else {
+                                                            Log.e("Notification", jsonObject.getString("data"));
+                                                        }
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                    } catch (IOException e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                                Log.e("Notification", t.getMessage());
+                                            }
+                                        });
+                                    }
+                                } else {
+                                    String data = jsonObject.getString("data");
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

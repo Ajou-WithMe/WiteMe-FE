@@ -45,6 +45,7 @@ import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.CameraAnimation;
 import com.naver.maps.map.CameraUpdate;
+import com.naver.maps.map.LocationTrackingMode;
 import com.naver.maps.map.MapView;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
@@ -225,9 +226,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View v) {
                 SharedPreferences pref = getSharedPreferences("storeAccessToken", MODE_PRIVATE);
+                SharedPreferences pref2 = getSharedPreferences("", MODE_PRIVATE);
                 SharedPreferences.Editor editor = pref.edit();
                 editor.remove("AccessToken");
                 editor.commit();
+                stopLocationService();
                 UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
                     @Override
                     public void onCompleteLogout() {
@@ -254,9 +257,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
     }
 
+    private void stopLocationService() {
+        if (isLocationServiceRunning()) {
+            Intent intent = new Intent(getApplicationContext(), LocationService.class);
+            intent.setAction(Constants.ACTION_STOP_LOCATION_SERVICE);
+            startService(intent);
+            Toast.makeText(this, "Location service stopped", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void startLocationService() {
         if(!isLocationServiceRunning()) {
-            Intent intent = new Intent(this, LocationService.class);
+            Intent intent = new Intent(getApplicationContext(), LocationService.class);
             intent.setAction(Constants.ACTION_START_LOCATION_SERVICE);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 startForegroundService(intent);
@@ -286,6 +298,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (fusedLocationSource.onRequestPermissionsResult(
+                requestCode, permissions, grantResults)) {
+            if (!fusedLocationSource.isActivated()) {
+
+            }
+            naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
+            return;
+        }
         if(requestCode == REQUEST_CODE_LOCATION_PERMISSION && grantResults.length > 0) {
             if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 startLocationService();
@@ -315,6 +336,27 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         uiSettings.setRotateGesturesEnabled(false);
 
         this.naverMap = naverMap;
+
+        (new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while   (!Thread.interrupted()) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = getIntent();
+                            int out = intent.getIntExtra("out", 3);
+                            Log.e("out", String.valueOf(out));
+                        }
+                    });
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        })).start();
 
         retrofitAPI.getProfile(accessToken).enqueue(new Callback<ResponseBody>() {
             @Override
