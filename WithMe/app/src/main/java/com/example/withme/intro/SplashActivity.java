@@ -15,10 +15,12 @@ import com.example.withme.MainActivity;
 import com.example.withme.R;
 import com.example.withme.retorfit.RetrofitAPI;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -30,6 +32,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class SplashActivity extends AppCompatActivity {
 
     private ImageView logo_1, logo_2;
+    private ArrayList<String> protectionPersonName = new ArrayList<>();
+    private ArrayList<String> protectionPersonUid = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +67,44 @@ public class SplashActivity extends AppCompatActivity {
         Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
         Intent intent2 = new Intent(getApplicationContext(), DescriptionActivity.class);
 
+        retrofitAPI.getAllprotection(accessToken).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body().string());
+                        boolean success = jsonObject.getBoolean("success");
+
+                        if (success == true) {
+                            JSONArray data = jsonObject.getJSONArray("data");
+                            Log.e("getAllProtection", data.toString());
+                            Log.e("protection num", String.valueOf(data.length()));
+
+                            for (int i = 0; i < data.length(); i++) {
+                                JSONObject protectionPerson = data.getJSONObject(i);
+                                String name = protectionPerson.getString("name");
+                                String uid = protectionPerson.getString("uid");
+                                protectionPersonName.add(name);
+                                protectionPersonUid.add(uid);
+                            }
+                            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                            Log.e("protectionName", protectionPersonName.toString());
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+
         retrofitAPI.getProfile(accessToken).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -84,6 +126,8 @@ public class SplashActivity extends AppCompatActivity {
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
+                                    intent1.putExtra("protectionPersonName", protectionPersonName);
+                                    intent1.putExtra("protectionPersonUid", protectionPersonUid);
                                     startActivity(intent1);
                                     overridePendingTransition(R.anim.fadein, R.anim.fadeout);
                                     finish();

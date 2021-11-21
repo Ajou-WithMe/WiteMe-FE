@@ -96,6 +96,9 @@ public interface RetrofitAPI {
     @DELETE("/protection/quit")
     Call<ResponseBody> deleteProtection(@Header("AccessToken") String accessToken, @Query("uid") String uid);
 
+    @POST("/protection/safemove")
+    Call<ResponseBody> changeSafeMove(@Header("AccessToken") String accessToken, @Body HashMap<String, Object> param);
+
     @POST("/notification/out")
     Call<ResponseBody> outOfSafeZoneNotification(@Header("AccessToken") String accessToken);
 

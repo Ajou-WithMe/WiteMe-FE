@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -76,7 +77,6 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
     private LinearLayout groupLayout, protectorLayout, protectionPersonLayout;
     private JSONArray data, protectors, protectionPersons;
     private JSONObject groupSpecific;
-    final String sharedName = "protectedPerson";
     ArrayList<CircleImageView> circleImageViews = new ArrayList<>();
     ArrayList<TextView> textViews = new ArrayList<>();
     ArrayList<String> codes = new ArrayList<>();
@@ -344,6 +344,65 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
                                                                         linearLayoutProtectionPerson.addView(textViewProtectionPerson);
                                                                         linearLayoutProtectionPerson.addView(reviseProtectionPerson);
                                                                         linearLayoutProtectionPerson.addView(switchButton);
+
+                                                                        switchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                                                            @Override
+                                                                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                                                                if (isChecked) {
+                                                                                    Log.e("safeMove", "check");
+                                                                                    HashMap<String, Object> input = new HashMap<>();
+                                                                                    input.put("uid", protectionPersonUid);
+                                                                                    input.put("safemove", 1);
+                                                                                    retrofitAPI.changeSafeMove(accessToken, input).enqueue(new Callback<ResponseBody>() {
+                                                                                        @Override
+                                                                                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                                                                            if (response.isSuccessful()) {
+                                                                                                try {
+                                                                                                    JSONObject jsonObject = new JSONObject(response.body().string());
+                                                                                                    String data = jsonObject.getString("data");
+
+                                                                                                    Log.e("safeMove", data);
+                                                                                                } catch (JSONException e) {
+                                                                                                    e.printStackTrace();
+                                                                                                } catch (IOException e) {
+                                                                                                    e.printStackTrace();
+                                                                                                }
+                                                                                            }
+                                                                                        }
+
+                                                                                        @Override
+                                                                                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                                                                                        }
+                                                                                    });
+                                                                                } else {
+                                                                                    Log.e("safeMove", "not check");
+                                                                                    HashMap<String, Object> input = new HashMap<>();
+                                                                                    input.put("uid", protectionPersonUid);
+                                                                                    input.put("safemove", 0);
+                                                                                    retrofitAPI.changeSafeMove(accessToken, input).enqueue(new Callback<ResponseBody>() {
+                                                                                        @Override
+                                                                                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                                                                            try {
+                                                                                                JSONObject jsonObject = new JSONObject(response.body().string());
+                                                                                                String data = jsonObject.getString("data");
+
+                                                                                                Log.e("safeMove", data);
+                                                                                            } catch (JSONException e) {
+                                                                                                e.printStackTrace();
+                                                                                            } catch (IOException e) {
+                                                                                                e.printStackTrace();
+                                                                                            }
+                                                                                        }
+
+                                                                                        @Override
+                                                                                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                                                                                        }
+                                                                                    });
+                                                                                }
+                                                                            }
+                                                                        });
 
                                                                         reviseProtectionPerson.setOnClickListener(new View.OnClickListener() {
                                                                             @Override

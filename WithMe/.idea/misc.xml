@@ -25,6 +25,7 @@
         <entry key="app/src/main/res/drawable/just_bottom_line.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/just_top_line.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/oval_shape.xml" value="0.26927083333333335" />
+        <entry key="app/src/main/res/drawable/oval_shape_green.xml" value="0.26927083333333335" />
         <entry key="app/src/main/res/drawable/oval_shape_red.xml" value="0.26927083333333335" />
         <entry key="app/src/main/res/drawable/radius_1_clickable.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/radius_1_login.xml" value="0.24351851851851852" />
@@ -45,7 +46,7 @@
         <entry key="app/src/main/res/layout/activity_group_add2.xml" value="0.18659420289855072" />
         <entry key="app/src/main/res/layout/activity_group_add3.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_group_detail.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.14739583333333334" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_protection_person1.xml" value="0.1793478260869565" />
         <entry key="app/src/main/res/layout/activity_sign_up1.xml" value="0.18659420289855072" />
