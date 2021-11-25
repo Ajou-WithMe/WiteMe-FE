@@ -124,7 +124,7 @@ public interface RetrofitAPI {
     @GET("/safeZone")
     Call<ResponseBody> findSafeZone(@Header("AccessToken") String accessToken, @Query("uid") String uid);
 
-    @GET("safeZone/misssing")
+    @GET("safeZone/missing")
     Call<ResponseBody> findVisitOftenAndDistanceAfterMissing (@Header("AccessToken") String accessToken, @Query("uid") String uid);
 
 }

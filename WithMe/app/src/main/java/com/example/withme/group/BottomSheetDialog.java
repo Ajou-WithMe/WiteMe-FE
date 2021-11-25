@@ -288,6 +288,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
                                                                         protectionPersonUid = protectionPerson.getString("uid");
                                                                         String profile = protectionPerson.getString("profile");
                                                                         int type = protectionPerson.getInt("type");
+                                                                        int safeMove = protectionPerson.getInt("safemove");
 
                                                                         protectionPersonName.add(name);
                                                                         protectionPersonUids.add(protectionPersonUid);
@@ -321,6 +322,11 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
                                                                         switchButton.setLayoutParams(toggles);
                                                                         toggles.gravity = Gravity.CENTER_VERTICAL;
                                                                         switchButton.setX(110);
+                                                                        if (safeMove == 0) { // 안심이동이 꺼져있다면
+                                                                            switchButton.setChecked(false);
+                                                                        } else if (safeMove == 1) { // 안심이동이 켜져있다면
+                                                                            switchButton.setChecked(true);
+                                                                        }
 
                                                                         Glide.with(getActivity().getApplicationContext()).load(profile).into(circleImageViewProtectionPerson);
                                                                         if (profile.equals("null")) {
