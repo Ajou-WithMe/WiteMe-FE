@@ -62,7 +62,7 @@
         <entry key="app/src/main/res/layout/exit_group_dialog.xml" value="0.20652173913043478" />
         <entry key="app/src/main/res/layout/fragment_bulletin.xml" value="0.16393442622950818" />
         <entry key="app/src/main/res/layout/fragment_bulletin1.xml" value="0.335" />
-        <entry key="app/src/main/res/layout/fragment_bulletin2.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_bulletin2.xml" value="0.25" />
         <entry key="app/src/main/res/layout/group_dialog.xml" value="0.18659420289855072" />
         <entry key="app/src/main/res/layout/invite_protector_dialog.xml" value="0.25" />
         <entry key="app/src/main/res/layout/login_failure_dialog.xml" value="0.25" />

@@ -58,14 +58,14 @@
 
         <TextView
             android:id="@+id/region"
-            android:layout_width="120px"
-            android:layout_height="39px"
-            android:layout_marginTop="76.5px"
-            android:layout_marginEnd="528px"
-            android:text="지역 선택"
-            android:textColor="#A6A29D"
-            android:textSize="30px"
+            android:layout_width="362px"
+            android:layout_height="54px"
+            android:layout_marginTop="526.5px"
+            android:text="지역을 선택해주세요"
+            android:textColor="#333333"
+            android:textSize="42px"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
 
         <Spinner
