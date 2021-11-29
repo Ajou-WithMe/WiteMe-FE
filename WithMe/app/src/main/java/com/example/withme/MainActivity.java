@@ -516,7 +516,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                                                                                         new LatLng(lat4, long4)
                                                                                                 ));
                                                                                                 polygon.setOutlineColor(Color.TRANSPARENT);
-                                                                                                if (grade == 1) {
+                                                                                                if (grade == 1 || grade == 2) {
                                                                                                     polygon.setColor(Color.parseColor("#4D3E791A"));
                                                                                                 } else {
                                                                                                     polygon.setColor(Color.parseColor("#66FF302B"));
