@@ -43,6 +43,7 @@ public class Bulletin1 extends Fragment {
         // Inflate the layout for this fragment
 
         TextView region = (TextView) rootView.findViewById(R.id.region);
+        TextView myPost = (TextView) rootView.findViewById(R.id.myPost);
 
         ImageButton write = (ImageButton) rootView.findViewById(R.id.write);
 
@@ -50,6 +51,13 @@ public class Bulletin1 extends Fragment {
 //        ArrayAdapter adapter = ArrayAdapter.createFromResource(getActivity().getApplicationContext(), R.array.order, R.layout.spinner_item);
 //        spinner.setAdapter(adapter);
 //        spinner.setSelection(0);
+
+        myPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.onFragmentChange(5);
+            }
+        });
 
         write.setOnClickListener(new View.OnClickListener() {
             @Override

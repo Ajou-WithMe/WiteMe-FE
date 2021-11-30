@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:clickable="true"
     android:background="#FFFFFF"
-    tools:context=".bulletin.Bulletin1">
+    tools:context=".bulletin.Bulletin5">
 
     <!-- TODO: Update blank fragment layout -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,7 +28,7 @@
                 android:layout_marginStart="60px"
                 android:layout_marginTop="114px"
                 android:text="게시판"
-                android:textColor="#222222"
+                android:textColor="#BDBDBD"
                 android:textSize="48px"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -40,7 +40,7 @@
                 android:layout_marginStart="36px"
                 android:layout_marginTop="114px"
                 android:text="내가 쓴 글"
-                android:textColor="#BDBDBD"
+                android:textColor="#222222"
                 android:textSize="48px"
                 app:layout_constraintStart_toEndOf="@+id/textView21"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -54,30 +54,32 @@
                 android:background="@drawable/write"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
-            android:id="@+id/region"
-            android:layout_width="362px"
-            android:layout_height="54px"
-            android:layout_marginTop="526.5px"
-            android:text="지역을 선택해주세요"
-            android:textColor="#333333"
-            android:textSize="42px"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="1500px"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout3">
 
-<!--        <Spinner-->
-<!--            android:id="@+id/spinner"-->
-<!--            android:spinnerMode="dropdown"-->
-<!--            android:layout_width="270px"-->
-<!--            android:layout_height="60px"-->
-<!--            android:layout_marginTop="57px"-->
-<!--            android:layout_marginEnd="60px"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />-->
+            <ScrollView
+                android:id="@+id/scrollView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="0dp">
+
+                <LinearLayout
+                    android:id="@+id/posts"
+                    android:layout_width="939px"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+            </ScrollView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/navigationView"
@@ -121,6 +123,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/tv_group"
                 android:layout_width="57px"
                 android:layout_height="39px"
                 android:layout_marginTop="12px"
@@ -142,6 +145,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/tv_settings"
                 android:layout_width="111px"
                 android:layout_height="39px"
                 android:layout_marginTop="12px"
@@ -151,9 +155,11 @@
                 android:textSize="29px"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/settings" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    
 
 
 </FrameLayout>

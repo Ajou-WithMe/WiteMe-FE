@@ -127,4 +127,12 @@ public interface RetrofitAPI {
     @GET("safeZone/missing")
     Call<ResponseBody> findVisitOftenAndDistanceAfterMissing (@Header("AccessToken") String accessToken, @Query("uid") String uid);
 
+    @POST("/board")
+    Call<ResponseBody> savePost(@Header("AccessToken") String accessToken, @Body HashMap<String, Object> param);
+
+    @GET("/board/my")
+    Call<ResponseBody> getMyPost(@Header("AccessToken") String accessToken);
+
+    @GET("/board")
+    Call<ResponseBody> getPostDetail(@Header("AccessToken") String accessToken, @Query("id") long id);
 }
