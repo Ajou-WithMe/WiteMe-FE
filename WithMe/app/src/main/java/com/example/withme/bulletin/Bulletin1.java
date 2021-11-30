@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -43,12 +44,19 @@ public class Bulletin1 extends Fragment {
 
         TextView region = (TextView) rootView.findViewById(R.id.region);
 
-        Spinner spinner = (Spinner) rootView.findViewById(R.id.spinner);
+        ImageButton write = (ImageButton) rootView.findViewById(R.id.write);
 
-        ArrayAdapter adapter = ArrayAdapter.createFromResource(getActivity().getApplicationContext(), R.array.order, R.layout.spinner_item);
+//        Spinner spinner = (Spinner) rootView.findViewById(R.id.spinner);
+//        ArrayAdapter adapter = ArrayAdapter.createFromResource(getActivity().getApplicationContext(), R.array.order, R.layout.spinner_item);
+//        spinner.setAdapter(adapter);
+//        spinner.setSelection(0);
 
-        spinner.setAdapter(adapter);
-        spinner.setSelection(0);
+        write.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.onFragmentChange(3);
+            }
+        });
 
         region.setOnClickListener(new View.OnClickListener() {
             @Override

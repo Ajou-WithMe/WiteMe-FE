@@ -33,6 +33,7 @@ import android.widget.Toast;
 
 import com.example.withme.bulletin.Bulletin1;
 import com.example.withme.bulletin.Bulletin2;
+import com.example.withme.bulletin.Bulletin3;
 import com.example.withme.group.BottomSheetDialog;
 import com.example.withme.group.GroupActivity1;
 import com.example.withme.intro.DescriptionActivity;
@@ -116,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     Bulletin1 bulletin1;
     Bulletin2 bulletin2;
+    Bulletin3 bulletin3;
 
     Retrofit retrofit = new retrofit2.Retrofit.Builder()
             .baseUrl("http://withme-lb-1691720831.ap-northeast-2.elb.amazonaws.com")
@@ -176,6 +178,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         bulletin1 = new Bulletin1();
         bulletin2 = new Bulletin2();
+        bulletin3 = new Bulletin3();
 
         // 네이버 지도
         mapView = (MapView) findViewById(R.id.map_view);
@@ -330,8 +333,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             FragmentManager manager = getSupportFragmentManager();
 
             FragmentTransaction transaction = manager.beginTransaction();
-
             transaction.replace(R.id.fragment_container, bulletin2).commit();
+            transaction.addToBackStack(null);
+        }
+        if (index == 3) {
+            FragmentManager manager = getSupportFragmentManager();
+
+            FragmentTransaction transaction = manager.beginTransaction();
+            transaction.replace(R.id.fragment_container, bulletin3).commit();
             transaction.addToBackStack(null);
         }
     }
