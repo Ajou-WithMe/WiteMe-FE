@@ -29,6 +29,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.withme.bulletin.BottomSheetDialogBoard;
 import com.example.withme.bulletin.Bulletin1;
 import com.example.withme.bulletin.Bulletin2;
 import com.example.withme.bulletin.Bulletin3;
@@ -120,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     Bulletin4 bulletin4;
     Bulletin5 bulletin5;
     Bulletin6 bulletin6;
+    BottomSheetDialogBoard bottomSheetDialogBoard;
 
     Retrofit retrofit = new retrofit2.Retrofit.Builder()
             .baseUrl("http://withme-lb-1691720831.ap-northeast-2.elb.amazonaws.com")
@@ -184,6 +186,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         bulletin4 = new Bulletin4();
         bulletin5 = new Bulletin5();
         bulletin6 = new Bulletin6();
+        bottomSheetDialogBoard = new BottomSheetDialogBoard();
 
         // 네이버 지도
         mapView = (MapView) findViewById(R.id.map_view);

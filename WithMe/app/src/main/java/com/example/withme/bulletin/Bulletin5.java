@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
@@ -188,17 +189,17 @@ public class Bulletin5 extends Fragment {
                                         Bundle result = new Bundle();
                                         result.putLong("id", id);
 
-                                        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                                        BottomSheetDialogBoard bottomSheetDialogBoard = new BottomSheetDialogBoard();//프래그먼트2 선언
-                                        bottomSheetDialogBoard.setArguments(result);//번들을 프래그먼트2로 보낼 준비
-                                        transaction.replace(R.id.fragment_container, bottomSheetDialogBoard);
-                                        transaction.commit();
-
                                         retrofitAPI.getPostDetail(accessToken, id).enqueue(new Callback<ResponseBody>() {
                                             @Override
                                             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                                if (response.isSuccessful())
-                                                    activity.onFragmentChange(6);
+                                                if (response.isSuccessful()) {
+                                                    Fragment fragment = new Bulletin6();
+                                                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                                                    FragmentTransaction fmt = fm.beginTransaction();
+                                                    fragment.setArguments(result);
+
+                                                    fmt.replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
+                                                }
 
                                             }
 

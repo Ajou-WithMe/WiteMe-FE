@@ -2,6 +2,7 @@ package com.example.withme.bulletin;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +15,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.withme.MainActivity;
 import com.example.withme.R;
@@ -57,12 +61,6 @@ public class BottomSheetDialogBoard extends BottomSheetDialogFragment {
 
         view = inflater.inflate(R.layout.bottom_sheet_layout_board, container, false);
 
-        Bundle bundle = getArguments();
-        if(bundle != null){
-            id = bundle.getLong("id"); //Name 받기.
-            Log.e("dialog_board", String.valueOf(id));
-        }
-
         findProtection = (ImageButton) view.findViewById(R.id.findProtection);
         revisePost = (ImageButton) view.findViewById(R.id.revisePost);
         deletePost = (ImageButton) view.findViewById(R.id.deletePost);
@@ -70,6 +68,11 @@ public class BottomSheetDialogBoard extends BottomSheetDialogFragment {
         deletePost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle bundle = getArguments();
+                if (bundle != null) {
+                    id = bundle.getLong("id"); //Name 받기.
+                    Log.e("dialog_board", String.valueOf(id));
+                }
                 retrofitAPI.deletePostById(accessToken, id).enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -81,10 +84,17 @@ public class BottomSheetDialogBoard extends BottomSheetDialogFragment {
 
                                 if (success == true) {
                                     String data = jsonObject.getString("data");
+
                                     Log.e("deletePostById", data);
                                     Toast.makeText(getContext(), data, Toast.LENGTH_SHORT).show();
 
-                                    activity.onFragmentChange(5);
+                                    Fragment fragment = new Bulletin5();
+                                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                                    FragmentTransaction fmt = fm.beginTransaction();
+
+                                    fmt.replace(R.id.fragment_container, fragment).commit();
+
+                                    dismiss();
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
