@@ -52,7 +52,7 @@ public class Bulletin5 extends Fragment {
             .build();
     RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
 
-    private String accessToken;
+    private String accessToken, phoneNumber;
     private int postLength;
     private LinearLayout posts;
     private ScrollView scrollView;
@@ -83,6 +83,32 @@ public class Bulletin5 extends Fragment {
         posts = (LinearLayout) rootView.findViewById(R.id.posts);
         scrollView = (ScrollView) rootView.findViewById(R.id.scrollView);
 
+        retrofitAPI.getProfile(accessToken).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body().string());
+                        boolean success = jsonObject.getBoolean("success");
+
+                        if (success == true) {
+                            JSONObject data = jsonObject.getJSONObject("data");
+                            phoneNumber = data.getString("phone");
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+
         retrofitAPI.getMyPost(accessToken).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -98,7 +124,7 @@ public class Bulletin5 extends Fragment {
                             Log.e("getMyPost", String.valueOf(postLength));
                             Log.e("getMyPost", data.toString());
 
-                            for (int i = 0; i< postLength; i++) {
+                            for (int i = 0; i < postLength; i++) {
 
                                 JSONObject post = data.getJSONObject(i);
 
@@ -193,6 +219,32 @@ public class Bulletin5 extends Fragment {
                                             @Override
                                             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                                 if (response.isSuccessful()) {
+                                                    try {
+                                                        JSONObject jsonObject = new JSONObject(response.body().string());
+                                                        boolean success = jsonObject.getBoolean("success");
+
+                                                        if (success == true) {
+                                                            JSONObject data = jsonObject.getJSONObject("data");
+                                                            String title = data.getString("title");
+                                                            String createdAt = data.getString("createdAt");
+                                                            String content = data.getString("content");
+                                                            String activityRadius = data.getString("activityRadius");
+                                                            String name = data.getString("name");
+                                                            String description = data.getString("description");
+
+                                                            result.putString("title", title);
+                                                            result.putString("createdAt", createdAt);
+                                                            result.putString("content", content);
+                                                            result.putString("activityRadius", activityRadius);
+                                                            result.putString("name", name);
+                                                            result.putString("description", description);
+                                                            result.putString("phone", phoneNumber);
+                                                        }
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                    } catch (IOException e) {
+                                                        e.printStackTrace();
+                                                    }
                                                     Fragment fragment = new Bulletin6();
                                                     FragmentManager fm = getActivity().getSupportFragmentManager();
                                                     FragmentTransaction fmt = fm.beginTransaction();

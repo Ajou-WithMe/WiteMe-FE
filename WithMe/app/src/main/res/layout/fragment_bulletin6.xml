@@ -42,85 +42,269 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/navigationView"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="210px"
-            android:layout_gravity="bottom"
-            android:background="@drawable/just_bottom_line"
-            android:orientation="horizontal"
+            android:layout_height="1350px"
+            app:layout_constraintBottom_toTopOf="@+id/constraintLayout5"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout3">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout7"
+                android:layout_width="match_parent"
+                android:layout_height="1350px"
+                app:layout_constraintBottom_toTopOf="@+id/constraintLayout5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
+                app:layout_constraintVertical_bias="1.0">
+
+                <TextView
+                    android:id="@+id/postTitle"
+                    android:layout_width="693px"
+                    android:layout_height="60px"
+                    android:layout_marginStart="60px"
+                    android:layout_marginTop="60px"
+                    android:text=""
+                    android:textColor="#222222"
+                    android:textSize="48px"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="147px"
+                    android:layout_height="45px"
+                    android:layout_marginStart="120px"
+                    android:layout_marginTop="69px"
+                    android:text=""
+                    android:textColor="#222222"
+                    android:textSize="36px"
+                    app:layout_constraintStart_toEndOf="@+id/postTitle"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <HorizontalScrollView
+                    android:id="@+id/horizontalScrollView3"
+                    android:layout_width="match_parent"
+                    android:layout_height="381px"
+                    android:layout_marginTop="60px"
+                    android:scrollbars="none"
+                    app:layout_constraintTop_toBottomOf="@+id/postTitle">
+
+                    <LinearLayout
+                        android:layout_marginLeft="60px"
+                        android:id="@+id/postImgLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+                        
+                        <ImageView
+                            android:layout_width="360px"
+                            android:layout_height="360px"
+                            android:layout_gravity="center_vertical"
+                            android:background="@drawable/post_img">
+
+                        </ImageView>
+                    </LinearLayout>
+
+                </HorizontalScrollView>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout6"
+                    android:layout_width="960px"
+                    android:layout_height="486px"
+                    android:layout_marginTop="48px"
+                    android:background="@drawable/identification"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView3">
+
+                    <TextView
+                        android:id="@+id/textView41"
+                        android:layout_width="214px"
+                        android:layout_height="54px"
+                        android:layout_marginStart="36px"
+                        android:layout_marginTop="36px"
+                        android:text="실종자 신원"
+                        android:textColor="#222222"
+                        android:textSize="42px"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView42"
+                        android:layout_width="165px"
+                        android:layout_height="45px"
+                        android:layout_marginStart="36px"
+                        android:layout_marginTop="36px"
+                        android:text="이름"
+                        android:textColor="#222222"
+                        android:textSize="36px"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView41" />
+
+                    <TextView
+                        android:id="@+id/nameAge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="45px"
+                        android:layout_marginStart="387px"
+                        android:layout_marginTop="36px"
+                        android:text=""
+                        android:textColor="#222222"
+                        android:textSize="36px"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView41" />
+
+                    <TextView
+                        android:id="@+id/textView43"
+                        android:layout_width="217px"
+                        android:layout_height="45px"
+                        android:layout_marginStart="36px"
+                        android:layout_marginTop="24px"
+                        android:text="주요 활동 반경"
+                        android:textColor="#222222"
+                        android:textSize="36px"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView42" />
+
+                    <TextView
+                        android:id="@+id/activityRadius"
+                        android:layout_width="wrap_content"
+                        android:layout_height="45px"
+                        android:layout_marginStart="387px"
+                        android:layout_marginTop="24px"
+                        android:text=""
+                        android:textColor="#222222"
+                        android:textSize="36px"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/nameAge" />
+
+                    <TextView
+                        android:id="@+id/textView44"
+                        android:layout_width="282px"
+                        android:layout_height="45px"
+                        android:layout_marginStart="36px"
+                        android:layout_marginTop="24px"
+                        android:text="마지막으로 있던 곳"
+                        android:textColor="#222222"
+                        android:textSize="36px"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView43" />
+
+                    <TextView
+                        android:id="@+id/finalLocation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="45px"
+                        android:layout_marginStart="387px"
+                        android:layout_marginTop="24px"
+                        android:text=""
+                        android:textColor="#222222"
+                        android:textSize="36px"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/activityRadius" />
+
+                    <TextView
+                        android:id="@+id/textView45"
+                        android:layout_width="217px"
+                        android:layout_height="45px"
+                        android:layout_marginStart="36px"
+                        android:layout_marginTop="24px"
+                        android:text="보호자 연락처"
+                        android:textColor="#222222"
+                        android:textSize="36px"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView44" />
+
+                    <TextView
+                        android:id="@+id/phoneNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="45px"
+                        android:layout_marginStart="387px"
+                        android:layout_marginTop="24px"
+                        android:text=""
+                        android:textColor="#222222"
+                        android:textSize="36px"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/finalLocation" />
+
+                    <TextView
+                        android:layout_width="217px"
+                        android:layout_height="45px"
+                        android:layout_marginStart="36px"
+                        android:layout_marginTop="24px"
+                        android:text="당일 인상착의"
+                        android:textColor="#222222"
+                        android:textSize="36px"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView45" />
+
+                    <TextView
+                        android:id="@+id/clothes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="45px"
+                        android:layout_marginStart="387px"
+                        android:layout_marginTop="24px"
+                        android:text=""
+                        android:textColor="#222222"
+                        android:textSize="36px"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/phoneNumber" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/content"
+                    android:layout_width="960px"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="48px"
+                    android:textSize="42px"
+                    android:textColor="#222222"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout6" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="3px"
+                    android:layout_marginTop="396px"
+                    android:background="#E9E9E9"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout6" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout5"
+            android:layout_width="match_parent"
+            android:layout_height="162px"
+            android:background="#F6F6F6"
             app:layout_constraintBottom_toBottomOf="parent">
 
-            <ImageButton
-                android:id="@+id/bulletinBoard"
-                android:layout_width="108px"
-                android:layout_height="108px"
-                android:layout_marginStart="147px"
-                android:layout_marginTop="21px"
-                android:background="@drawable/bulletinboard_click"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            <EditText
+                android:id="@+id/editText"
+                android:layout_width="810px"
+                android:layout_height="match_parent"
+                android:layout_marginStart="60px"
+                android:background="@null"
+                android:hint="댓글을 입력해주세요"
+                android:textColorHint="#BDBDBD"
+                android:textSize="42px"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
-                android:id="@+id/textView8"
-                android:layout_width="195px"
-                android:layout_height="39px"
-                android:layout_marginStart="102px"
-                android:layout_marginTop="12px"
-                android:text="공동돌봄게시판"
-                android:textColor="#333333"
-                android:textSize="29px"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/bulletinBoard" />
-
-            <ImageButton
-                android:id="@+id/group"
-                android:layout_width="108px"
-                android:layout_height="108px"
-                android:layout_marginTop="21px"
-                android:background="@drawable/group_nonclick"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_group"
-                android:layout_width="57px"
-                android:layout_height="39px"
-                android:layout_marginTop="12px"
-                android:text="그룹"
-                android:textColor="#333333"
-                android:textSize="29px"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/group" />
-
-            <ImageButton
-                android:id="@+id/settings"
-                android:layout_width="108px"
-                android:layout_height="108px"
-                android:layout_marginTop="21px"
-                android:layout_marginEnd="147px"
-                android:background="@drawable/settings_nonclick"
+                android:layout_width="78px"
+                android:layout_height="54px"
+                android:layout_marginEnd="81px"
+                android:text="등록"
+                android:textSize="42px"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tv_settings"
-                android:layout_width="111px"
-                android:layout_height="39px"
-                android:layout_marginTop="12px"
-                android:layout_marginEnd="147px"
-                android:text="개인설정"
-                android:textColor="#333333"
-                android:textSize="29px"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/settings" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
 </FrameLayout>
