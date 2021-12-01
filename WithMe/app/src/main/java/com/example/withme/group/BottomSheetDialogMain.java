@@ -63,7 +63,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class BottomSheetDialog extends BottomSheetDialogFragment {
+public class BottomSheetDialogMain extends BottomSheetDialogFragment {
 
     // 초기 변수 설정
     private View view;

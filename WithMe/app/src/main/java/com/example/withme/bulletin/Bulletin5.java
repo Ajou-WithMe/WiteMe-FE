@@ -2,10 +2,12 @@ package com.example.withme.bulletin;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -52,6 +54,20 @@ public class Bulletin5 extends Fragment {
     private int postLength;
     private LinearLayout posts;
     private ScrollView scrollView;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        activity = (MainActivity) getActivity();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        activity = null;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -172,9 +188,8 @@ public class Bulletin5 extends Fragment {
                                         retrofitAPI.getPostDetail(accessToken, id).enqueue(new Callback<ResponseBody>() {
                                             @Override
                                             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                                if (response.isSuccessful()) {
+                                                if (response.isSuccessful())
                                                     activity.onFragmentChange(6);
-                                                }
                                             }
 
                                             @Override

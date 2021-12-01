@@ -58,6 +58,7 @@
         <entry key="app/src/main/res/layout/activity_sign_up4_1.xml" value="0.12310030395136778" />
         <entry key="app/src/main/res/layout/activity_sign_up4_2.xml" value="0.17119565217391305" />
         <entry key="app/src/main/res/layout/bottom_sheet_layout.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/bottom_sheet_layout_board.xml" value="0.25" />
         <entry key="app/src/main/res/layout/code_copy_dialog.xml" value="0.25" />
         <entry key="app/src/main/res/layout/description_frame1.xml" value="0.25" />
         <entry key="app/src/main/res/layout/description_frame2.xml" value="0.20606884057971014" />
@@ -69,6 +70,7 @@
         <entry key="app/src/main/res/layout/fragment_bulletin3.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_bulletin4.xml" value="0.1766304347826087" />
         <entry key="app/src/main/res/layout/fragment_bulletin5.xml" value="0.16576086956521738" />
+        <entry key="app/src/main/res/layout/fragment_bulletin6.xml" value="0.15733333333333333" />
         <entry key="app/src/main/res/layout/group_dialog.xml" value="0.18659420289855072" />
         <entry key="app/src/main/res/layout/invite_protector_dialog.xml" value="0.25" />
         <entry key="app/src/main/res/layout/login_failure_dialog.xml" value="0.25" />

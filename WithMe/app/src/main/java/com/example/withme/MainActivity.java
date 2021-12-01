@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -18,7 +17,6 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -37,10 +35,9 @@ import com.example.withme.bulletin.Bulletin3;
 import com.example.withme.bulletin.Bulletin4;
 import com.example.withme.bulletin.Bulletin5;
 import com.example.withme.bulletin.Bulletin6;
-import com.example.withme.group.BottomSheetDialog;
+import com.example.withme.group.BottomSheetDialogMain;
 import com.example.withme.group.GroupActivity1;
 import com.example.withme.intro.DescriptionActivity;
-import com.example.withme.intro.SplashActivity;
 import com.example.withme.retorfit.RetrofitAPI;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -67,7 +64,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -228,9 +224,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         group.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog();
-                bottomSheetDialog.show(getSupportFragmentManager(), "bottomSheet");
-                bottomSheetDialog.setArguments(bundle);
+                BottomSheetDialogMain bottomSheetDialogMain = new BottomSheetDialogMain();
+                bottomSheetDialogMain.show(getSupportFragmentManager(), "bottomSheet");
+                bottomSheetDialogMain.setArguments(bundle);
             }
         });
 
