@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="696px"
-    android:layout_gravity="bottom"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/deletePost"
         android:layout_width="378px"
         android:layout_height="96px"
         android:layout_marginStart="63px"
@@ -17,22 +15,31 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/revisePost"
         android:layout_width="378px"
         android:layout_height="96px"
         android:layout_marginStart="63px"
         android:layout_marginTop="72px"
         android:background="@drawable/revise_post"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton" />
+        app:layout_constraintTop_toBottomOf="@+id/deletePost" />
 
     <ImageButton
+        android:id="@+id/findProtection"
         android:layout_width="555px"
         android:layout_height="96px"
         android:layout_marginStart="63px"
         android:layout_marginTop="72px"
         android:background="@drawable/find_protection"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton2" />
+        app:layout_constraintTop_toBottomOf="@+id/revisePost" />
+
+    <ImageButton
+        android:layout_width="555px"
+        android:layout_height="96px"
+        android:layout_marginStart="63px"
+        android:background="#FFFFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/findProtection" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

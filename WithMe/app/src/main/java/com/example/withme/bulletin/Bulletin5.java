@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.Gravity;
@@ -146,7 +147,6 @@ public class Bulletin5 extends Fragment {
                                 tv_title.setTextSize(14);
                                 tv_title.setTextColor(Color.parseColor("#222222"));
 
-
                                 LinearLayout.LayoutParams lp_text1 = new LinearLayout.LayoutParams(
                                         ViewGroup.LayoutParams.MATCH_PARENT,
                                         ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -185,11 +185,21 @@ public class Bulletin5 extends Fragment {
                                 linearLayout.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
+                                        Bundle result = new Bundle();
+                                        result.putLong("id", id);
+
+                                        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                                        BottomSheetDialogBoard bottomSheetDialogBoard = new BottomSheetDialogBoard();//프래그먼트2 선언
+                                        bottomSheetDialogBoard.setArguments(result);//번들을 프래그먼트2로 보낼 준비
+                                        transaction.replace(R.id.fragment_container, bottomSheetDialogBoard);
+                                        transaction.commit();
+
                                         retrofitAPI.getPostDetail(accessToken, id).enqueue(new Callback<ResponseBody>() {
                                             @Override
                                             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                                 if (response.isSuccessful())
                                                     activity.onFragmentChange(6);
+
                                             }
 
                                             @Override

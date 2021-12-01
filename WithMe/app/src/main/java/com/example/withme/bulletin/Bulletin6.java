@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 
 import com.example.withme.R;
 import com.example.withme.group.BottomSheetDialogMain;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 public class Bulletin6 extends Fragment {
 
@@ -28,7 +29,7 @@ public class Bulletin6 extends Fragment {
             @Override
             public void onClick(View v) {
                 BottomSheetDialogBoard bottomSheetDialogBoard = new BottomSheetDialogBoard();
-                bottomSheetDialogBoard.show(getFragmentManager(), "bottomSheet");
+                bottomSheetDialogBoard.show(getActivity().getSupportFragmentManager(), "fuck");
             }
         });
 
