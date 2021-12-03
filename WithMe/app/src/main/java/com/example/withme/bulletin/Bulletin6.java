@@ -10,13 +10,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.withme.R;
 import com.example.withme.group.BottomSheetDialogMain;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class Bulletin6 extends Fragment {
@@ -24,7 +28,7 @@ public class Bulletin6 extends Fragment {
     private ImageButton option;
     private long id;
     private String title, description, contents, radius, name, phone, createdAt;
-    private TextView postTitle, clothes, activityRadius, content, nameAge, phoneNumber, finalLocation, date;
+    private TextView addComment, postTitle, clothes, activityRadius, content, nameAge, phoneNumber, finalLocation, date;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,6 +44,17 @@ public class Bulletin6 extends Fragment {
         phoneNumber = (TextView) rootView.findViewById(R.id.phoneNumber);
         finalLocation = (TextView) rootView.findViewById(R.id.finalLocation);
         date = (TextView) rootView.findViewById(R.id.date);
+
+        addComment = (TextView) rootView.findViewById(R.id.addComment);
+
+        // 빈 데이터 리스트 생성.
+        final ArrayList<String> items = new ArrayList<String>() ;
+        // ArrayAdapter 생성. 아이템 View를 선택(single choice)가능하도록 만듦.
+        final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, items) ;
+
+        // listview 생성 및 adapter 지정.
+        final ListView listview = (ListView) rootView.findViewById(R.id.comment_list) ;
+        listview.setAdapter(adapter) ;
 
 
         Bundle bundle = getArguments();
@@ -70,7 +85,19 @@ public class Bulletin6 extends Fragment {
         phoneNumber.setText(phone);
         finalLocation.setText("아직 구현 못했습니당");
 
+        addComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int count;
+                count = adapter.getCount();
 
+                // 아이템 추가.
+                items.add("LIST" + Integer.toString(count + 1));
+
+                // listview 갱신
+                adapter.notifyDataSetChanged();
+            }
+        });
 
         option = (ImageButton) rootView.findViewById(R.id.option);
 

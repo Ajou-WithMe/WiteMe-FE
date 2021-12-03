@@ -138,4 +138,10 @@ public interface RetrofitAPI {
 
     @GET("/board/my")
     Call<ResponseBody> getMyPost(@Header("AccessToken") String accessToken);
+
+    @POST("/board/state")
+    Call<ResponseBody> updatePostState(@Header("AccessToken") String accessToken, @Body HashMap<String, Object> param);
+
+    @GET("/board/update")
+    Call<ResponseBody> getPostUpdateBase(@Header("AccessToken") String accessToken, @Query("id") long id);
 }
