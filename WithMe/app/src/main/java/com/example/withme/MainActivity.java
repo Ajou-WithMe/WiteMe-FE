@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private PolygonOverlay polygon = new PolygonOverlay();
     private CircleOverlay circleOverlay = new CircleOverlay();
     private CircleImageView circleImageView;
-    private Button logout, groupButton;
+    private Button logout, groupButton, refresh;
     private Handler mHandler;
     private FusedLocationProviderClient mFusedLocationClient;
     private boolean mLocationPermissionGranted = false;
@@ -179,6 +179,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         group = (ImageButton) findViewById(R.id.group);
 
         logout = (Button) findViewById(R.id.logout);
+        refresh = (Button) findViewById(R.id.refresh);
 
         bulletin1 = new Bulletin1();
         bulletin2 = new Bulletin2();
@@ -258,6 +259,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     }
                 });
                 startActivity(intent1);
+            }
+        });
+
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent reload = new Intent(MainActivity.this, MainActivity.class);
+                startActivity(reload);
             }
         });
 
