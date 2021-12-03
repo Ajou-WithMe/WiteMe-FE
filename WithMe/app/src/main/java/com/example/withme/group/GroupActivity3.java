@@ -125,11 +125,7 @@ public class GroupActivity3 extends AppCompatActivity {
                         UploadImage data = response.body();
 
                         if (response.isSuccessful()) {
-                            Log.e("make Profile", String.valueOf(data.getSuccess()));
-                            Log.e("make Profile", String.valueOf(data.getStatus()));
                             Log.e("make Profile", selectedImagePath);
-                            Log.e("make Profile", data.getData());
-
                             if (!data.getData().equals("이미지 파일이 아닙니다.")) {
                                 imageFromServer = data.getData();
 

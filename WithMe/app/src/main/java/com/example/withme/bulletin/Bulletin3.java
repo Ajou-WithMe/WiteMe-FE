@@ -59,11 +59,11 @@ public class Bulletin3 extends Fragment {
 
     ArrayList<CircleImageView> circleImageViews = new ArrayList<>();
     ArrayList<TextView> textViews = new ArrayList<>();
-    ArrayList<File> file = new ArrayList<>();
+    ArrayList<String> file = new ArrayList<>();
 
     MainActivity activity;
 
-    private String uid, accessToken, title, clothes, location, activityRadius, content, phoneNumber;
+    private String profile, uid, accessToken, title, clothes, location, activityRadius, content, phoneNumber;
     private View view;
     private int protectionPersonNum;
     private JSONObject protectionPerson;
@@ -135,11 +135,11 @@ public class Bulletin3 extends Fragment {
                                 protectionPerson = data.getJSONObject(j);
 
                                 String name = protectionPerson.getString("name");
-                                String profile = protectionPerson.getString("profileImg");
+                                profile = protectionPerson.getString("profileImg");
                                 uid = protectionPerson.getString("uid");
 
                                 LinearLayout linearLayout = new LinearLayout(getContext());
-                                linearLayout.setId(i);
+                                linearLayout.setId(j);
                                 ViewGroup.LayoutParams layout= new LinearLayout.LayoutParams(150, 222);
 
                                 linearLayout.setLayoutParams(layout);
@@ -183,6 +183,8 @@ public class Bulletin3 extends Fragment {
                                 linearLayout.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
+                                        file.set(0, profile);
+
                                         circleImageViews.get(linearLayout.getId()).setBorderColor(Color.parseColor("#FED537"));
                                         circleImageViews.get(linearLayout.getId()).setBorderWidth(9);
 

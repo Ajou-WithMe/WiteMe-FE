@@ -132,6 +132,7 @@ public class Bulletin5 extends Fragment {
                                 String img = post.getString("img");
                                 String title = post.getString("title");
                                 String clothes = post.getString("description");
+                                int state = post.getInt("state");
 
                                 LinearLayout linearLayout = new LinearLayout(getContext());
                                 linearLayout.setId(i);
@@ -153,8 +154,10 @@ public class Bulletin5 extends Fragment {
                                 postImg.setLayoutParams(imgParam);
 
                                 Glide.with(getActivity().getApplicationContext()).load(img).into(postImg);
-                                if (img.equals("null")) {
+                                if (img.equals("null") && state == 0) {
                                     postImg.setBackgroundResource(R.drawable.no_profile);
+                                } else if (img.equals("null") && state == 1) {
+                                    postImg.setBackgroundResource(R.drawable.state_changed);
                                 }
 
                                 linearLayout.addView(postImg);
@@ -199,7 +202,6 @@ public class Bulletin5 extends Fragment {
 
                                 detailPost.addView(tv_final);
                                 tv_final.setLayoutParams(lp_text1);
-
 
                                 TextView tv_clothes = new TextView(getActivity().getApplicationContext());
                                 tv_clothes.setText("인상 착의 : " + clothes);
