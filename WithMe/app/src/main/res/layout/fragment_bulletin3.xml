@@ -250,15 +250,25 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view22" />
 
-                <LinearLayout
-                    android:id="@+id/pictureLayout"
-                    android:layout_width="wrap_content"
+                <HorizontalScrollView
+                    android:id="@+id/horizontalScrollView2"
+                    android:layout_width="match_parent"
                     android:layout_height="216px"
                     android:layout_marginStart="66px"
                     android:layout_marginTop="24px"
-                    android:orientation="horizontal"
+                    android:layout_marginEnd="66px"
+                    android:scrollbars="none"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/clothes" />
+                    app:layout_constraintTop_toBottomOf="@+id/clothes">
+
+                    <LinearLayout
+                        android:id="@+id/pictureLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal" />
+
+                </HorizontalScrollView>
 
                 <View
                     android:id="@+id/view23"
@@ -268,7 +278,7 @@
                     android:background="#E9E9E9"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/pictureLayout" />
+                    app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView2" />
 
                 <CheckBox
                     android:id="@+id/checkBox"

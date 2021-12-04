@@ -14,11 +14,13 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -31,10 +33,12 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.L;
 import com.bumptech.glide.Glide;
 import com.example.withme.MainActivity;
 import com.example.withme.R;
@@ -79,6 +83,7 @@ public class Bulletin3 extends Fragment {
 
 
     MainActivity activity;
+    private Handler mHandler = new Handler();
 
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
@@ -91,7 +96,7 @@ public class Bulletin3 extends Fragment {
     private View view;
     private int protectionPersonNum;
     private JSONObject protectionPerson;
-    private LinearLayout protectionPersonLayout;
+    private LinearLayout protectionPersonLayout, pictureLayout;
     private HorizontalScrollView horizontalScrollView;
     private EditText etTitle, etClothes, etActivityRadius, etContent;
     private TextView category, register, uploadPicture;
@@ -123,6 +128,7 @@ public class Bulletin3 extends Fragment {
         view = inflater.inflate(R.layout.fragment_bulletin3, container, false);
 
         protectionPersonLayout = (LinearLayout) view.findViewById(R.id.getAllProtectionLayout);
+        pictureLayout = (LinearLayout) view.findViewById(R.id.pictureLayout);
         horizontalScrollView = (HorizontalScrollView) view.findViewById(R.id.horizontalScrollView);
 
         register = (TextView) view.findViewById(R.id.register);
@@ -395,7 +401,8 @@ public class Bulletin3 extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        pathList.clear();
+        imagesFromServer.clear();
         if(data == null) {   // 어떤 이미지도 선택하지 않은 경우
             Toast.makeText(getContext(), "이미지를 선택하지 않았습니다.", Toast.LENGTH_LONG).show();
             imagesFromServer = null;
@@ -456,8 +463,8 @@ public class Bulletin3 extends Fragment {
                 }
             }
         }
+        mHandler.postDelayed(mMyTask, 1200); // 1초후에 실행
     }
-
     //Uri -> Path(파일경로)
     public static String uri2path(Context context, Uri contentUri) {
         String[] proj = { MediaStore.Images.Media.DATA };
@@ -484,4 +491,32 @@ public class Bulletin3 extends Fragment {
             );
         }
     }
+
+    private Runnable mMyTask = new Runnable() {
+        @Override
+        public void run() {
+            pictureLayout.removeAllViews();
+            Log.e("runnable", imagesFromServer.toString());
+            for (int i = 0; i < imagesFromServer.size(); i++) {
+                ImageView imageView = new ImageView(getActivity().getApplicationContext());
+                ViewGroup.LayoutParams image= new LinearLayout.LayoutParams(216, 216);
+                imageView.setLayoutParams(image);
+
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                        216,
+                        216);
+                lp.setMargins(0,0,24,0);
+                imageView.setLayoutParams(lp);
+
+                if (imagesFromServer.get(i).equals("null")) {
+                    imageView.setBackgroundColor(Color.parseColor("#BDBDBD"));
+                } else {
+                    Glide.with(getActivity()).load(pathList.get(i)).into(imageView);
+                }
+
+                pictureLayout.addView(imageView);
+            }
+
+        }
+    };
 }

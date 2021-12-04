@@ -98,6 +98,12 @@ public class Bulletin6 extends Fragment {
             ViewGroup.LayoutParams image= new LinearLayout.LayoutParams(360, 360);
             imageView.setLayoutParams(image);
 
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                    360,
+                    360);
+            lp.setMargins(0,0,36,0);
+            imageView.setLayoutParams(lp);
+
             Glide.with(getActivity().getApplicationContext()).load(fileList.get(i)).into(imageView);
             if (fileList.get(i).equals("null")) {
                 imageView.setBackgroundColor(Color.parseColor("#BDBDBD"));
