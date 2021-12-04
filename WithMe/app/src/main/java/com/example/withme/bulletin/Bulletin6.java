@@ -1,5 +1,6 @@
 package com.example.withme.bulletin;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,9 +14,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.withme.R;
 import com.example.withme.group.BottomSheetDialogMain;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -27,8 +31,11 @@ public class Bulletin6 extends Fragment {
 
     private ImageButton option;
     private long id;
+    private LinearLayout postImgLayout;
     private String title, description, contents, radius, name, phone, createdAt;
     private TextView addComment, postTitle, clothes, activityRadius, content, nameAge, phoneNumber, finalLocation, date;
+
+    ArrayList<String> fileList = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,8 +51,9 @@ public class Bulletin6 extends Fragment {
         phoneNumber = (TextView) rootView.findViewById(R.id.phoneNumber);
         finalLocation = (TextView) rootView.findViewById(R.id.finalLocation);
         date = (TextView) rootView.findViewById(R.id.date);
-
         addComment = (TextView) rootView.findViewById(R.id.addComment);
+
+        postImgLayout = (LinearLayout) rootView.findViewById(R.id.postImgLayout);
 
         // 빈 데이터 리스트 생성.
         final ArrayList<String> items = new ArrayList<String>() ;
@@ -67,14 +75,14 @@ public class Bulletin6 extends Fragment {
             createdAt = bundle.getString("createdAt");
             radius = bundle.getString("activityRadius");
             phone = bundle.getString("phone");
+            fileList = bundle.getStringArrayList("files");
         }
 
         StringTokenizer st = new StringTokenizer(createdAt,"T");
         String tmpDate = st.nextToken();
         tmpDate = tmpDate.replaceAll("-",".");
         String tokenized = tmpDate.substring(2, 10);
-        Log.e("tokenizer", tokenized);
-
+        Log.e("fileList", String.valueOf(fileList));
 
         date.setText(tokenized);
         postTitle.setText(title);
@@ -84,6 +92,19 @@ public class Bulletin6 extends Fragment {
         nameAge.setText(name);
         phoneNumber.setText(phone);
         finalLocation.setText("아직 구현 못했습니당");
+
+        for (int i = 0; i < fileList.size(); i++) {
+            ImageView imageView = new ImageView(getActivity().getApplicationContext());
+            ViewGroup.LayoutParams image= new LinearLayout.LayoutParams(360, 360);
+            imageView.setLayoutParams(image);
+
+            Glide.with(getActivity().getApplicationContext()).load(fileList.get(i)).into(imageView);
+            if (fileList.get(i).equals("null")) {
+                imageView.setBackgroundColor(Color.parseColor("#BDBDBD"));
+            }
+
+            postImgLayout.addView(imageView);
+        }
 
         addComment.setOnClickListener(new View.OnClickListener() {
             @Override

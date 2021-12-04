@@ -348,7 +348,6 @@ public class Bulletin3 extends Fragment {
                         }
                     });
                 }
-                Log.e("files", String.valueOf(file));
                 input.put("title", title);
                 input.put("location", category.getText().toString());
                 input.put("activityRadius", activityRadius);
@@ -357,7 +356,7 @@ public class Bulletin3 extends Fragment {
                 input.put("longitude", 126);
                 input.put("latitude", 37);
                 input.put("content", content);
-                input.put("files", file);
+                input.put("files", imagesFromServer);
                 input.put("protection", uid);
 
                 retrofitAPI.savePost(accessToken, input).enqueue(new Callback<ResponseBody>() {
@@ -399,6 +398,7 @@ public class Bulletin3 extends Fragment {
 
         if(data == null) {   // 어떤 이미지도 선택하지 않은 경우
             Toast.makeText(getContext(), "이미지를 선택하지 않았습니다.", Toast.LENGTH_LONG).show();
+            imagesFromServer = null;
         }
         else{      // 이미지를 여러장 선택한 경우
             ClipData clipData = data.getClipData();

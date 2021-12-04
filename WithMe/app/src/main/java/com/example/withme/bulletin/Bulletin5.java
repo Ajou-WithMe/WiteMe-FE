@@ -38,6 +38,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.ResponseBody;
@@ -236,14 +237,21 @@ public class Bulletin5 extends Fragment {
                                                         if (success == true) {
                                                             JSONObject data = jsonObject.getJSONObject("data");
                                                             String title = data.getString("title");
+                                                            JSONArray files = data.getJSONArray("files");
                                                             String createdAt = data.getString("createdAt");
                                                             String content = data.getString("content");
                                                             String activityRadius = data.getString("activityRadius");
                                                             String name = data.getString("name");
                                                             String description = data.getString("description");
+                                                            ArrayList<String> fileList = new ArrayList<>();
+
+                                                            for (int file = 0; file < files.length(); file++) {
+                                                                fileList.add(files.getString(file));
+                                                            }
 
                                                             result.putString("title", title);
                                                             result.putString("createdAt", createdAt);
+                                                            result.putStringArrayList("files", fileList);
                                                             result.putString("content", content);
                                                             result.putString("activityRadius", activityRadius);
                                                             result.putString("name", name);
