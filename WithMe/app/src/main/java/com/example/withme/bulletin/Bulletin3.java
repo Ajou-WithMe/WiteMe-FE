@@ -2,15 +2,24 @@ package com.example.withme.bulletin;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.ClipData;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -29,7 +38,9 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.withme.MainActivity;
 import com.example.withme.R;
+import com.example.withme.group.GroupActivity1;
 import com.example.withme.retorfit.RetrofitAPI;
+import com.example.withme.retorfit.UploadImage;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,6 +53,9 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -60,17 +74,27 @@ public class Bulletin3 extends Fragment {
     ArrayList<CircleImageView> circleImageViews = new ArrayList<>();
     ArrayList<TextView> textViews = new ArrayList<>();
     ArrayList<String> file = new ArrayList<>();
+    ArrayList<String> pathList = new ArrayList<>();
+    ArrayList<String> imagesFromServer = new ArrayList<>();
+
 
     MainActivity activity;
 
-    private String profile, uid, accessToken, title, clothes, location, activityRadius, content, phoneNumber;
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+
+    private String selectedImagePath, imageFromServer, profile, uid, accessToken, title, clothes, location,
+            activityRadius, content, phoneNumber;
     private View view;
     private int protectionPersonNum;
     private JSONObject protectionPerson;
     private LinearLayout protectionPersonLayout;
     private HorizontalScrollView horizontalScrollView;
     private EditText etTitle, etClothes, etActivityRadius, etContent;
-    private TextView category, register;
+    private TextView category, register, uploadPicture;
     private CheckBox checkBox;
 
     int i=0;
@@ -103,6 +127,8 @@ public class Bulletin3 extends Fragment {
 
         register = (TextView) view.findViewById(R.id.register);
         category = (TextView) view.findViewById(R.id.category);
+        uploadPicture = (TextView) view.findViewById(R.id.uploadPicture);
+
         etClothes = (EditText) view.findViewById(R.id.clothes);
         etTitle = (EditText) view.findViewById(R.id.etTitle);
         etContent = (EditText) view.findViewById(R.id.etContent);
@@ -116,6 +142,19 @@ public class Bulletin3 extends Fragment {
             category.setText(location);
             category.setTextColor(Color.parseColor("#333333"));
         }
+
+        uploadPicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                verifyStoragePermissions(getActivity());
+
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, 2222);
+            }
+        });
 
         retrofitAPI.getAllprotection(accessToken).enqueue(new Callback<ResponseBody>() {
             @Override
@@ -138,6 +177,8 @@ public class Bulletin3 extends Fragment {
                                 profile = protectionPerson.getString("profileImg");
                                 uid = protectionPerson.getString("uid");
 
+                                Log.e("profile", profile);
+
                                 LinearLayout linearLayout = new LinearLayout(getContext());
                                 linearLayout.setId(j);
                                 ViewGroup.LayoutParams layout= new LinearLayout.LayoutParams(150, 222);
@@ -155,7 +196,7 @@ public class Bulletin3 extends Fragment {
                                 textView.setText(name);
                                 textView.setTextSize(16);
                                 textView.setTextColor(Color.parseColor("#BDBDBD"));
-//
+
                                 Glide.with(getActivity().getApplicationContext()).load(profile).into(circleImageView);
                                 if (profile.equals("null")) {
                                     circleImageView.setBackgroundResource(R.drawable.solo_white);
@@ -183,8 +224,6 @@ public class Bulletin3 extends Fragment {
                                 linearLayout.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        file.set(0, profile);
-
                                         circleImageViews.get(linearLayout.getId()).setBorderColor(Color.parseColor("#FED537"));
                                         circleImageViews.get(linearLayout.getId()).setBorderWidth(9);
 
@@ -309,6 +348,7 @@ public class Bulletin3 extends Fragment {
                         }
                     });
                 }
+                Log.e("files", String.valueOf(file));
                 input.put("title", title);
                 input.put("location", category.getText().toString());
                 input.put("activityRadius", activityRadius);
@@ -351,5 +391,97 @@ public class Bulletin3 extends Fragment {
             }
         });
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(data == null) {   // 어떤 이미지도 선택하지 않은 경우
+            Toast.makeText(getContext(), "이미지를 선택하지 않았습니다.", Toast.LENGTH_LONG).show();
+        }
+        else{      // 이미지를 여러장 선택한 경우
+            ClipData clipData = data.getClipData();
+            Log.e("clipData", String.valueOf(clipData.getItemCount()));
+
+            if(clipData.getItemCount() > 5){   // 선택한 이미지가 5장 이상인 경우
+                Toast.makeText(getContext(), "사진은 5장까지 선택 가능합니다.", Toast.LENGTH_LONG).show();
+            } else{   // 선택한 이미지가 1장 이상 5장 이하인 경우
+                for (int i = 0; i < clipData.getItemCount(); i++){
+                    Uri selectedImageUri = clipData.getItemAt(i).getUri();  // 선택한 이미지들의 uri를 가져온다.
+                    try {
+                        selectedImagePath = uri2path(getContext(), selectedImageUri);
+
+                        pathList.add(selectedImagePath);  //uri를 list에 담는다.
+                    } catch (Exception e) {
+                    }
+                }
+
+                Log.e("pathList", pathList.toString());
+
+                for (int j = 0; j < pathList.size(); j++) {
+
+                    File file = new File(pathList.get(j));
+                    RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), file);
+                    MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+
+                    retrofitAPI.uploadPostFile(accessToken, body).enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            if (response.isSuccessful()) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response.body().string());
+                                    boolean success = jsonObject.getBoolean("success");
+
+                                    if (success == true) {
+                                        imageFromServer = jsonObject.getString("data");
+
+                                        imagesFromServer.add(imageFromServer); // 서버로부터 파일 받아오기(리스트에 저장)
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                Log.e("data", "?!");
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            Log.e("data", t.getMessage());
+                        }
+                    });
+                }
+            }
+        }
+    }
+
+    //Uri -> Path(파일경로)
+    public static String uri2path(Context context, Uri contentUri) {
+        String[] proj = { MediaStore.Images.Media.DATA };
+
+        Cursor cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
+        cursor.moveToNext();
+        String path = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DATA));
+        Uri uri = Uri.fromFile(new File(path));
+
+        cursor.close();
+        return path;
+    }
+
+    public static void verifyStoragePermissions(Activity activity) {
+        // Check if we have write permission
+        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        }
     }
 }

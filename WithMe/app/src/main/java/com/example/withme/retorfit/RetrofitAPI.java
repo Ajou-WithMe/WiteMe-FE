@@ -106,6 +106,10 @@ public interface RetrofitAPI {
     @POST("/file/profile")
     Call<UploadImage> uploadImage(@Header("AccessToken") String accessToken, @Part MultipartBody.Part postImg);
 
+    @Multipart
+    @POST("/file/post")
+    Call<ResponseBody> uploadPostFile(@Header("AccessToken") String accessToken, @Part MultipartBody.Part postImg);
+
     @POST("/zone_manage/certify_zone/")
     Call<ResponseBody> safeZoneVerification(@Header("AccessToken")String accessToken, @Body HashMap<String, Object> param);
 

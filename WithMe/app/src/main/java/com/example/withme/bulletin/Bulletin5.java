@@ -4,7 +4,10 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -33,6 +36,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.ResponseBody;
@@ -158,6 +163,9 @@ public class Bulletin5 extends Fragment {
                                     postImg.setBackgroundResource(R.drawable.no_profile);
                                 } else if (img.equals("null") && state == 1) {
                                     postImg.setBackgroundResource(R.drawable.state_changed);
+                                } else {
+                                    Log.e("postImg", img);
+                                    Glide.with(getContext()).load(img).into(postImg);
                                 }
 
                                 linearLayout.addView(postImg);
