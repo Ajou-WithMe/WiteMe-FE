@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private String accessToken;
     private double latitude, longitude;
-    private int disconnected;
+    private int disconnected, type;
     private JSONObject coordinate1, coordinate2, coordinate3, coordinate4;
     private ArrayList<String> protectionPersonName = new ArrayList<>();
     private ArrayList<String> protectionPersonName_sec = new ArrayList<>();
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private ArrayList<PolygonOverlay> polygons = new ArrayList<>();
     private JSONArray safeZoneCoord;
 
-    private ConstraintLayout coachMark;
+    private ConstraintLayout coachMark, navigationView;
     private LinearLayout protectionPersonLayout;
     private NaverMap naverMap;
     private MapView mapView;
@@ -168,6 +168,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         bundle.putString("AccessToken", accessToken);
 
         coachMark = (ConstraintLayout) findViewById(R.id.coach_mark_master_view);
+        navigationView = (ConstraintLayout) findViewById(R.id.navigationView);
         protectionPersonLayout = (LinearLayout) findViewById(R.id.protectionPersonLayout);
 
         settings = (ImageButton) findViewById(R.id.settings);
@@ -411,10 +412,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                         if (success == true) {
                             JSONObject data = profile.getJSONObject("data");
-                            int type = data.getInt("type");
+                            type = data.getInt("type");
                             Log.e("User Type", String.valueOf(type));
 
                             if (type == 2) {
+                                navigationView.setVisibility(View.GONE);
                                 naverMap.setLocationSource(fusedLocationSource);
                                 ActivityCompat.requestPermissions(MainActivity.this, PERMISSION, LOCATION_PERMISSION_REQUEST_CODE);
                             } else { // 0 : 이메일, 1 : 카카오, 2 : 피보호자
