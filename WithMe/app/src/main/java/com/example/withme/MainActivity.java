@@ -38,6 +38,7 @@ import com.example.withme.group.BottomSheetDialogMain;
 import com.example.withme.group.GroupActivity1;
 import com.example.withme.intro.DescriptionActivity;
 import com.example.withme.retorfit.RetrofitAPI;
+import com.example.withme.settings.Settings;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -99,25 +100,25 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private ConstraintLayout coachMark;
     private LinearLayout protectionPersonLayout;
-    private ImageButton makeGroup1, makeGroup2;
     private NaverMap naverMap;
     private MapView mapView;
     private Marker marker = new Marker();
     private PolygonOverlay polygon = new PolygonOverlay();
     private CircleOverlay circleOverlay = new CircleOverlay();
     private CircleImageView circleImageView;
-    private Button logout, groupButton, refresh;
+    private Button groupButton;
     private Handler mHandler;
     private FusedLocationProviderClient mFusedLocationClient;
     private boolean mLocationPermissionGranted = false;
     private FusedLocationSource fusedLocationSource;
-    private ImageButton bulletinBoard, group;
+    private ImageButton bulletinBoard, group, makeGroup2, settings, refresh;
 
-    MainBulletin bulletin1;
+    MainBulletin mainBulletin;
     WriteBulletin bulletin3;
     MyBulletin bulletin5;
     BulletinDetail bulletin6;
     BottomSheetDialogBoard bottomSheetDialogBoard;
+    Settings settingsFragment;
 
     Retrofit retrofit = new retrofit2.Retrofit.Builder()
             .baseUrl("http://withme-lb-1691720831.ap-northeast-2.elb.amazonaws.com")
@@ -169,19 +170,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         coachMark = (ConstraintLayout) findViewById(R.id.coach_mark_master_view);
         protectionPersonLayout = (LinearLayout) findViewById(R.id.protectionPersonLayout);
 
-        makeGroup1 = (ImageButton) findViewById(R.id.makeGroup_1);
+        settings = (ImageButton) findViewById(R.id.settings);
         makeGroup2 = (ImageButton) findViewById(R.id.makeGroup_2);
         bulletinBoard = (ImageButton) findViewById(R.id.bulletinBoard);
         group = (ImageButton) findViewById(R.id.group);
 
-        logout = (Button) findViewById(R.id.logout);
-        refresh = (Button) findViewById(R.id.refresh);
+        refresh = (ImageButton) findViewById(R.id.refresh);
 
-        bulletin1 = new MainBulletin();
+        mainBulletin = new MainBulletin();
         bulletin3 = new WriteBulletin();
         bulletin5 = new MyBulletin();
         bulletin6 = new BulletinDetail();
         bottomSheetDialogBoard = new BottomSheetDialogBoard();
+        settingsFragment = new Settings();
 
         // 네이버 지도
         mapView = (MapView) findViewById(R.id.map_view);
@@ -233,26 +234,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onClick(View v) {
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragment_container, bulletin1)
+                        .replace(R.id.fragment_container, mainBulletin)
                         .commit();
+
+
             }
         });
 
-        logout.setOnClickListener(new View.OnClickListener() {
+        settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences pref = getSharedPreferences("storeAccessToken", MODE_PRIVATE);
-                SharedPreferences.Editor editor1 = pref.edit();
-                editor1.remove("AccessToken");
-                editor1.commit();
-                stopLocationService();
-                UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
-                    @Override
-                    public void onCompleteLogout() {
-                        startActivity(intent1);
-                    }
-                });
-                startActivity(intent1);
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, settingsFragment)
+                        .commit();
             }
         });
 
@@ -280,7 +275,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
     }
 
-    private void stopLocationService() {
+    public void stopLocationService() {
         if (isLocationServiceRunning()) {
             Intent intent = new Intent(getApplicationContext(), LocationService.class);
             intent.setAction(Constants.ACTION_STOP_LOCATION_SERVICE);
@@ -344,7 +339,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             FragmentManager manager = getSupportFragmentManager();
 
             FragmentTransaction transaction = manager.beginTransaction();
-            transaction.replace(R.id.fragment_container, bulletin1).commit();
+            transaction.replace(R.id.fragment_container, mainBulletin).commit();
             transaction.addToBackStack(null);
         }
         if (index == 3) {

@@ -74,8 +74,11 @@
         <entry key="app/src/main/res/layout/fragment_bulletin4.xml" value="0.1766304347826087" />
         <entry key="app/src/main/res/layout/fragment_bulletin5.xml" value="0.16576086956521738" />
         <entry key="app/src/main/res/layout/fragment_bulletin6.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_mainbulletin.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_mybulletin.xml" value="0.16032608695652173" />
         <entry key="app/src/main/res/layout/fragment_revise_bulletin.xml" value="0.16032608695652173" />
+        <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_writebulletin.xml" value="0.16032608695652173" />
         <entry key="app/src/main/res/layout/group_dialog.xml" value="0.18659420289855072" />
         <entry key="app/src/main/res/layout/invite_protector_dialog.xml" value="0.25" />
         <entry key="app/src/main/res/layout/login_failure_dialog.xml" value="0.25" />

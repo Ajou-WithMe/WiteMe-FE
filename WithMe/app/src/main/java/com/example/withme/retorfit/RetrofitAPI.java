@@ -144,6 +144,9 @@ public interface RetrofitAPI {
     Call<ResponseBody> postPaging(@Header("AccessToken") String accessToken,
                                   @Query("page") long page, @Query("location") String location);
 
+    @PUT("/board")
+    Call<ResponseBody> updatePost(@Header("AccessToken") String accessToken, @Query("id") long id, @Body HashMap<String, Object> param);
+
     @GET("/board/my")
     Call<ResponseBody> getMyPost(@Header("AccessToken") String accessToken);
 

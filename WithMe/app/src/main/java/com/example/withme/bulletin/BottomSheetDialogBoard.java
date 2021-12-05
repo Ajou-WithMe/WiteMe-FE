@@ -105,17 +105,22 @@ public class BottomSheetDialogBoard extends BottomSheetDialogFragment {
                                     String content = data.getString("content");
                                     String protection = data.getString("protection");
                                     int state = data.getInt("state");
+                                    double latitude = data.getDouble("latitude");
+                                    double longitude = data.getDouble("longitude");
                                     String createdAt = data.getString("createdAt");
 
                                     Bundle bundle = new Bundle(); // 번들을 통해 값 전달
 
                                     //번들에 넘길 값 저장
+                                    bundle.putLong("id", id);
                                     bundle.putString("title",title);
                                     bundle.putString("location",location);
                                     bundle.putString("activityRadius",activityRadius);
                                     bundle.putString("description",description);
                                     bundle.putInt("contact",contact);
                                     bundle.putString("content",content);
+                                    bundle.putDouble("latitude", latitude);
+                                    bundle.putDouble("longitude", longitude);
                                     bundle.putString("protection",protection);
                                     bundle.putInt("state",state);
                                     bundle.putString("createdAt",createdAt);

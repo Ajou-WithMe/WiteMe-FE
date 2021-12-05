@@ -96,7 +96,7 @@ public class MainBulletin extends Fragment {
                         category.setText(data);
                         region.setVisibility(View.GONE);
 
-                        
+
                     }
                 }
                 break;

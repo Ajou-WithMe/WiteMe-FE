@@ -201,19 +201,26 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/activityRadius" />
 
-                <EditText
-                    android:id="@+id/finalLocation"
+                <LinearLayout
+                    android:id="@+id/finalLocationLayout"
                     android:layout_width="960px"
-                    android:layout_height="90px"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="20px"
                     android:layout_marginTop="30px"
                     android:background="@null"
-                    android:hint="마지막으로 있었던 장소"
-                    android:textColorHint="#BDBDBD"
-                    android:textSize="42px"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view21" />
+                    app:layout_constraintTop_toBottomOf="@+id/view21">
+
+                    <TextView
+                        android:id="@+id/finalLocation"
+                        android:layout_width="960px"
+                        android:layout_height="wrap_content"
+                        android:hint="마지막으로 있었던 장소"
+                        android:textColorHint="#BDBDBD"
+                        android:gravity="center_vertical"
+                        android:textSize="42px" />
+                </LinearLayout>
 
                 <View
                     android:id="@+id/view22"
@@ -223,31 +230,63 @@
                     android:background="#E9E9E9"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/finalLocation" />
+                    app:layout_constraintTop_toBottomOf="@+id/finalLocationLayout" />
 
                 <EditText
                     android:id="@+id/clothes"
-                    android:layout_width="960px"
+                    android:layout_width="800px"
                     android:layout_height="90px"
                     android:layout_marginLeft="20px"
+                    android:layout_marginStart="70px"
                     android:layout_marginTop="30px"
                     android:background="@null"
                     android:hint="인상 착의(옷, 걸음걸이 등)"
                     android:textColorHint="#BDBDBD"
                     android:textSize="42px"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view22" />
+
+                <TextView
+                    android:id="@+id/uploadPicture"
+                    android:layout_width="141px"
+                    android:layout_height="45px"
+                    android:layout_marginTop="54px"
+                    android:layout_marginEnd="60px"
+                    android:text="사진 등록"
+                    android:textColor="#BDBDBD"
+                    android:textSize="36px"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view22" />
+
+                <HorizontalScrollView
+                    android:id="@+id/horizontalScrollView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="216px"
+                    android:layout_marginStart="66px"
+                    android:layout_marginTop="24px"
+                    android:layout_marginEnd="66px"
+                    android:scrollbars="none"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/clothes">
+
+                    <LinearLayout
+                        android:id="@+id/pictureLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal" />
+
+                </HorizontalScrollView>
 
                 <View
                     android:id="@+id/view23"
                     android:layout_width="960px"
                     android:layout_height="3px"
-                    android:layout_marginTop="30px"
+                    android:layout_marginTop="48px"
                     android:background="#E9E9E9"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/clothes" />
+                    app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView2" />
 
                 <CheckBox
                     android:id="@+id/checkBox"
