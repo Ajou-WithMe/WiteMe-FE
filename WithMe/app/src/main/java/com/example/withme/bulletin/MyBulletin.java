@@ -20,6 +20,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -33,6 +34,7 @@ import com.example.withme.retorfit.RetrofitAPI;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -60,6 +62,8 @@ public class MyBulletin extends Fragment {
     private List<Address> finalLocations;
     private LinearLayout posts;
     private ScrollView scrollView;
+    private TextView post;
+    private ImageButton write;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -86,6 +90,31 @@ public class MyBulletin extends Fragment {
 
         posts = (LinearLayout) rootView.findViewById(R.id.posts);
         scrollView = (ScrollView) rootView.findViewById(R.id.scrollView);
+
+        post = (TextView) rootView.findViewById(R.id.post);
+
+        post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.onFragmentChange(0);
+            }
+        });
+
+        write = (ImageButton) rootView.findViewById(R.id.write);
+
+        write.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager manager = getActivity().getSupportFragmentManager();
+
+                WriteBulletin writeBulletin = new WriteBulletin();
+
+                FragmentTransaction transaction = manager.beginTransaction();
+                transaction.replace(R.id.fragment_container, writeBulletin).commit();
+                transaction.addToBackStack(null);
+            }
+        });
+
 
         retrofitAPI.getProfile(accessToken).enqueue(new Callback<ResponseBody>() {
             @Override
@@ -139,6 +168,7 @@ public class MyBulletin extends Fragment {
                                 int state = post.getInt("state");
                                 double latitude = post.getDouble("latitude");
                                 double longitude = post.getDouble("longitude");
+                                String createdAt = post.getString("createdAt");
 
                                 LinearLayout linearLayout = new LinearLayout(getContext());
                                 linearLayout.setId(i);
@@ -270,6 +300,7 @@ public class MyBulletin extends Fragment {
 
                                                             result.putString("title", title);
                                                             result.putString("createdAt", createdAt);
+                                                            Log.e("createdAt", createdAt);
                                                             result.putStringArrayList("files", fileList);
                                                             result.putString("content", content);
                                                             result.putString("activityRadius", activityRadius);

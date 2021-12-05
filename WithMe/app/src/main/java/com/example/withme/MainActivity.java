@@ -388,7 +388,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         public void run() {
                             Intent intent = getIntent();
                             int out = intent.getIntExtra("out", 3);
-                            Log.e("out", String.valueOf(out));
+//                            Log.e("out", String.valueOf(out));
                         }
                     });
                     try {

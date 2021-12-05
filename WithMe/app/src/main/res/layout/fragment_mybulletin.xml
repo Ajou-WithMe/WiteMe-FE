@@ -22,7 +22,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/textView21"
+                android:id="@+id/post"
                 android:layout_width="135px"
                 android:layout_height="60px"
                 android:layout_marginStart="60px"
@@ -42,7 +42,7 @@
                 android:text="내가 쓴 글"
                 android:textColor="#222222"
                 android:textSize="48px"
-                app:layout_constraintStart_toEndOf="@+id/textView21"
+                app:layout_constraintStart_toEndOf="@+id/post"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton

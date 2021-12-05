@@ -64,7 +64,7 @@ public class LocationService extends Service {
                 input1.put("longitude", longitude);
                 input1.put("speed", speed);
 
-                Log.e("input", latitude + ", " + longitude);
+//                Log.e("input", latitude + ", " + longitude);
 
                 HashMap<String, Object> input2 = new HashMap<>();
                 input2.put("latitude", latitude);
@@ -97,7 +97,7 @@ public class LocationService extends Service {
                                 JSONObject jsonObject = new JSONObject(response.body().string());
                                 boolean success = jsonObject.getBoolean("success");
                                 if (success == true) {
-                                    Log.e("location", jsonObject.toString());
+//                                    Log.e("location", jsonObject.toString());
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -125,9 +125,9 @@ public class LocationService extends Service {
                                     int data = jsonObject.getInt("data");
 
                                     if (data == 1) { // safe zone 내부로 판단
-                                        Log.e("out or not", String.valueOf(data));
+//                                        Log.e("out or not", String.valueOf(data));
                                     } else { // 와부일 경우로 판단
-                                        Log.e("out or not", String.valueOf(data));
+//                                        Log.e("out or not", String.valueOf(data));
                                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                                                 Intent.FLAG_ACTIVITY_SINGLE_TOP |

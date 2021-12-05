@@ -187,13 +187,11 @@
 
                     <TextView
                         android:id="@+id/finalLocation"
-                        android:ellipsize="marquee"
                         android:layout_width="500px"
                         android:layout_height="45px"
                         android:layout_marginStart="387px"
                         android:layout_marginTop="24px"
                         android:text=""
-                        android:singleLine="true"
                         android:textColor="#222222"
                         android:textSize="36px"
                         app:layout_constraintStart_toStartOf="parent"

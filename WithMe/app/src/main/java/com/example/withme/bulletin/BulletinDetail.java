@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -92,12 +93,12 @@ public class BulletinDetail extends Fragment {
             if(finalLocations.size()==0){
                 finalLocation.setText("주소찾기 오류");
             }else{
-                Log.d("찾은 주소",finalLocations.get(0).toString());
                 finalLocation.setText(finalLocations.get(0).getAddressLine(0));
+                finalLocation.setSelected(true);
+                finalLocation.setSingleLine(true);
+                finalLocation.setEllipsize(TextUtils.TruncateAt.MARQUEE);
             }
         }
-
-        finalLocation.setSelected(true);
         clothes.setSelected(true);
         activityRadius.setSelected(true);
 
@@ -105,7 +106,6 @@ public class BulletinDetail extends Fragment {
         String tmpDate = st.nextToken();
         tmpDate = tmpDate.replaceAll("-",".");
         String tokenized = tmpDate.substring(2, 10);
-        Log.e("fileList", String.valueOf(fileList));
 
         date.setText(tokenized);
         postTitle.setText(title);

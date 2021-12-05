@@ -20,6 +20,8 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -143,7 +145,7 @@ public class ReviseBulletin extends Fragment {
 
         Bundle bundle = getArguments();
         if (bundle != null) {
-            id = bundle.getInt("id");
+            id = bundle.getLong("id");
             title = bundle.getString("title");
             location = bundle.getString("location");
             activityRadius = bundle.getString("activityRadius");
@@ -153,6 +155,7 @@ public class ReviseBulletin extends Fragment {
             longitude = bundle.getDouble("longitude");
             state = bundle.getInt("state");
             createdAt = bundle.getString("createdAt");
+            Log.e("id", String.valueOf(id));
         }
 
         Geocoder g = new Geocoder(getContext());
@@ -397,10 +400,12 @@ public class ReviseBulletin extends Fragment {
                 input.put("longitude", longitude);
                 input.put("latitude", latitude);
                 input.put("content", content);
-                input.put("files", file);
+                input.put("files", imagesFromServer);
                 input.put("protection", uid);
                 input.put("state", state);
                 input.put("createdAt", createdAt);
+                Log.e("createAt(revise)", createdAt);
+
                 retrofitAPI.updatePost(accessToken, id, input).enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -411,6 +416,13 @@ public class ReviseBulletin extends Fragment {
 
                                 if (success == true) {
                                     Log.e("update Post", jsonObject.toString());
+                                    FragmentManager manager = getActivity().getSupportFragmentManager();
+
+                                    MainBulletin mainBulletin = new MainBulletin();
+
+                                    FragmentTransaction transaction = manager.beginTransaction();
+                                    transaction.replace(R.id.fragment_container, mainBulletin).commit();
+                                    transaction.addToBackStack(null);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

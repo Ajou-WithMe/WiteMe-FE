@@ -125,6 +125,8 @@ public class BottomSheetDialogBoard extends BottomSheetDialogFragment {
                                     bundle.putInt("state",state);
                                     bundle.putString("createdAt",createdAt);
 
+                                    Log.e("createdAt", createdAt);
+
                                     FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                                     ReviseBulletin reviseBulletin = new ReviseBulletin();//프래그먼트2 선언
                                     reviseBulletin.setArguments(bundle);//번들을 프래그먼트2로 보낼 준비
