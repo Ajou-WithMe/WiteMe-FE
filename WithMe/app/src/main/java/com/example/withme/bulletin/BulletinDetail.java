@@ -53,18 +53,8 @@ public class BulletinDetail extends Fragment {
         phoneNumber = (TextView) rootView.findViewById(R.id.phoneNumber);
         finalLocation = (TextView) rootView.findViewById(R.id.finalLocation);
         date = (TextView) rootView.findViewById(R.id.date);
-        addComment = (TextView) rootView.findViewById(R.id.addComment);
 
         postImgLayout = (LinearLayout) rootView.findViewById(R.id.postImgLayout);
-
-        // 빈 데이터 리스트 생성.
-        final ArrayList<String> items = new ArrayList<String>() ;
-        // ArrayAdapter 생성. 아이템 View를 선택(single choice)가능하도록 만듦.
-        final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, items) ;
-
-        // listview 생성 및 adapter 지정.
-        final ListView listview = (ListView) rootView.findViewById(R.id.comment_list) ;
-        listview.setAdapter(adapter) ;
 
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -133,20 +123,6 @@ public class BulletinDetail extends Fragment {
 
             postImgLayout.addView(imageView);
         }
-
-        addComment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int count;
-                count = adapter.getCount();
-
-                // 아이템 추가.
-                items.add("LIST" + Integer.toString(count + 1));
-
-                // listview 갱신
-                adapter.notifyDataSetChanged();
-            }
-        });
 
         option = (ImageButton) rootView.findViewById(R.id.option);
 
