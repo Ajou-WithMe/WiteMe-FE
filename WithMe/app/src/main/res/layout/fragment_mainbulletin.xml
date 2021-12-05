@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:clickable="true"
     android:background="#FFFFFF"
-    tools:context=".bulletin.Bulletin1">
+    tools:context=".bulletin.MainBulletin">
 
     <!-- TODO: Update blank fragment layout -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -58,6 +58,16 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
+            android:id="@+id/category"
+            android:layout_width="wrap_content"
+            android:layout_height="60px"
+            android:layout_marginStart="60px"
+            android:layout_marginTop="60px"
+            android:textColor="#333333"
+            android:textSize="48px"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
+        <TextView
             android:id="@+id/region"
             android:layout_width="362px"
             android:layout_height="54px"
@@ -68,16 +78,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
-
-<!--        <Spinner-->
-<!--            android:id="@+id/spinner"-->
-<!--            android:spinnerMode="dropdown"-->
-<!--            android:layout_width="270px"-->
-<!--            android:layout_height="60px"-->
-<!--            android:layout_marginTop="57px"-->
-<!--            android:layout_marginEnd="60px"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />-->
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/navigationView"

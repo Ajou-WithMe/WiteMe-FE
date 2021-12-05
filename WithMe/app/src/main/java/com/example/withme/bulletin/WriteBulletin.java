@@ -17,13 +17,10 @@ import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -34,7 +31,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
@@ -43,14 +39,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.airbnb.lottie.L;
 import com.bumptech.glide.Glide;
 import com.example.withme.MainActivity;
 import com.example.withme.R;
-import com.example.withme.group.GroupActivity1;
-import com.example.withme.group.GroupActivity3;
 import com.example.withme.retorfit.RetrofitAPI;
-import com.example.withme.retorfit.UploadImage;
 import com.example.withme.user.WebViewActivity;
 
 import org.json.JSONArray;
@@ -62,7 +54,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.MediaType;
@@ -75,7 +66,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class Bulletin3 extends Fragment {
+public class WriteBulletin extends Fragment {
 
     Retrofit retrofit = new retrofit2.Retrofit.Builder()
             .baseUrl("http://withme-lb-1691720831.ap-northeast-2.elb.amazonaws.com")
@@ -138,7 +129,7 @@ public class Bulletin3 extends Fragment {
         SharedPreferences sf = getActivity().getSharedPreferences("storeAccessToken", MODE_PRIVATE);
         accessToken = sf.getString("AccessToken", "");
 
-        view = inflater.inflate(R.layout.fragment_bulletin3, container, false);
+        view = inflater.inflate(R.layout.fragment_writebulletin, container, false);
 
         protectionPersonLayout = (LinearLayout) view.findViewById(R.id.getAllProtectionLayout);
         pictureLayout = (LinearLayout) view.findViewById(R.id.pictureLayout);

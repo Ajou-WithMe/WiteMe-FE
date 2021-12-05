@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".bulletin.Bulletin6">
+    tools:context=".bulletin.BulletinDetail">
 
     <!-- TODO: Update blank fragment layout -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -138,7 +138,7 @@
 
                     <TextView
                         android:id="@+id/nameAge"
-                        android:layout_width="wrap_content"
+                        android:layout_width="500px"
                         android:layout_height="45px"
                         android:layout_marginStart="387px"
                         android:layout_marginTop="36px"
@@ -161,8 +161,9 @@
                         app:layout_constraintTop_toBottomOf="@+id/textView42" />
 
                     <TextView
+                        android:ellipsize="marquee"
                         android:id="@+id/activityRadius"
-                        android:layout_width="wrap_content"
+                        android:layout_width="500px"
                         android:layout_height="45px"
                         android:layout_marginStart="387px"
                         android:layout_marginTop="24px"
@@ -186,11 +187,13 @@
 
                     <TextView
                         android:id="@+id/finalLocation"
-                        android:layout_width="wrap_content"
+                        android:ellipsize="marquee"
+                        android:layout_width="500px"
                         android:layout_height="45px"
                         android:layout_marginStart="387px"
                         android:layout_marginTop="24px"
                         android:text=""
+                        android:singleLine="true"
                         android:textColor="#222222"
                         android:textSize="36px"
                         app:layout_constraintStart_toStartOf="parent"
@@ -210,7 +213,7 @@
 
                     <TextView
                         android:id="@+id/phoneNumber"
-                        android:layout_width="wrap_content"
+                        android:layout_width="500px"
                         android:layout_height="45px"
                         android:layout_marginStart="387px"
                         android:layout_marginTop="24px"
@@ -233,7 +236,8 @@
 
                     <TextView
                         android:id="@+id/clothes"
-                        android:layout_width="wrap_content"
+                        android:ellipsize="marquee"
+                        android:layout_width="500px"
                         android:layout_height="45px"
                         android:layout_marginStart="387px"
                         android:layout_marginTop="24px"

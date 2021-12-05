@@ -3,7 +3,6 @@ package com.example.withme.bulletin;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -14,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,7 +26,6 @@ import com.example.withme.R;
 import com.example.withme.retorfit.RetrofitAPI;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -170,7 +167,7 @@ public class BottomSheetDialogBoard extends BottomSheetDialogFragment {
                                     Log.e("deletePostById", data);
                                     Toast.makeText(getContext(), data, Toast.LENGTH_SHORT).show();
 
-                                    Fragment fragment = new Bulletin5();
+                                    Fragment fragment = new MyBulletin();
                                     FragmentManager fm = getActivity().getSupportFragmentManager();
                                     FragmentTransaction fmt = fm.beginTransaction();
 
@@ -224,7 +221,7 @@ public class BottomSheetDialogBoard extends BottomSheetDialogFragment {
                                 boolean success = jsonObject.getBoolean("success");
 
                                 if (success == true) {
-                                    Fragment fragment = new Bulletin5();
+                                    Fragment fragment = new MyBulletin();
                                     FragmentManager fm = getActivity().getSupportFragmentManager();
                                     FragmentTransaction fmt = fm.beginTransaction();
 

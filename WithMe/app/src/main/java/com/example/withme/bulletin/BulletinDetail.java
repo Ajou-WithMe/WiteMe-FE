@@ -6,15 +6,12 @@ import android.location.Geocoder;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,15 +20,13 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.withme.R;
-import com.example.withme.group.BottomSheetDialogMain;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-public class Bulletin6 extends Fragment {
+public class BulletinDetail extends Fragment {
 
     private ImageButton option;
     private long id;
@@ -47,7 +42,7 @@ public class Bulletin6 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_bulletin6, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_bulletindetail, container, false);
 
         postTitle = (TextView) rootView.findViewById(R.id.postTitle);
         clothes = (TextView) rootView.findViewById(R.id.clothes);
@@ -102,6 +97,10 @@ public class Bulletin6 extends Fragment {
             }
         }
 
+        finalLocation.setSelected(true);
+        clothes.setSelected(true);
+        activityRadius.setSelected(true);
+
         StringTokenizer st = new StringTokenizer(createdAt,"T");
         String tmpDate = st.nextToken();
         tmpDate = tmpDate.replaceAll("-",".");
@@ -115,7 +114,6 @@ public class Bulletin6 extends Fragment {
         content.setText(contents);
         nameAge.setText(name);
         phoneNumber.setText(phone);
-        finalLocation.setText("아직 구현 못했습니당");
 
         for (int i = 0; i < fileList.size(); i++) {
             ImageView imageView = new ImageView(getActivity().getApplicationContext());

@@ -140,6 +140,10 @@ public interface RetrofitAPI {
     @DELETE("/board")
     Call<ResponseBody> deletePostById(@Header("AccessToken") String accessToken, @Query("id") long id);
 
+    @GET("/board")
+    Call<ResponseBody> postPaging(@Header("AccessToken") String accessToken,
+                                  @Query("page") long page, @Query("location") String location);
+
     @GET("/board/my")
     Call<ResponseBody> getMyPost(@Header("AccessToken") String accessToken);
 

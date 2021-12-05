@@ -30,11 +30,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.withme.bulletin.BottomSheetDialogBoard;
-import com.example.withme.bulletin.Bulletin1;
-import com.example.withme.bulletin.Bulletin2;
-import com.example.withme.bulletin.Bulletin3;
-import com.example.withme.bulletin.Bulletin5;
-import com.example.withme.bulletin.Bulletin6;
+import com.example.withme.bulletin.MainBulletin;
+import com.example.withme.bulletin.WriteBulletin;
+import com.example.withme.bulletin.MyBulletin;
+import com.example.withme.bulletin.BulletinDetail;
 import com.example.withme.group.BottomSheetDialogMain;
 import com.example.withme.group.GroupActivity1;
 import com.example.withme.intro.DescriptionActivity;
@@ -114,11 +113,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private FusedLocationSource fusedLocationSource;
     private ImageButton bulletinBoard, group;
 
-    Bulletin1 bulletin1;
-    Bulletin2 bulletin2;
-    Bulletin3 bulletin3;
-    Bulletin5 bulletin5;
-    Bulletin6 bulletin6;
+    MainBulletin bulletin1;
+    WriteBulletin bulletin3;
+    MyBulletin bulletin5;
+    BulletinDetail bulletin6;
     BottomSheetDialogBoard bottomSheetDialogBoard;
 
     Retrofit retrofit = new retrofit2.Retrofit.Builder()
@@ -179,11 +177,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         logout = (Button) findViewById(R.id.logout);
         refresh = (Button) findViewById(R.id.refresh);
 
-        bulletin1 = new Bulletin1();
-        bulletin2 = new Bulletin2();
-        bulletin3 = new Bulletin3();
-        bulletin5 = new Bulletin5();
-        bulletin6 = new Bulletin6();
+        bulletin1 = new MainBulletin();
+        bulletin3 = new WriteBulletin();
+        bulletin5 = new MyBulletin();
+        bulletin6 = new BulletinDetail();
         bottomSheetDialogBoard = new BottomSheetDialogBoard();
 
         // 네이버 지도
@@ -348,13 +345,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             FragmentTransaction transaction = manager.beginTransaction();
             transaction.replace(R.id.fragment_container, bulletin1).commit();
-            transaction.addToBackStack(null);
-        }
-        if(index == 2) {
-            FragmentManager manager = getSupportFragmentManager();
-
-            FragmentTransaction transaction = manager.beginTransaction();
-            transaction.replace(R.id.fragment_container, bulletin2).commit();
             transaction.addToBackStack(null);
         }
         if (index == 3) {

@@ -74,6 +74,7 @@
         <entry key="app/src/main/res/layout/fragment_bulletin4.xml" value="0.1766304347826087" />
         <entry key="app/src/main/res/layout/fragment_bulletin5.xml" value="0.16576086956521738" />
         <entry key="app/src/main/res/layout/fragment_bulletin6.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_mybulletin.xml" value="0.16032608695652173" />
         <entry key="app/src/main/res/layout/fragment_revise_bulletin.xml" value="0.16032608695652173" />
         <entry key="app/src/main/res/layout/group_dialog.xml" value="0.18659420289855072" />
         <entry key="app/src/main/res/layout/invite_protector_dialog.xml" value="0.25" />
@@ -86,6 +87,9 @@
         <entry key="app/src/main/res/xml/spinner_item.xml" value="0.18659420289855072" />
       </map>
     </option>
+  </component>
+  <component name="ProjectPlainTextFileTypeManager">
+    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_bulletin2.xml" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />

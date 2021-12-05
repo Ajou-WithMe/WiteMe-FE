@@ -4,12 +4,9 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -28,7 +25,6 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.airbnb.lottie.L;
 import com.bumptech.glide.Glide;
 import com.example.withme.MainActivity;
 import com.example.withme.R;
@@ -39,12 +35,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,7 +45,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class Bulletin5 extends Fragment {
+public class MyBulletin extends Fragment {
 
     MainActivity activity;
 
@@ -86,7 +79,7 @@ public class Bulletin5 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_bulletin5, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_mybulletin, container, false);
 
         SharedPreferences sf = getActivity().getSharedPreferences("storeAccessToken", MODE_PRIVATE);
         accessToken = sf.getString("AccessToken", "");
@@ -170,13 +163,10 @@ public class Bulletin5 extends Fragment {
                                 if (img.equals("null") && state == 0) {
                                     postImg.setBackgroundResource(R.drawable.no_profile);
                                 } else if (state == 1) {
-                                    postImg.setImageResource(0);
-                                    postImg.setBackgroundResource(R.drawable.state_changed);
+                                    Glide.with(getContext()).load(R.drawable.state_changed).into(postImg);
                                 } else if (state == 0){
-                                    Log.e("postImg", img);
                                     Glide.with(getContext()).load(img).into(postImg);
                                 }
-
                                 linearLayout.addView(postImg);
 
                                 LinearLayout detailPost = new LinearLayout(getContext());
@@ -294,7 +284,7 @@ public class Bulletin5 extends Fragment {
                                                     } catch (IOException e) {
                                                         e.printStackTrace();
                                                     }
-                                                    Fragment fragment = new Bulletin6();
+                                                    Fragment fragment = new BulletinDetail();
                                                     FragmentManager fm = getActivity().getSupportFragmentManager();
                                                     FragmentTransaction fmt = fm.beginTransaction();
                                                     fragment.setArguments(result);
