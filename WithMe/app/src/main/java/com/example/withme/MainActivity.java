@@ -33,7 +33,6 @@ import com.example.withme.bulletin.BottomSheetDialogBoard;
 import com.example.withme.bulletin.Bulletin1;
 import com.example.withme.bulletin.Bulletin2;
 import com.example.withme.bulletin.Bulletin3;
-import com.example.withme.bulletin.Bulletin4;
 import com.example.withme.bulletin.Bulletin5;
 import com.example.withme.bulletin.Bulletin6;
 import com.example.withme.group.BottomSheetDialogMain;
@@ -118,7 +117,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     Bulletin1 bulletin1;
     Bulletin2 bulletin2;
     Bulletin3 bulletin3;
-    Bulletin4 bulletin4;
     Bulletin5 bulletin5;
     Bulletin6 bulletin6;
     BottomSheetDialogBoard bottomSheetDialogBoard;
@@ -184,7 +182,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         bulletin1 = new Bulletin1();
         bulletin2 = new Bulletin2();
         bulletin3 = new Bulletin3();
-        bulletin4 = new Bulletin4();
         bulletin5 = new Bulletin5();
         bulletin6 = new Bulletin6();
         bottomSheetDialogBoard = new BottomSheetDialogBoard();
@@ -362,16 +359,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         if (index == 3) {
             FragmentManager manager = getSupportFragmentManager();
-
             FragmentTransaction transaction = manager.beginTransaction();
             transaction.replace(R.id.fragment_container, bulletin3).commit();
-            transaction.addToBackStack(null);
-        }
-        if (index == 4) {
-            FragmentManager manager = getSupportFragmentManager();
-
-            FragmentTransaction transaction = manager.beginTransaction();
-            transaction.replace(R.id.fragment_container, bulletin4).commit();
             transaction.addToBackStack(null);
         }
         if (index == 5) {

@@ -1,6 +1,8 @@
 package com.example.withme.bulletin;
 
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -24,7 +26,9 @@ import com.example.withme.R;
 import com.example.withme.group.BottomSheetDialogMain;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 public class Bulletin6 extends Fragment {
@@ -32,7 +36,9 @@ public class Bulletin6 extends Fragment {
     private ImageButton option;
     private long id;
     private LinearLayout postImgLayout;
+    private List<Address> finalLocations;
     private String title, description, contents, radius, name, phone, createdAt;
+    private double longitude, latitude;
     private TextView addComment, postTitle, clothes, activityRadius, content, nameAge, phoneNumber, finalLocation, date;
 
     ArrayList<String> fileList = new ArrayList<>();
@@ -64,7 +70,6 @@ public class Bulletin6 extends Fragment {
         final ListView listview = (ListView) rootView.findViewById(R.id.comment_list) ;
         listview.setAdapter(adapter) ;
 
-
         Bundle bundle = getArguments();
         if (bundle != null) {
             id = bundle.getLong("id"); //id 받기.
@@ -76,6 +81,25 @@ public class Bulletin6 extends Fragment {
             radius = bundle.getString("activityRadius");
             phone = bundle.getString("phone");
             fileList = bundle.getStringArrayList("files");
+            latitude = bundle.getDouble("latitude");
+            longitude = bundle.getDouble("longitude");
+        }
+
+        Geocoder g = new Geocoder(getContext());
+
+        try {
+            finalLocations = g.getFromLocation(latitude,longitude,10);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.d("test","입출력오류");
+        }
+        if(finalLocations!=null){
+            if(finalLocations.size()==0){
+                finalLocation.setText("주소찾기 오류");
+            }else{
+                Log.d("찾은 주소",finalLocations.get(0).toString());
+                finalLocation.setText(finalLocations.get(0).getAddressLine(0));
+            }
         }
 
         StringTokenizer st = new StringTokenizer(createdAt,"T");

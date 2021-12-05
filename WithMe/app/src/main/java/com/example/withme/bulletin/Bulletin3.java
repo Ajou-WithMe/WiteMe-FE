@@ -1,5 +1,6 @@
 package com.example.withme.bulletin;
 
+import static android.app.Activity.RESULT_OK;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.Manifest;
@@ -11,6 +12,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -19,6 +22,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -43,8 +48,10 @@ import com.bumptech.glide.Glide;
 import com.example.withme.MainActivity;
 import com.example.withme.R;
 import com.example.withme.group.GroupActivity1;
+import com.example.withme.group.GroupActivity3;
 import com.example.withme.retorfit.RetrofitAPI;
 import com.example.withme.retorfit.UploadImage;
+import com.example.withme.user.WebViewActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,6 +61,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -92,17 +100,22 @@ public class Bulletin3 extends Fragment {
     };
 
     private String selectedImagePath, imageFromServer, profile, uid, accessToken, title, clothes, location,
-            activityRadius, content, phoneNumber;
+            activityRadius, content, phoneNumber, finalLocations;
+    private double latitude, longitude;
     private View view;
     private int protectionPersonNum;
     private JSONObject protectionPerson;
-    private LinearLayout protectionPersonLayout, pictureLayout;
+    private LinearLayout protectionPersonLayout, pictureLayout, finalLocationLayout;
     private HorizontalScrollView horizontalScrollView;
     private EditText etTitle, etClothes, etActivityRadius, etContent;
-    private TextView category, register, uploadPicture;
+    private TextView category, register, uploadPicture, finalLocation;
     private CheckBox checkBox;
 
     int i=0;
+    private static final int SEARCH_ADDRESS_ACTIVITY = 10000;
+    private final int SEARCH_LOCATION_ACTIVITY = 300;
+    private final int GET_GALLERY_IMAGE = 200;
+
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -129,11 +142,13 @@ public class Bulletin3 extends Fragment {
 
         protectionPersonLayout = (LinearLayout) view.findViewById(R.id.getAllProtectionLayout);
         pictureLayout = (LinearLayout) view.findViewById(R.id.pictureLayout);
+        finalLocationLayout = (LinearLayout) view.findViewById(R.id.finalLocationLayout);
         horizontalScrollView = (HorizontalScrollView) view.findViewById(R.id.horizontalScrollView);
 
         register = (TextView) view.findViewById(R.id.register);
         category = (TextView) view.findViewById(R.id.category);
         uploadPicture = (TextView) view.findViewById(R.id.uploadPicture);
+        finalLocation = (TextView) view.findViewById(R.id.finalLocation);
 
         etClothes = (EditText) view.findViewById(R.id.clothes);
         etTitle = (EditText) view.findViewById(R.id.etTitle);
@@ -149,6 +164,14 @@ public class Bulletin3 extends Fragment {
             category.setTextColor(Color.parseColor("#333333"));
         }
 
+        finalLocationLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), WebViewActivity.class);
+                startActivityForResult(intent, SEARCH_ADDRESS_ACTIVITY);
+            }
+        });
+
         uploadPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -158,7 +181,7 @@ public class Bulletin3 extends Fragment {
                 intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
                 intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                 intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, 2222);
+                startActivityForResult(intent, GET_GALLERY_IMAGE);
             }
         });
 
@@ -272,7 +295,8 @@ public class Bulletin3 extends Fragment {
         category.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activity.onFragmentChange(4);
+                Intent intent = new Intent(getActivity(), SelectLocationActivity.class);
+                startActivityForResult(intent, SEARCH_LOCATION_ACTIVITY);
             }
         });
 
@@ -359,8 +383,8 @@ public class Bulletin3 extends Fragment {
                 input.put("activityRadius", activityRadius);
                 input.put("description", clothes);
                 input.put("contact", 0);
-                input.put("longitude", 126);
-                input.put("latitude", 37);
+                input.put("longitude", longitude);
+                input.put("latitude", latitude);
                 input.put("content", content);
                 input.put("files", imagesFromServer);
                 input.put("protection", uid);
@@ -399,71 +423,119 @@ public class Bulletin3 extends Fragment {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        pathList.clear();
-        imagesFromServer.clear();
-        if(data == null) {   // 어떤 이미지도 선택하지 않은 경우
-            Toast.makeText(getContext(), "이미지를 선택하지 않았습니다.", Toast.LENGTH_LONG).show();
-            imagesFromServer = null;
-        }
-        else{      // 이미지를 여러장 선택한 경우
-            ClipData clipData = data.getClipData();
-            Log.e("clipData", String.valueOf(clipData.getItemCount()));
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
 
-            if(clipData.getItemCount() > 5){   // 선택한 이미지가 5장 이상인 경우
-                Toast.makeText(getContext(), "사진은 5장까지 선택 가능합니다.", Toast.LENGTH_LONG).show();
-            } else{   // 선택한 이미지가 1장 이상 5장 이하인 경우
-                for (int i = 0; i < clipData.getItemCount(); i++){
-                    Uri selectedImageUri = clipData.getItemAt(i).getUri();  // 선택한 이미지들의 uri를 가져온다.
-                    try {
-                        selectedImagePath = uri2path(getContext(), selectedImageUri);
+        final Geocoder geocoder = new Geocoder(getContext());
 
-                        pathList.add(selectedImagePath);  //uri를 list에 담는다.
-                    } catch (Exception e) {
+        switch(requestCode) {
+            case SEARCH_LOCATION_ACTIVITY:
+                if (resultCode == RESULT_OK) {
+                    String data = intent.getExtras().getString("category");
+                    if (data != null) {
+                        category.setText(data);
+                        category.setTextColor(Color.parseColor("#333333"));
                     }
                 }
+                break;
 
-                Log.e("pathList", pathList.toString());
+            case SEARCH_ADDRESS_ACTIVITY:
+                if (resultCode == RESULT_OK) {
+                    String data = intent.getExtras().getString("data");
+                    if (data != null) {
+                        finalLocation.setText(data);
+                        finalLocation.setTextColor(Color.parseColor("#333333"));
 
-                for (int j = 0; j < pathList.size(); j++) {
+                        finalLocations = (String)finalLocation.getText();
+                        List<Address> list = null;
 
-                    File file = new File(pathList.get(j));
-                    RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), file);
-                    MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+                        try {
+                            list = geocoder.getFromLocationName(finalLocations, 1); // 지역 이름, 읽을 개수
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            Log.e("GeoCoder", "입출력 오류 - 서버에서 주소 전환 시 에러 발생");
+                        }
 
-                    retrofitAPI.uploadPostFile(accessToken, body).enqueue(new Callback<ResponseBody>() {
-                        @Override
-                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                            if (response.isSuccessful()) {
-                                try {
-                                    JSONObject jsonObject = new JSONObject(response.body().string());
-                                    boolean success = jsonObject.getBoolean("success");
-
-                                    if (success == true) {
-                                        imageFromServer = jsonObject.getString("data");
-
-                                        imagesFromServer.add(imageFromServer); // 서버로부터 파일 받아오기(리스트에 저장)
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
+                        // 지도 화면에 위도 경도 정보 넘기기
+                        if (list != null) {
+                            if (list.size() == 0) {
+                                Toast.makeText(getActivity(), "해당되는 주소 정보가 없습니다.", Toast.LENGTH_SHORT).show();
                             } else {
-                                Log.e("data", "?!");
+                                latitude = list.get(0).getLatitude();
+                                longitude = list.get(0).getLongitude();
+
+                                Log.e("FinalLocation", latitude + ", " + longitude);
+                            }
+                        }
+                    }
+                }
+                break;
+
+            case GET_GALLERY_IMAGE:
+                pathList.clear();
+                imagesFromServer.clear();
+                if(intent == null) {   // 어떤 이미지도 선택하지 않은 경우
+                    Toast.makeText(getContext(), "이미지를 선택하지 않았습니다.", Toast.LENGTH_LONG).show();
+                    imagesFromServer = null;
+                }
+                else{      // 이미지를 여러장 선택한 경우
+                    ClipData clipData = intent.getClipData();
+                    Log.e("clipData", String.valueOf(clipData.getItemCount()));
+
+                    if(clipData.getItemCount() > 5){   // 선택한 이미지가 5장 이상인 경우
+                        Toast.makeText(getContext(), "사진은 5장까지 선택 가능합니다.", Toast.LENGTH_LONG).show();
+                    } else{   // 선택한 이미지가 1장 이상 5장 이하인 경우
+                        for (int i = 0; i < clipData.getItemCount(); i++){
+                            Uri selectedImageUri = clipData.getItemAt(i).getUri();  // 선택한 이미지들의 uri를 가져온다.
+                            try {
+                                selectedImagePath = uri2path(getContext(), selectedImageUri);
+
+                                pathList.add(selectedImagePath);  //uri를 list에 담는다.
+                            } catch (Exception e) {
                             }
                         }
 
-                        @Override
-                        public void onFailure(Call<ResponseBody> call, Throwable t) {
-                            Log.e("data", t.getMessage());
+                        Log.e("pathList", pathList.toString());
+
+                        for (int j = 0; j < pathList.size(); j++) {
+
+                            File file = new File(pathList.get(j));
+                            RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), file);
+                            MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+
+                            retrofitAPI.uploadPostFile(accessToken, body).enqueue(new Callback<ResponseBody>() {
+                                @Override
+                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                    if (response.isSuccessful()) {
+                                        try {
+                                            JSONObject jsonObject = new JSONObject(response.body().string());
+                                            boolean success = jsonObject.getBoolean("success");
+
+                                            if (success == true) {
+                                                imageFromServer = jsonObject.getString("data");
+
+                                                imagesFromServer.add(imageFromServer); // 서버로부터 파일 받아오기(리스트에 저장)
+                                            }
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    } else {
+                                        Log.e("data", "?!");
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                    Log.e("data", t.getMessage());
+                                }
+                            });
                         }
-                    });
+                    }
                 }
-            }
+                mHandler.postDelayed(mMyTask, 2000); // 1초후에 실행
         }
-        mHandler.postDelayed(mMyTask, 1200); // 1초후에 실행
     }
     //Uri -> Path(파일경로)
     public static String uri2path(Context context, Uri contentUri) {

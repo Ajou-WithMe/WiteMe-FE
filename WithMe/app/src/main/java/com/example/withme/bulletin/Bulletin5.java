@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -15,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -39,6 +42,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.ResponseBody;
@@ -60,6 +64,7 @@ public class Bulletin5 extends Fragment {
 
     private String accessToken, phoneNumber;
     private int postLength;
+    private List<Address> finalLocations;
     private LinearLayout posts;
     private ScrollView scrollView;
 
@@ -139,6 +144,8 @@ public class Bulletin5 extends Fragment {
                                 String title = post.getString("title");
                                 String clothes = post.getString("description");
                                 int state = post.getInt("state");
+                                double latitude = post.getDouble("latitude");
+                                double longitude = post.getDouble("longitude");
 
                                 LinearLayout linearLayout = new LinearLayout(getContext());
                                 linearLayout.setId(i);
@@ -162,9 +169,10 @@ public class Bulletin5 extends Fragment {
                                 Glide.with(getActivity().getApplicationContext()).load(img).into(postImg);
                                 if (img.equals("null") && state == 0) {
                                     postImg.setBackgroundResource(R.drawable.no_profile);
-                                } else if (img.equals("null") && state == 1) {
+                                } else if (state == 1) {
+                                    postImg.setImageResource(0);
                                     postImg.setBackgroundResource(R.drawable.state_changed);
-                                } else {
+                                } else if (state == 0){
                                     Log.e("postImg", img);
                                     Glide.with(getContext()).load(img).into(postImg);
                                 }
@@ -205,9 +213,27 @@ public class Bulletin5 extends Fragment {
                                 tv_title.setLayoutParams(lp_text3);
 
                                 TextView tv_final = new TextView(getActivity().getApplicationContext());
-                                tv_final.setText("마지막 목격 장소 : 아직 구현 안됨");
-                                tv_final.setTextSize(12);
-                                tv_final.setTextColor(Color.parseColor("#222222"));
+
+                                Geocoder g = new Geocoder(getContext());
+
+                                try {
+                                    finalLocations = g.getFromLocation(latitude,longitude,10);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                    Log.d("test","입출력오류");
+                                }
+                                if(finalLocations!=null){
+                                    if(finalLocations.size()==0){
+                                        tv_final.setText("마지막 목격 장소 : 주소 찾기 오류");
+                                    }else{
+                                        tv_final.setText("마지막 목격 장소 : " + finalLocations.get(0).getAddressLine(0));
+                                    }
+                                    tv_final.setTextSize(12);
+                                    tv_final.setTextColor(Color.parseColor("#222222"));
+                                    tv_final.setSelected(true);
+                                    tv_final.setSingleLine();
+                                    tv_final.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+                                }
 
                                 detailPost.addView(tv_final);
                                 tv_final.setLayoutParams(lp_text1);
@@ -244,6 +270,9 @@ public class Bulletin5 extends Fragment {
                                                             String name = data.getString("name");
                                                             String description = data.getString("description");
                                                             ArrayList<String> fileList = new ArrayList<>();
+                                                            double latitude = data.getDouble("latitude");
+                                                            double longitude = data.getDouble("longitude");
+
 
                                                             for (int file = 0; file < files.length(); file++) {
                                                                 fileList.add(files.getString(file));
@@ -257,6 +286,8 @@ public class Bulletin5 extends Fragment {
                                                             result.putString("name", name);
                                                             result.putString("description", description);
                                                             result.putString("phone", phoneNumber);
+                                                            result.putDouble("latitude", latitude);
+                                                            result.putDouble("longitude", longitude);
                                                         }
                                                     } catch (JSONException e) {
                                                         e.printStackTrace();
