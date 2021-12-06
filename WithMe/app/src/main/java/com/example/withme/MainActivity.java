@@ -95,6 +95,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private ArrayList<String> protectionPersonName_sec = new ArrayList<>();
     private ArrayList<String> protectionPersonUid = new ArrayList<>();
     private ArrayList<String> protectionPersonUid_sec = new ArrayList<>();
+    private ArrayList<Integer> protectionPersonDisconnected_sec = new ArrayList<>();
+
     private ArrayList<LatLng> latLngs = new ArrayList<LatLng>();
     private ArrayList<PolygonOverlay> polygons = new ArrayList<>();
     private JSONArray safeZoneCoord;
@@ -706,8 +708,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                         }
                                     });
                                 } else {
-                                    Log.e("not null", "not null");
-
                                     retrofitAPI.getAllprotection(accessToken).enqueue(new Callback<ResponseBody>() {
                                         @Override
                                         public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -718,12 +718,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                                                     if (success == true) {
                                                         JSONArray data = jsonObject.getJSONArray("data");
-
+                                                        Log.e("data",data.toString());
                                                         for (int i = 0; i < data.length(); i++) {
                                                             JSONObject protectionPerson = data.getJSONObject(i);
                                                             disconnected = protectionPerson.getInt("isDisconnected");
                                                             String name = protectionPerson.getString("name");
                                                             String uid = protectionPerson.getString("uid");
+                                                            protectionPersonDisconnected_sec.add(disconnected);
                                                             protectionPersonName_sec.add(name);
                                                             protectionPersonUid_sec.add(uid);
 
@@ -736,6 +737,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                                                             CircleImageView circleImageView = new CircleImageView(getApplicationContext());
                                                             RelativeLayout.LayoutParams circle = new RelativeLayout.LayoutParams(144, 144);
+                                                            circleImageView.setId(i);
                                                             circleImageView.setLayoutParams(circle);
                                                             circleImageView.setClickable(true);
                                                             if (disconnected == 0) { // 연결됐을 때
@@ -770,8 +772,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                                                         PolygonOverlay a = polygons.get(i);
                                                                         a.setMap(null);
                                                                     }
-                                                                    if (disconnected == 1) {
-                                                                        Log.e("disconnected", "disconnected");
+                                                                    Log.e("disconnected", protectionPersonDisconnected_sec.toString());
+                                                                    if (protectionPersonDisconnected_sec.get(circleImageView.getId()) == 1) {
                                                                         retrofitAPI2.findVisitOftenAndDistanceAfterMissing(accessToken, uid).enqueue(new Callback<ResponseBody>() {
                                                                             @Override
                                                                             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -791,6 +793,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                                                                                 polygons.clear();
                                                                                             }
 
+                                                                                            Log.e("circleOverlay", "here");
                                                                                             circleOverlay.setCenter(new LatLng(latitude_protection, longitude_protection));
                                                                                             circleOverlay.setRadius(distance);
                                                                                             circleOverlay.setOutlineWidth(12);
