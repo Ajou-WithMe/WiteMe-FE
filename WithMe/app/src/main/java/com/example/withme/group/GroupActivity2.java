@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.withme.MainActivity;
 import com.example.withme.R;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -65,6 +66,14 @@ public class GroupActivity2 extends AppCompatActivity {
                 clipboardManager.setText(code);
 
                 Toast.makeText(GroupActivity2.this, "복사가 완료되었습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        xButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GroupActivity2.this, MainActivity.class);
+                startActivity(intent);
             }
         });
     }

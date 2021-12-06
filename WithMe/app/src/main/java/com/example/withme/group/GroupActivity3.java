@@ -20,11 +20,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.withme.MainActivity;
 import com.example.withme.R;
 import com.example.withme.retorfit.RetrofitAPI;
 import com.example.withme.user.WebViewActivity;
@@ -60,6 +62,7 @@ public class GroupActivity3 extends AppCompatActivity {
     private EditText etName, etID, etDetailAddress;
     private TextView tvPassword, tvAddress;
     private Button startWithMe;
+    private ImageButton xButton;
     private ImageView editProfile;
     private CircleImageView profileImage;
     private double latitude, longitude;
@@ -88,6 +91,8 @@ public class GroupActivity3 extends AppCompatActivity {
 
         startWithMe = (Button) findViewById(R.id.startWithMe);
 
+        xButton = findViewById(R.id.xButton);
+
         profileImage = (CircleImageView) findViewById(R.id.profileImage);
         editProfile = (ImageView) findViewById(R.id.editProfile);
 
@@ -109,6 +114,14 @@ public class GroupActivity3 extends AppCompatActivity {
         passwordLayout = (LinearLayout) findViewById(R.id.passwordLayout);
         addressLayout = (LinearLayout) findViewById(R.id.addressLayout);
         detailAddressLayout = (LinearLayout) findViewById(R.id.detailAddressLayout);
+
+        xButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GroupActivity3.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
         startWithMe.setOnClickListener(new View.OnClickListener() {
             @Override

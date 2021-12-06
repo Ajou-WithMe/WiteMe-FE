@@ -215,67 +215,71 @@ public class ProtectionPersonActivity1 extends AppCompatActivity {
         reviseProtectionPerson.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                File file = new File(selectedImagePath);
-                RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), file);
-                MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+                if (selectedImagePath != null) {
+                    File file = new File(selectedImagePath);
+                    RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), file);
+                    MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
 
-                retrofitAPI.uploadImage(accessToken, body).enqueue(new Callback<UploadImage>() {
-                    @Override
-                    public void onResponse(Call<UploadImage> call, Response<UploadImage> response) {
-                        UploadImage data = response.body();
+                    retrofitAPI.uploadImage(accessToken, body).enqueue(new Callback<UploadImage>() {
+                        @Override
+                        public void onResponse(Call<UploadImage> call, Response<UploadImage> response) {
+                            UploadImage data = response.body();
 
-                        if(response.isSuccessful()) {
-                            Log.e("make Profile", selectedImagePath);
-                            Log.e("make Profile", data.getData());
-                            if (!data.getData().equals("이미지 파일이 아닙니다.")) {
-                                imageFromServer = data.getData();
+                            if(response.isSuccessful()) {
+                                Log.e("make Profile", selectedImagePath);
+                                Log.e("make Profile", data.getData());
+                                if (!data.getData().equals("이미지 파일이 아닙니다.")) {
+                                    imageFromServer = data.getData();
 
-                                HashMap<String, Object> input = new HashMap<>();
-                                input.put("name", newName);
-                                input.put("uid", uid);
-                                input.put("profileImg", imageFromServer);
-                                input.put("pwd", beforePassword);
-                                input.put("address", fullAddress);
+                                    HashMap<String, Object> input = new HashMap<>();
+                                    input.put("name", newName);
+                                    input.put("uid", uid);
+                                    input.put("profileImg", imageFromServer);
+                                    input.put("pwd", beforePassword);
+                                    input.put("address", fullAddress);
 
-                                retrofitAPI.updateProtectionProfile(accessToken, input).enqueue(new Callback<ResponseBody>() {
-                                    @Override
-                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                        if (response.isSuccessful()) {
-                                            try {
-                                                JSONObject jsonObject = new JSONObject(response.body().string());
-                                                boolean success = jsonObject.getBoolean("success");
+                                    retrofitAPI.updateProtectionProfile(accessToken, input).enqueue(new Callback<ResponseBody>() {
+                                        @Override
+                                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                            if (response.isSuccessful()) {
+                                                try {
+                                                    JSONObject jsonObject = new JSONObject(response.body().string());
+                                                    boolean success = jsonObject.getBoolean("success");
 
-                                                if (success == true) {
-                                                    Intent intent = new Intent(ProtectionPersonActivity1.this, MainActivity.class);
-                                                    String data = jsonObject.getString("data");
-                                                    Toast.makeText(getApplicationContext(), data, Toast.LENGTH_SHORT).show();
+                                                    if (success == true) {
+                                                        Intent intent = new Intent(ProtectionPersonActivity1.this, MainActivity.class);
+                                                        String data = jsonObject.getString("data");
+                                                        Toast.makeText(getApplicationContext(), data, Toast.LENGTH_SHORT).show();
 
-                                                    startActivity(intent);
-                                                } else {
-                                                    String data = jsonObject.getString("data");
-                                                    Toast.makeText(getApplicationContext(), data, Toast.LENGTH_SHORT).show();
+                                                        startActivity(intent);
+                                                    } else {
+                                                        String data = jsonObject.getString("data");
+                                                        Toast.makeText(getApplicationContext(), data, Toast.LENGTH_SHORT).show();
+                                                    }
+                                                } catch (IOException | JSONException e) {
+                                                    e.printStackTrace();
                                                 }
-                                            } catch (IOException | JSONException e) {
-                                                e.printStackTrace();
                                             }
                                         }
-                                    }
 
-                                    @Override
-                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                        Log.e("create Party", t.getMessage());
-                                    }
-                                });
+                                        @Override
+                                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                            Log.e("create Party", t.getMessage());
+                                        }
+                                    });
+                                }
                             }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<UploadImage> call, Throwable t) {
-                        Log.e("make Profile", t.getMessage());
-                    }
-                });
-                Toast.makeText(ProtectionPersonActivity1.this, "피보호자 정보가 수정되었습니다.", Toast.LENGTH_SHORT).show();
+                        @Override
+                        public void onFailure(Call<UploadImage> call, Throwable t) {
+                            Log.e("make Profile", t.getMessage());
+                        }
+                    });
+                    Toast.makeText(ProtectionPersonActivity1.this, "피보호자 정보가 수정되었습니다.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ProtectionPersonActivity1.this, "프로필 사진을 재등록해주세요!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

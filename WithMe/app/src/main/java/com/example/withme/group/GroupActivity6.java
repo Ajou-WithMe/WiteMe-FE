@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.bumptech.glide.Glide;
 import com.example.withme.MainActivity;
@@ -33,6 +34,7 @@ public class GroupActivity6 extends AppCompatActivity {
     private Button safeZoneComplete;
     private CircleImageView profileImage;
     private String accessToken, uid;
+    private ImageButton xButton;
 
     Retrofit retrofit = new retrofit2.Retrofit.Builder()
             .baseUrl("http://withme-lb-1691720831.ap-northeast-2.elb.amazonaws.com")
@@ -53,7 +55,17 @@ public class GroupActivity6 extends AppCompatActivity {
 
         safeZoneComplete = (Button) findViewById(R.id.safeZoneComplete);
 
+        xButton = findViewById(R.id.xButton);
+
         profileImage = (CircleImageView) findViewById(R.id.profileComplete);
+
+        xButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GroupActivity6.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
         retrofitAPI.getProtectionDetail(accessToken, uid).enqueue(new Callback<ResponseBody>() {
             @Override

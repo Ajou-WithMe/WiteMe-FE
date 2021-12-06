@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +41,7 @@ public class GroupAddActivity2 extends AppCompatActivity {
     private EditText groupCode;
     private TextView warningMessage;
     private Button getInGroup;
+    private ImageButton xButton;
     private String code, profile, name;
 
     private Dialog dialog;
@@ -63,9 +65,19 @@ public class GroupAddActivity2 extends AppCompatActivity {
 
         warningMessage = (TextView)findViewById(R.id.warningMessage);
 
+        xButton = findViewById(R.id.xButton);
+
         dialog = new Dialog(this);
 
         getInGroup = (Button) findViewById(R.id.startWithMe);
+
+        xButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GroupAddActivity2.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
         groupCode.addTextChangedListener(new TextWatcher() {
             @Override
