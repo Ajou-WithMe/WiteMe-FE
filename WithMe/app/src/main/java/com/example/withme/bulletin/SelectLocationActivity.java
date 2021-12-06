@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.withme.MainActivity;
 import com.example.withme.R;
 import com.example.withme.group.BottomSheetDialogMain;
 import com.example.withme.settings.Settings;
@@ -21,8 +22,7 @@ import com.example.withme.settings.Settings;
 public class SelectLocationActivity extends AppCompatActivity {
 
     private boolean check = false;
-    private String accessToken;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
