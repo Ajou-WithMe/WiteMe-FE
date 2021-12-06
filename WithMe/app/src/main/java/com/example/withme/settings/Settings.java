@@ -24,6 +24,7 @@ import com.example.withme.MainActivity;
 import com.example.withme.R;
 import com.example.withme.bulletin.BulletinDetail;
 import com.example.withme.intro.DescriptionActivity;
+import com.example.withme.retorfit.EmailSignUp;
 import com.example.withme.retorfit.RetrofitAPI;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
@@ -47,7 +48,7 @@ public class Settings extends Fragment {
 
     MainActivity activity;
 
-    private String accessToken, name, image, phoneNumber;
+    private String accessToken, name, image, phoneNumber, email, address;
     private int type;
 
     private TextView protectorName, loginHow;
@@ -96,10 +97,12 @@ public class Settings extends Fragment {
                         if (success == true) {
                             JSONObject data = jsonObject.getJSONObject("data");
                             Log.e("data", data.toString());
+                            email = data.getString("email");
                             type = data.getInt("type");
                             name = data.getString("name");
                             phoneNumber = data.getString("phone");
                             image = data.getString("profileImg");
+                            address = data.getString("address");
 
                             protectorName.setText(name);
                             if (image.equals("null")) {
@@ -131,18 +134,36 @@ public class Settings extends Fragment {
         reviseProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle result = new Bundle();
-                result.putString("name", name);
-                result.putString("type", "카카오톡 로그인");
-                result.putString("profile", image);
-                result.putString("phoneNumber", phoneNumber);
+                if (type == 1) {
+                    Bundle result = new Bundle();
+                    result.putString("name", name);
+                    result.putString("type", "카카오톡 로그인");
+                    result.putString("profile", image);
+                    result.putString("phoneNumber", phoneNumber);
+                    result.putString("address", address);
 
-                Fragment fragment = new KakaoProfile();
-                FragmentManager fm = getActivity().getSupportFragmentManager();
-                FragmentTransaction fmt = fm.beginTransaction();
-                fragment.setArguments(result);
+                    Fragment fragment = new KakaoProfile();
+                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fmt = fm.beginTransaction();
+                    fragment.setArguments(result);
 
-                fmt.replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
+                    fmt.replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
+                } else if (type == 0) {
+                    Bundle result = new Bundle();
+                    result.putString("email", email);
+                    result.putString("name", name);
+                    result.putString("type", "이메일 로그인");
+                    result.putString("profile", image);
+                    result.putString("phoneNumber", phoneNumber);
+                    result.putString("address", address);
+
+                    Fragment fragment = new EmailProfile();
+                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fmt = fm.beginTransaction();
+                    fragment.setArguments(result);
+
+                    fmt.replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
+                }
             }
         });
 

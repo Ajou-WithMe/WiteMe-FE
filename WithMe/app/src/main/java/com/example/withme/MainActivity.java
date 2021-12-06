@@ -240,8 +240,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         .beginTransaction()
                         .replace(R.id.fragment_container, mainBulletin)
                         .commit();
-
-
             }
         });
 

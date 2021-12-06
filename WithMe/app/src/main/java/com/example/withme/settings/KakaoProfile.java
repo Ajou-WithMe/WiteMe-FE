@@ -101,7 +101,7 @@ public class KakaoProfile extends Fragment {
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 FragmentTransaction fmt = fm.beginTransaction();
 
-                fmt.replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
+                fmt.replace(R.id.fragment_container, fragment).commit();
             }
         });
 
