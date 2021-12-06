@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide;
 import com.example.withme.MainActivity;
 import com.example.withme.R;
 import com.example.withme.bulletin.BulletinDetail;
+import com.example.withme.bulletin.MainBulletin;
 import com.example.withme.intro.DescriptionActivity;
 import com.example.withme.retorfit.EmailSignUp;
 import com.example.withme.retorfit.RetrofitAPI;
@@ -53,7 +54,7 @@ public class Settings extends Fragment {
 
     private TextView protectorName, loginHow;
     private CircleImageView profileImg;
-    private ImageButton reviseProfile;
+    private ImageButton reviseProfile, bulletinBoard;
     private SwitchButton pushAlarm;
 
     Retrofit retrofit = new retrofit2.Retrofit.Builder()
@@ -85,6 +86,18 @@ public class Settings extends Fragment {
         profileImg = rootView.findViewById(R.id.profileImage);
 
         reviseProfile = rootView.findViewById(R.id.reviseProfile);
+        bulletinBoard = rootView.findViewById(R.id.bulletinBoard);
+
+        bulletinBoard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new MainBulletin();
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, fragment)
+                        .commit();
+            }
+        });
 
         retrofitAPI.getProfile(accessToken).enqueue(new Callback<ResponseBody>() {
             @Override

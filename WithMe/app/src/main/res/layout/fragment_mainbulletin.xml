@@ -67,6 +67,26 @@
             android:textSize="48px"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
+
+        <ScrollView
+            android:layout_width="954px"
+            android:layout_height="1286px"
+            android:layout_marginTop="21px"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:fillViewport="true"
+            app:layout_constraintTop_toBottomOf="@+id/category">
+
+            <LinearLayout
+                android:id="@+id/allPostLayout"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            </LinearLayout>
+        </ScrollView>
+
         <TextView
             android:id="@+id/region"
             android:layout_width="362px"
@@ -78,7 +98,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/navigationView"
             android:layout_width="match_parent"
