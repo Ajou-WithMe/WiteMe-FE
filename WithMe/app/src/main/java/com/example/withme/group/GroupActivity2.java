@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ public class GroupActivity2 extends AppCompatActivity {
     private String groupName, code, imageUrl;
     private TextView group, groupCode, copyCode;
     private Button registerButton;
+    private ImageButton xButton;
     private CircleImageView profile;
 
     @Override
@@ -32,6 +34,7 @@ public class GroupActivity2 extends AppCompatActivity {
         groupCode = (TextView) findViewById(R.id.groupCode);
         copyCode = (TextView)findViewById(R.id.copyCode);
         registerButton = (Button) findViewById(R.id.registerButton);
+        xButton = findViewById(R.id.xButton);
         profile = (CircleImageView) findViewById(R.id.profileComplete);
 
         Intent groupIntent = getIntent();

@@ -113,8 +113,6 @@ public class GroupActivity3 extends AppCompatActivity {
         startWithMe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(GroupActivity3.this, GroupActivity6.class);
-
                 File file = new File(selectedImagePath);
                 RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), file);
                 MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
@@ -128,9 +126,8 @@ public class GroupActivity3 extends AppCompatActivity {
                             Log.e("make Profile", selectedImagePath);
                             if (!data.getData().equals("이미지 파일이 아닙니다.")) {
                                 imageFromServer = data.getData();
+                                Log.e("imageFromServer", imageFromServer);
 
-                                Intent intent = new Intent(GroupActivity3.this, GroupActivity6.class);
-                                intent.putExtra("profile", imageFromServer);
                                 HashMap<String, Object> input = new HashMap<>();
                                 input.put("name", name);
                                 input.put("email", id);
@@ -138,6 +135,8 @@ public class GroupActivity3 extends AppCompatActivity {
                                 input.put("address", fullAddress);
                                 input.put("code", code);
                                 input.put("profile", imageFromServer);
+
+                                Log.e("input", input.toString());
 
                                 retrofitAPI.postProtection(accessToken, input).enqueue(new Callback<ResponseBody>() {
                                     @Override
@@ -165,7 +164,6 @@ public class GroupActivity3 extends AppCompatActivity {
                                             } catch (IOException e) {
                                                 e.printStackTrace();
                                             }
-
                                         }
                                     }
 
@@ -399,6 +397,7 @@ public class GroupActivity3 extends AppCompatActivity {
                     selectedImageUri = intent.getData();
                     profileImage.setImageURI(selectedImageUri);
                     selectedImagePath = uri2path(this, selectedImageUri);
+                    Log.e("selectedImagePath", selectedImagePath);
                 }
                 break;
         }

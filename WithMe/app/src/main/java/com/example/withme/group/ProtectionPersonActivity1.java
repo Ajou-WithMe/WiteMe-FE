@@ -65,7 +65,7 @@ public class ProtectionPersonActivity1 extends AppCompatActivity {
     private EditText protectionName, protectionID, protectionDetailAddress;
     private CircleImageView profileImage;
     private Dialog dialog, reDialog;
-    private TextView tvPassword, tvAddress, reviseProtectionPerson;
+    private TextView tvPassword, tvAddress, reviseProtectionPerson, close;
     private ImageButton deleteProtectionPerson;
     private LinearLayout passwordLayout, addressLayout;
     private Uri selectedImageUri;
@@ -136,11 +136,20 @@ public class ProtectionPersonActivity1 extends AppCompatActivity {
         tvPassword = (TextView) findViewById(R.id.tvPassword);
         tvAddress = (TextView) findViewById(R.id.tvAddress);
         reviseProtectionPerson = (TextView) findViewById(R.id.reviseProtectionPerson);
+        close = findViewById(R.id.close);
 
         passwordLayout = (LinearLayout)findViewById(R.id.password);
         addressLayout = (LinearLayout) findViewById(R.id.addressLayout);
 
         protectionID.setFocusable(false);
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProtectionPersonActivity1.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
         deleteProtectionPerson.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -345,14 +354,14 @@ public class ProtectionPersonActivity1 extends AppCompatActivity {
                             try {
                                 JSONObject jsonObject = new JSONObject(response.body().string());
                                 boolean success = jsonObject.getBoolean("success");
+                                reDialog.dismiss();
 
                                 if (success == true) {
                                     String data = jsonObject.getString("data");
                                     Log.e("deleteProtection", data);
-                                    reDialog.dismiss();
                                     Toast.makeText(getApplicationContext(), "피보호자 계정이 삭제되었습니다", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(ProtectionPersonActivity1.this, MainActivity.class);
-                                    startActivity(intent);
+//                                    Intent intent = new Intent(ProtectionPersonActivity1.this, MainActivity.class);
+//                                    startActivity(intent);
                                 } else {
                                     Log.e("deleteProtection", jsonObject.toString());
                                 }
@@ -391,8 +400,8 @@ public class ProtectionPersonActivity1 extends AppCompatActivity {
         yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
                 reOpenDialog();
+                dialog.dismiss();
             }
         });
 

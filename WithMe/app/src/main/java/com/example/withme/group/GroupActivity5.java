@@ -357,6 +357,7 @@ public class GroupActivity5 extends AppCompatActivity implements OnMapReadyCallb
 
                                 if (success == true) {
                                     Intent intent = new Intent(GroupActivity5.this, GroupActivity6.class);
+                                    intent.putExtra("uid", uid);
                                     startActivity(intent);
                                 } else {
                                     Log.e("safeZoneInsert", "오류");

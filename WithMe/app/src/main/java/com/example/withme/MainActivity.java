@@ -429,7 +429,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 protectionPersonUid = (ArrayList<String>) getIntent.getSerializableExtra("protectionPersonUid");
 
                                 if (protectionPersonName == null) {
-                                    Log.e("null", "null");
                                     retrofitAPI.getAllprotection(accessToken).enqueue(new Callback<ResponseBody>() {
                                         @Override
                                         public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -447,6 +446,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                                             disconnected = protectionPerson.getInt("isDisconnected");
                                                             String name = protectionPerson.getString("name");
                                                             String uid = protectionPerson.getString("uid");
+                                                            protectionPersonDisconnected_sec.add(disconnected);
                                                             protectionPersonName_sec.add(name);
                                                             protectionPersonUid_sec.add(uid);
 
@@ -459,6 +459,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                                                             CircleImageView circleImageView = new CircleImageView(getApplicationContext());
                                                             RelativeLayout.LayoutParams circle = new RelativeLayout.LayoutParams(144, 144);
+                                                            circleImageView.setId(i);
                                                             circleImageView.setLayoutParams(circle);
                                                             circleImageView.setClickable(true);
                                                             if (disconnected == 0) { // 연결됐을 때
@@ -493,7 +494,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                                                         PolygonOverlay a = polygons.get(i);
                                                                         a.setMap(null);
                                                                     }
-                                                                    if (disconnected == 1) {
+                                                                    Log.e("disconnected", protectionPersonDisconnected_sec.toString());
+                                                                    if (protectionPersonDisconnected_sec.get(circleImageView.getId()) == 1) {
                                                                         Log.e("disconnected", "disconnected");
                                                                         retrofitAPI2.findVisitOftenAndDistanceAfterMissing(accessToken, uid).enqueue(new Callback<ResponseBody>() {
                                                                             @Override
