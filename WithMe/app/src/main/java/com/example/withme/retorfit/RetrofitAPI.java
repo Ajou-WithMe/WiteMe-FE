@@ -60,6 +60,9 @@ public interface RetrofitAPI {
     @GET("/user/mypage")
     Call<ResponseBody> getProfile(@Header("AccessToken") String accessToken);
 
+    @PUT("/user/mypage")
+    Call<ResponseBody> changeProfile(@Header("AccessToken") String accessToken, @Body HashMap<String, Object> param);
+
     @GET("/party/all")
     Call<ResponseBody> getAllParty(@Header("AccessToken") String accessToken);
 

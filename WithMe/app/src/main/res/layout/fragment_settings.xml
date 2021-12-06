@@ -81,7 +81,7 @@
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/reviseProfile"
             android:layout_width="108px"
             android:layout_height="108px"
             android:layout_marginTop="132px"
@@ -226,7 +226,7 @@
                 android:layout_height="108px"
                 android:layout_marginStart="147px"
                 android:layout_marginTop="21px"
-                android:background="@drawable/bulletinboard_click"
+                android:background="@drawable/bulletinboard_nonclick"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -269,7 +269,7 @@
                 android:layout_height="108px"
                 android:layout_marginTop="21px"
                 android:layout_marginEnd="147px"
-                android:background="@drawable/settings_nonclick"
+                android:background="@drawable/settings_clicked"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
