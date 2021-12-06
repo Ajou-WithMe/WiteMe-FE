@@ -34,6 +34,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -42,7 +43,9 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.withme.MainActivity;
 import com.example.withme.R;
+import com.example.withme.group.BottomSheetDialogMain;
 import com.example.withme.retorfit.RetrofitAPI;
+import com.example.withme.settings.Settings;
 import com.example.withme.user.WebViewActivity;
 
 import org.json.JSONArray;
@@ -101,6 +104,7 @@ public class WriteBulletin extends Fragment {
     private EditText etTitle, etClothes, etActivityRadius, etContent;
     private TextView category, register, uploadPicture, finalLocation;
     private CheckBox checkBox;
+    private ImageButton settings, group;
 
     int i=0;
     private static final int SEARCH_ADDRESS_ACTIVITY = 10000;
@@ -148,6 +152,12 @@ public class WriteBulletin extends Fragment {
 
         checkBox = (CheckBox) view.findViewById(R.id.checkBox);
 
+        settings = view.findViewById(R.id.settings);
+        group = view.findViewById(R.id.group);
+
+        Bundle bundle = new Bundle(1); // 파라미터의 숫자는 전달하려는 값의 갯수
+        bundle.putString("AccessToken", accessToken);
+
         if (getArguments() != null)
         {
             location = getArguments().getString("location"); // 프래그먼트1에서 받아온 값 넣기
@@ -155,11 +165,31 @@ public class WriteBulletin extends Fragment {
             category.setTextColor(Color.parseColor("#333333"));
         }
 
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new Settings();
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, fragment)
+                        .commit();
+            }
+        });
+
         finalLocationLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), WebViewActivity.class);
                 startActivityForResult(intent, SEARCH_ADDRESS_ACTIVITY);
+            }
+        });
+
+        group.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BottomSheetDialogMain bottomSheetDialogMain = new BottomSheetDialogMain();
+                bottomSheetDialogMain.show(getActivity().getSupportFragmentManager(), "bottomSheet");
+                bottomSheetDialogMain.setArguments(bundle);
             }
         });
 

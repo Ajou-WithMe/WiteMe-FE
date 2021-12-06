@@ -34,6 +34,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -42,7 +43,9 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.withme.MainActivity;
 import com.example.withme.R;
+import com.example.withme.group.BottomSheetDialogMain;
 import com.example.withme.retorfit.RetrofitAPI;
+import com.example.withme.settings.Settings;
 import com.example.withme.user.WebViewActivity;
 
 import org.json.JSONArray;
@@ -82,6 +85,7 @@ public class ReviseBulletin extends Fragment {
     private CheckBox checkBox;
     private double latitude, longitude;
     private long id;
+    private ImageButton settings, group;
     private Handler mHandler = new Handler();
 
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -129,6 +133,32 @@ public class ReviseBulletin extends Fragment {
         category = (TextView) rootView.findViewById(R.id.category);
 
         checkBox = (CheckBox) rootView.findViewById(R.id.checkBox);
+
+        settings = rootView.findViewById(R.id.settings);
+        group = rootView.findViewById(R.id.group);
+
+        Bundle bundles = new Bundle(1); // 파라미터의 숫자는 전달하려는 값의 갯수
+        bundles.putString("AccessToken", accessToken);
+
+        group.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BottomSheetDialogMain bottomSheetDialogMain = new BottomSheetDialogMain();
+                bottomSheetDialogMain.show(getActivity().getSupportFragmentManager(), "bottomSheet");
+                bottomSheetDialogMain.setArguments(bundles);
+            }
+        });
+
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new Settings();
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, fragment)
+                        .commit();
+            }
+        });
 
         uploadPicture.setOnClickListener(new View.OnClickListener() {
             @Override

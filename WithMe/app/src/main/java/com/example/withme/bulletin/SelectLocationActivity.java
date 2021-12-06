@@ -2,19 +2,26 @@ package com.example.withme.bulletin;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.withme.R;
+import com.example.withme.group.BottomSheetDialogMain;
+import com.example.withme.settings.Settings;
 
 public class SelectLocationActivity extends AppCompatActivity {
 
     private boolean check = false;
+    private String accessToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

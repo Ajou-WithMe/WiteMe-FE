@@ -31,6 +31,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.withme.MainActivity;
 import com.example.withme.R;
+import com.example.withme.group.BottomSheetDialogMain;
 import com.example.withme.retorfit.RetrofitAPI;
 import com.example.withme.settings.Settings;
 
@@ -54,7 +55,7 @@ public class MainBulletin extends Fragment {
     MainActivity activity;
     private String accessToken, phoneNumber;
     private TextView category, region;
-    private ImageButton settings;
+    private ImageButton settings, group;
     private LinearLayout allPostLayout;
     private long page = 0;
     private static final int SEARCH_LOCATION_ACTIVITY = 300;
@@ -94,10 +95,14 @@ public class MainBulletin extends Fragment {
         TextView myPost = (TextView) rootView.findViewById(R.id.myPost);
         category = (TextView) rootView.findViewById(R.id.category);
         settings = rootView.findViewById(R.id.settings);
+        group = rootView.findViewById(R.id.group);
 
         allPostLayout = rootView.findViewById(R.id.allPostLayout);
 
         ImageButton write = (ImageButton) rootView.findViewById(R.id.write);
+
+        Bundle bundle = new Bundle(1); // 파라미터의 숫자는 전달하려는 값의 갯수
+        bundle.putString("AccessToken", accessToken);
 
         myPost.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,6 +123,15 @@ public class MainBulletin extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SelectLocationActivity.class);
                 startActivityForResult(intent, SEARCH_LOCATION_ACTIVITY);
+            }
+        });
+
+        group.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BottomSheetDialogMain bottomSheetDialogMain = new BottomSheetDialogMain();
+                bottomSheetDialogMain.show(getActivity().getSupportFragmentManager(), "bottomSheet");
+                bottomSheetDialogMain.setArguments(bundle);
             }
         });
 

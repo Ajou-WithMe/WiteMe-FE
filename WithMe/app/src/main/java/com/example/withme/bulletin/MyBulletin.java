@@ -29,7 +29,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.withme.MainActivity;
 import com.example.withme.R;
+import com.example.withme.group.BottomSheetDialogMain;
 import com.example.withme.retorfit.RetrofitAPI;
+import com.example.withme.settings.Settings;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -63,7 +65,7 @@ public class MyBulletin extends Fragment {
     private LinearLayout posts;
     private ScrollView scrollView;
     private TextView post;
-    private ImageButton write;
+    private ImageButton write, settings, group;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -91,12 +93,27 @@ public class MyBulletin extends Fragment {
         posts = (LinearLayout) rootView.findViewById(R.id.posts);
         scrollView = (ScrollView) rootView.findViewById(R.id.scrollView);
 
+        settings = rootView.findViewById(R.id.settings);
+        group = rootView.findViewById(R.id.group);
+
         post = (TextView) rootView.findViewById(R.id.post);
+
+        Bundle bundle = new Bundle(1); // 파라미터의 숫자는 전달하려는 값의 갯수
+        bundle.putString("AccessToken", accessToken);
 
         post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 activity.onFragmentChange(0);
+            }
+        });
+
+        group.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BottomSheetDialogMain bottomSheetDialogMain = new BottomSheetDialogMain();
+                bottomSheetDialogMain.show(getActivity().getSupportFragmentManager(), "bottomSheet");
+                bottomSheetDialogMain.setArguments(bundle);
             }
         });
 
@@ -139,6 +156,16 @@ public class MyBulletin extends Fragment {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
 
+            }
+        });
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new Settings();
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, fragment)
+                        .commit();
             }
         });
 
