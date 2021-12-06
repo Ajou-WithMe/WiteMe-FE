@@ -336,6 +336,8 @@ public class GroupActivity5 extends AppCompatActivity implements OnMapReadyCallb
                 safeZoneDrawAlarm.setVisibility(View.VISIBLE);
                 nextActivity.setVisibility(View.INVISIBLE);
                 safeZoneComplete.setVisibility(View.VISIBLE);
+
+                clickable = true;
             }
         });
 
