@@ -84,9 +84,6 @@ public class BulletinDetail extends Fragment {
                 finalLocation.setText("주소찾기 오류");
             }else{
                 finalLocation.setText(finalLocations.get(0).getAddressLine(0));
-                finalLocation.setSelected(true);
-                finalLocation.setSingleLine(true);
-                finalLocation.setEllipsize(TextUtils.TruncateAt.MARQUEE);
             }
         }
         clothes.setSelected(true);

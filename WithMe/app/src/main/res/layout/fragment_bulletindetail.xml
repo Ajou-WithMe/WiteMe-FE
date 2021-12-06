@@ -104,7 +104,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/constraintLayout6"
                     android:layout_width="960px"
-                    android:layout_height="486px"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="48px"
                     android:background="@drawable/identification"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -187,7 +187,7 @@
                     <TextView
                         android:id="@+id/finalLocation"
                         android:layout_width="500px"
-                        android:layout_height="45px"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="387px"
                         android:layout_marginTop="24px"
                         android:text=""
@@ -206,7 +206,7 @@
                         android:textColor="#222222"
                         android:textSize="36px"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView44" />
+                        app:layout_constraintTop_toBottomOf="@+id/finalLocation" />
 
                     <TextView
                         android:id="@+id/phoneNumber"
@@ -225,22 +225,26 @@
                         android:layout_height="45px"
                         android:layout_marginStart="36px"
                         android:layout_marginTop="24px"
+                        android:layout_marginBottom="39px"
                         android:text="당일 인상착의"
                         android:textColor="#222222"
                         android:textSize="36px"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView45" />
 
                     <TextView
                         android:id="@+id/clothes"
-                        android:ellipsize="marquee"
                         android:layout_width="500px"
                         android:layout_height="45px"
                         android:layout_marginStart="387px"
                         android:layout_marginTop="24px"
+                        android:layout_marginBottom="39px"
+                        android:ellipsize="marquee"
                         android:text=""
                         android:textColor="#222222"
                         android:textSize="36px"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/phoneNumber" />
 

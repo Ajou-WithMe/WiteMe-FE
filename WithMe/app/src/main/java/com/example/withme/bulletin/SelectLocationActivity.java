@@ -22,7 +22,7 @@ import com.example.withme.settings.Settings;
 public class SelectLocationActivity extends AppCompatActivity {
 
     private boolean check = false;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
