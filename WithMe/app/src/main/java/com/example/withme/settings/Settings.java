@@ -24,6 +24,7 @@ import com.example.withme.MainActivity;
 import com.example.withme.R;
 import com.example.withme.bulletin.BulletinDetail;
 import com.example.withme.bulletin.MainBulletin;
+import com.example.withme.group.BottomSheetDialogMain;
 import com.example.withme.intro.DescriptionActivity;
 import com.example.withme.retorfit.EmailSignUp;
 import com.example.withme.retorfit.RetrofitAPI;
@@ -54,7 +55,7 @@ public class Settings extends Fragment {
 
     private TextView protectorName, loginHow;
     private CircleImageView profileImg;
-    private ImageButton reviseProfile, bulletinBoard;
+    private ImageButton reviseProfile, bulletinBoard, group;
     private SwitchButton pushAlarm;
 
     Retrofit retrofit = new retrofit2.Retrofit.Builder()
@@ -87,6 +88,19 @@ public class Settings extends Fragment {
 
         reviseProfile = rootView.findViewById(R.id.reviseProfile);
         bulletinBoard = rootView.findViewById(R.id.bulletinBoard);
+        group = rootView.findViewById(R.id.group);
+
+        Bundle bundle = new Bundle(1); // 파라미터의 숫자는 전달하려는 값의 갯수
+        bundle.putString("AccessToken", accessToken);
+
+        group.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BottomSheetDialogMain bottomSheetDialogMain = new BottomSheetDialogMain();
+                bottomSheetDialogMain.show(getActivity().getSupportFragmentManager(), "bottomSheet");
+                bottomSheetDialogMain.setArguments(bundle);
+            }
+        });
 
         bulletinBoard.setOnClickListener(new View.OnClickListener() {
             @Override

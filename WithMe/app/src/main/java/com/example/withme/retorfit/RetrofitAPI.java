@@ -21,9 +21,6 @@ import retrofit2.http.Query;
 
 public interface RetrofitAPI {
 
-    @POST("/location")
-    Call<Location> postData(@Body HashMap<String, Object> param);
-
     @POST("/user/signup/certification")
     Call<PostEmail> postEmail(@Body HashMap<String, Object> param);
 
@@ -62,6 +59,9 @@ public interface RetrofitAPI {
 
     @PUT("/user/mypage")
     Call<ResponseBody> changeProfile(@Header("AccessToken") String accessToken, @Body HashMap<String, Object> param);
+
+    @DELETE("/user")
+    Call <ResponseBody> deleteUser(@Header("AccessToken") String accessToken);
 
     @GET("/party/all")
     Call<ResponseBody> getAllParty(@Header("AccessToken") String accessToken);
