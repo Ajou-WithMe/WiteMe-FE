@@ -338,6 +338,7 @@ public class MainBulletin extends Fragment {
                                                                             String content = data.getString("content");
                                                                             String activityRadius = data.getString("activityRadius");
                                                                             String name = data.getString("name");
+                                                                            String contact = data.getString("contact");
                                                                             String description = data.getString("description");
                                                                             ArrayList<String> fileList = new ArrayList<>();
                                                                             double latitude = data.getDouble("latitude");
@@ -356,7 +357,7 @@ public class MainBulletin extends Fragment {
                                                                             result.putString("activityRadius", activityRadius);
                                                                             result.putString("name", name);
                                                                             result.putString("description", description);
-                                                                            result.putString("phone", phoneNumber);
+                                                                            result.putString("phone", contact);
                                                                             result.putDouble("latitude", latitude);
                                                                             result.putDouble("longitude", longitude);
                                                                         }

@@ -376,7 +376,6 @@ public class WriteBulletin extends Fragment {
             @Override
             public void onClick(View v) {
                 HashMap<String, Object> input = new HashMap<>();
-                Log.e("clicked", "clicked");
                 if (checkBox.isChecked()) {
                     retrofitAPI.getProfile(accessToken).enqueue(new Callback<ResponseBody>() {
                         @Override
@@ -403,7 +402,7 @@ public class WriteBulletin extends Fragment {
                 input.put("location", category.getText().toString());
                 input.put("activityRadius", activityRadius);
                 input.put("description", clothes);
-                input.put("contact", 0);
+                input.put("contact", 1);
                 input.put("longitude", longitude);
                 input.put("latitude", latitude);
                 input.put("content", content);
@@ -415,16 +414,16 @@ public class WriteBulletin extends Fragment {
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if (response.isSuccessful()) {
                             try {
-                                Log.e("savePost", "성공");
                                 JSONObject jsonObject = new JSONObject(response.body().string());
                                 boolean success = jsonObject.getBoolean("success");
                                 String data = jsonObject.getString("data");
 
                                 if (success == true) {
+                                    Log.e("savePost", data);
+
                                     Toast.makeText(getContext(), data, Toast.LENGTH_SHORT).show();
                                     activity.onFragmentChange(0);
                                 }
-                                Log.e("savePost", data);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             } catch (IOException e) {

@@ -66,6 +66,8 @@ public class BulletinDetail extends Fragment {
             createdAt = bundle.getString("createdAt");
             radius = bundle.getString("activityRadius");
             phone = bundle.getString("phone");
+
+            Log.e("phone", phone);
             fileList = bundle.getStringArrayList("files");
             latitude = bundle.getDouble("latitude");
             longitude = bundle.getDouble("longitude");

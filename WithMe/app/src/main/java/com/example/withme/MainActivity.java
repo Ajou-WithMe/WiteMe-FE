@@ -114,7 +114,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private FusedLocationProviderClient mFusedLocationClient;
     private boolean mLocationPermissionGranted = false;
     private FusedLocationSource fusedLocationSource;
-    private ImageButton bulletinBoard, group, makeGroup2, settings, refresh;
+    private ImageButton bulletinBoard, group, makeGroup2, settings, refresh
+            , prediction_realtime, prediction_location, often_visited;
 
     MainBulletin mainBulletin;
     WriteBulletin bulletin3;
@@ -169,6 +170,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         Bundle bundle = new Bundle(1); // 파라미터의 숫자는 전달하려는 값의 갯수
         bundle.putString("AccessToken", accessToken);
+
+        prediction_location = findViewById(R.id.prediction_location);
+        prediction_realtime = findViewById(R.id.prediction_realtime);
+        often_visited = findViewById(R.id.often_visited);
 
         coachMark = (ConstraintLayout) findViewById(R.id.coach_mark_master_view);
         navigationView = (ConstraintLayout) findViewById(R.id.navigationView);
@@ -492,6 +497,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                                                         PolygonOverlay a = polygons.get(i);
                                                                         a.setMap(null);
                                                                     }
+
+                                                                    prediction_location.setVisibility(View.VISIBLE);
+                                                                    prediction_realtime.setVisibility(View.VISIBLE);
+                                                                    often_visited.setVisibility(View.VISIBLE);
+
                                                                     Log.e("disconnected", protectionPersonDisconnected_sec.toString());
                                                                     if (protectionPersonDisconnected_sec.get(circleImageView.getId()) == 1) {
                                                                         Log.e("disconnected", "disconnected");
@@ -514,50 +524,176 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                                                                                 polygons.clear();
                                                                                             }
 
-                                                                                            circleOverlay.setCenter(new LatLng(latitude_protection, longitude_protection));
-                                                                                            circleOverlay.setRadius(distance);
-                                                                                            circleOverlay.setOutlineWidth(12);
-                                                                                            circleOverlay.setColor(Color.parseColor("#1AFF302B"));
-                                                                                            circleOverlay.setOutlineColor(Color.parseColor("#FF302B"));
-                                                                                            circleOverlay.setMap(naverMap);
+                                                                                            prediction_location.setOnClickListener(new View.OnClickListener() {
+                                                                                                @Override
+                                                                                                public void onClick(View v) {
+                                                                                                    circleOverlay.setCenter(new LatLng(latitude_protection, longitude_protection));
+                                                                                                    circleOverlay.setRadius(distance);
+                                                                                                    circleOverlay.setOutlineWidth(12);
+                                                                                                    circleOverlay.setColor(Color.parseColor("#1AFF302B"));
+                                                                                                    circleOverlay.setOutlineColor(Color.parseColor("#FF302B"));
+                                                                                                    circleOverlay.setMap(naverMap);
 
-
-                                                                                            for (int i = 0; i < (visitOften.length() / 4); i++) {
-                                                                                                PolygonOverlay polygon = new PolygonOverlay();
-
-                                                                                                coordinate1 = (JSONObject) visitOften.get(i * 4);
-                                                                                                double lat1 = coordinate1.getDouble("latitude");
-                                                                                                double long1 = coordinate1.getDouble("longitude");
-                                                                                                int grade = coordinate1.getInt("grade");
-
-                                                                                                coordinate2 = (JSONObject) visitOften.get(i * 4 + 1);
-                                                                                                double lat2 = coordinate2.getDouble("latitude");
-                                                                                                double long2 = coordinate2.getDouble("longitude");
-
-                                                                                                coordinate3 = (JSONObject) visitOften.get(i * 4 + 2);
-                                                                                                double lat3 = coordinate3.getDouble("latitude");
-                                                                                                double long3 = coordinate3.getDouble("longitude");
-
-                                                                                                coordinate4 = (JSONObject) visitOften.get(i * 4 + 3);
-                                                                                                double lat4 = coordinate4.getDouble("latitude");
-                                                                                                double long4 = coordinate4.getDouble("longitude");
-
-                                                                                                polygon.setCoords(Arrays.asList(
-                                                                                                        new LatLng(lat1, long1),
-                                                                                                        new LatLng(lat2, long2),
-                                                                                                        new LatLng(lat3, long3),
-                                                                                                        new LatLng(lat4, long4)
-                                                                                                ));
-                                                                                                polygon.setOutlineColor(Color.TRANSPARENT);
-                                                                                                if (grade == 1 || grade == 2) {
-                                                                                                    polygon.setColor(Color.parseColor("#4D3E791A"));
-                                                                                                } else {
-                                                                                                    polygon.setColor(Color.parseColor("#66FF302B"));
+                                                                                                    CameraUpdate cameraUpdate = CameraUpdate.scrollTo(new LatLng(latitude_protection, longitude_protection))
+                                                                                                            .animate(CameraAnimation.Fly, 2000);
+                                                                                                    naverMap.moveCamera(cameraUpdate);
                                                                                                 }
-                                                                                                polygon.setMap(naverMap);
+                                                                                            });
 
-                                                                                                polygons.add(polygon);
-                                                                                            }
+                                                                                            often_visited.setOnClickListener(new View.OnClickListener() {
+                                                                                                @Override
+                                                                                                public void onClick(View v) {
+
+                                                                                                    circleOverlay.setMap(null);
+                                                                                                    for (int i = 0; i < polygons.size(); i++) {
+                                                                                                        polygons.get(i).setMap(null);
+                                                                                                    }
+
+                                                                                                    double lat, lon;
+
+                                                                                                    try {
+                                                                                                        JSONObject coordinate = (JSONObject) visitOften.get(0);
+                                                                                                        lat = coordinate.getDouble("latitude");
+                                                                                                        lon = coordinate.getDouble("longitude");
+
+                                                                                                        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(new LatLng(lat, lon))
+                                                                                                                .animate(CameraAnimation.Fly, 2000);
+                                                                                                        naverMap.moveCamera(cameraUpdate);
+                                                                                                    } catch (JSONException e) {
+                                                                                                        e.printStackTrace();
+                                                                                                    }
+
+                                                                                                    for (int i = 0; i < (visitOften.length() / 4); i++) {
+                                                                                                        PolygonOverlay polygon = new PolygonOverlay();
+
+                                                                                                        try {
+                                                                                                            coordinate1 = (JSONObject) visitOften.get(i * 4);
+                                                                                                            double lat1 = coordinate1.getDouble("latitude");
+                                                                                                            double long1 = coordinate1.getDouble("longitude");
+                                                                                                            int grade = coordinate1.getInt("grade");
+
+                                                                                                            coordinate2 = (JSONObject) visitOften.get(i * 4 + 1);
+                                                                                                            double lat2 = coordinate2.getDouble("latitude");
+                                                                                                            double long2 = coordinate2.getDouble("longitude");
+
+                                                                                                            coordinate3 = (JSONObject) visitOften.get(i * 4 + 2);
+                                                                                                            double lat3 = coordinate3.getDouble("latitude");
+                                                                                                            double long3 = coordinate3.getDouble("longitude");
+
+                                                                                                            coordinate4 = (JSONObject) visitOften.get(i * 4 + 3);
+                                                                                                            double lat4 = coordinate4.getDouble("latitude");
+                                                                                                            double long4 = coordinate4.getDouble("longitude");
+
+                                                                                                            polygon.setCoords(Arrays.asList(
+                                                                                                                    new LatLng(lat1, long1),
+                                                                                                                    new LatLng(lat2, long2),
+                                                                                                                    new LatLng(lat3, long3),
+                                                                                                                    new LatLng(lat4, long4)
+                                                                                                            ));
+                                                                                                            polygon.setOutlineColor(Color.TRANSPARENT);
+                                                                                                            if (grade == 1 || grade == 2) {
+                                                                                                                polygon.setColor(Color.parseColor("#4D3E791A"));
+                                                                                                            } else {
+                                                                                                                polygon.setColor(Color.parseColor("#66FF302B"));
+                                                                                                            }
+                                                                                                            polygon.setMap(naverMap);
+
+                                                                                                            polygons.add(polygon);
+                                                                                                        } catch (JSONException e) {
+                                                                                                            e.printStackTrace();
+                                                                                                        }
+                                                                                                    }
+
+                                                                                                }
+                                                                                            });
+
+                                                                                            prediction_realtime.setOnClickListener(new View.OnClickListener() {
+                                                                                                @Override
+                                                                                                public void onClick(View v) {
+                                                                                                    circleOverlay.setMap(null);
+
+                                                                                                    for (int i = 0; i < polygons.size(); i++) {
+                                                                                                        polygons.get(i).setMap(null);
+                                                                                                    }
+                                                                                                    retrofitAPI2.findPredictionLocation(accessToken, uid).enqueue(new Callback<ResponseBody>() {
+                                                                                                        @Override
+                                                                                                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                                                                                            if (response.isSuccessful()) {
+                                                                                                                try {
+                                                                                                                    JSONObject jsonObject = new JSONObject(response.body().string());
+                                                                                                                    boolean success = jsonObject.getBoolean("success");
+
+                                                                                                                    if (success == true) {
+                                                                                                                        JSONArray data = jsonObject.getJSONArray("data");
+                                                                                                                        Log.e("predict", data.toString());
+
+                                                                                                                        double lat, lon;
+
+                                                                                                                        try {
+                                                                                                                            JSONObject coordinate = (JSONObject) data.get(0);
+                                                                                                                            lat = coordinate.getDouble("latitude");
+                                                                                                                            lon = coordinate.getDouble("longitude");
+
+                                                                                                                            CameraUpdate cameraUpdate = CameraUpdate.scrollTo(new LatLng(lat, lon))
+                                                                                                                                    .animate(CameraAnimation.Fly, 2000);
+                                                                                                                            naverMap.moveCamera(cameraUpdate);
+                                                                                                                        } catch (JSONException e) {
+                                                                                                                            e.printStackTrace();
+                                                                                                                        }
+
+                                                                                                                        for (int i = 0; i < (data.length() / 4); i++) {
+                                                                                                                            PolygonOverlay polygon = new PolygonOverlay();
+
+                                                                                                                            try {
+                                                                                                                                coordinate1 = (JSONObject) data.get(i * 4);
+                                                                                                                                double lat1 = coordinate1.getDouble("latitude");
+                                                                                                                                double long1 = coordinate1.getDouble("longitude");
+
+                                                                                                                                coordinate2 = (JSONObject) data.get(i * 4 + 1);
+                                                                                                                                double lat2 = coordinate2.getDouble("latitude");
+                                                                                                                                double long2 = coordinate2.getDouble("longitude");
+
+                                                                                                                                coordinate3 = (JSONObject) data.get(i * 4 + 2);
+                                                                                                                                double lat3 = coordinate3.getDouble("latitude");
+                                                                                                                                double long3 = coordinate3.getDouble("longitude");
+
+                                                                                                                                coordinate4 = (JSONObject) data.get(i * 4 + 3);
+                                                                                                                                double lat4 = coordinate4.getDouble("latitude");
+                                                                                                                                double long4 = coordinate4.getDouble("longitude");
+
+                                                                                                                                polygon.setCoords(Arrays.asList(
+                                                                                                                                        new LatLng(lat1, long1),
+                                                                                                                                        new LatLng(lat2, long2),
+                                                                                                                                        new LatLng(lat3, long3),
+                                                                                                                                        new LatLng(lat4, long4)
+                                                                                                                                ));
+                                                                                                                                polygon.setOutlineColor(Color.TRANSPARENT);
+                                                                                                                                polygon.setColor(Color.parseColor("#4DF7BD03"));
+
+                                                                                                                                polygon.setMap(naverMap);
+
+                                                                                                                                polygons.add(polygon);
+                                                                                                                            } catch (JSONException e) {
+                                                                                                                                e.printStackTrace();
+                                                                                                                            }
+                                                                                                                        }
+                                                                                                                    }
+                                                                                                                } catch (JSONException e) {
+                                                                                                                    e.printStackTrace();
+                                                                                                                } catch (IOException e) {
+                                                                                                                    e.printStackTrace();
+                                                                                                                }
+                                                                                                            }
+                                                                                                        }
+
+                                                                                                        @Override
+                                                                                                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                                                                                                        }
+                                                                                                    });
+                                                                                                }
+                                                                                            });
+
                                                                                         }
                                                                                     } catch (JSONException e) {
                                                                                         e.printStackTrace();
@@ -772,6 +908,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                                                         PolygonOverlay a = polygons.get(i);
                                                                         a.setMap(null);
                                                                     }
+
+                                                                    prediction_location.setVisibility(View.VISIBLE);
+                                                                    prediction_realtime.setVisibility(View.VISIBLE);
+                                                                    often_visited.setVisibility(View.VISIBLE);
+
                                                                     Log.e("disconnected", protectionPersonDisconnected_sec.toString());
                                                                     if (protectionPersonDisconnected_sec.get(circleImageView.getId()) == 1) {
                                                                         retrofitAPI2.findVisitOftenAndDistanceAfterMissing(accessToken, uid).enqueue(new Callback<ResponseBody>() {
@@ -784,7 +925,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                                                                                         if (success == true) {
                                                                                             JSONObject data = jsonObject.getJSONObject("data");
-                                                                                            Log.e("visitOften", data.toString());
                                                                                             JSONArray visitOften = data.getJSONArray("visitOften");
                                                                                             double distance = data.getDouble("distance");
 
@@ -793,7 +933,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                                                                                 polygons.clear();
                                                                                             }
 
-                                                                                            Log.e("circleOverlay", "here");
                                                                                             circleOverlay.setCenter(new LatLng(latitude_protection, longitude_protection));
                                                                                             circleOverlay.setRadius(distance);
                                                                                             circleOverlay.setOutlineWidth(12);
@@ -801,43 +940,179 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                                                                             circleOverlay.setOutlineColor(Color.parseColor("#FF302B"));
                                                                                             circleOverlay.setMap(naverMap);
 
+                                                                                            CameraUpdate cameraUpdate = CameraUpdate.scrollTo(new LatLng(latitude_protection, longitude_protection))
+                                                                                                    .animate(CameraAnimation.Fly, 2000);
+                                                                                            naverMap.moveCamera(cameraUpdate);
 
-                                                                                            for (int i = 0; i < (visitOften.length() / 4); i++) {
-                                                                                                PolygonOverlay polygon = new PolygonOverlay();
+                                                                                            prediction_location.setOnClickListener(new View.OnClickListener() {
+                                                                                                @Override
+                                                                                                public void onClick(View v) {
 
-                                                                                                coordinate1 = (JSONObject) visitOften.get(i * 4);
-                                                                                                double lat1 = coordinate1.getDouble("latitude");
-                                                                                                double long1 = coordinate1.getDouble("longitude");
-                                                                                                int grade = coordinate1.getInt("grade");
+                                                                                                    circleOverlay.setCenter(new LatLng(latitude_protection, longitude_protection));
+                                                                                                    circleOverlay.setRadius(distance);
+                                                                                                    circleOverlay.setOutlineWidth(12);
+                                                                                                    circleOverlay.setColor(Color.parseColor("#1AFF302B"));
+                                                                                                    circleOverlay.setOutlineColor(Color.parseColor("#FF302B"));
+                                                                                                    circleOverlay.setMap(naverMap);
 
-                                                                                                coordinate2 = (JSONObject) visitOften.get(i * 4 + 1);
-                                                                                                double lat2 = coordinate2.getDouble("latitude");
-                                                                                                double long2 = coordinate2.getDouble("longitude");
-
-                                                                                                coordinate3 = (JSONObject) visitOften.get(i * 4 + 2);
-                                                                                                double lat3 = coordinate3.getDouble("latitude");
-                                                                                                double long3 = coordinate3.getDouble("longitude");
-
-                                                                                                coordinate4 = (JSONObject) visitOften.get(i * 4 + 3);
-                                                                                                double lat4 = coordinate4.getDouble("latitude");
-                                                                                                double long4 = coordinate4.getDouble("longitude");
-
-                                                                                                polygon.setCoords(Arrays.asList(
-                                                                                                        new LatLng(lat1, long1),
-                                                                                                        new LatLng(lat2, long2),
-                                                                                                        new LatLng(lat3, long3),
-                                                                                                        new LatLng(lat4, long4)
-                                                                                                ));
-                                                                                                polygon.setOutlineColor(Color.TRANSPARENT);
-                                                                                                if (grade == 1 || grade == 2) {
-                                                                                                    polygon.setColor(Color.parseColor("#4D3E791A"));
-                                                                                                } else {
-                                                                                                    polygon.setColor(Color.parseColor("#66FF302B"));
+                                                                                                    CameraUpdate cameraUpdate = CameraUpdate.scrollTo(new LatLng(latitude_protection, longitude_protection))
+                                                                                                            .animate(CameraAnimation.Fly, 2000);
+                                                                                                    naverMap.moveCamera(cameraUpdate);
                                                                                                 }
-                                                                                                polygon.setMap(naverMap);
+                                                                                            });
 
-                                                                                                polygons.add(polygon);
-                                                                                            }
+                                                                                            often_visited.setOnClickListener(new View.OnClickListener() {
+                                                                                                @Override
+                                                                                                public void onClick(View v) {
+                                                                                                    circleOverlay.setMap(null);
+
+                                                                                                    for (int i = 0; i < polygons.size(); i++) {
+                                                                                                        polygons.get(i).setMap(null);
+                                                                                                    }
+
+                                                                                                    double lat, lon;
+
+                                                                                                    try {
+                                                                                                        JSONObject coordinate = (JSONObject) visitOften.get(0);
+                                                                                                        lat = coordinate.getDouble("latitude");
+                                                                                                        lon = coordinate.getDouble("longitude");
+
+                                                                                                        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(new LatLng(lat, lon))
+                                                                                                                .animate(CameraAnimation.Fly, 2000);
+                                                                                                        naverMap.moveCamera(cameraUpdate);
+                                                                                                    } catch (JSONException e) {
+                                                                                                        e.printStackTrace();
+                                                                                                    }
+
+                                                                                                    for (int i = 0; i < (visitOften.length() / 4); i++) {
+                                                                                                        PolygonOverlay polygon = new PolygonOverlay();
+
+                                                                                                        try {
+                                                                                                            coordinate1 = (JSONObject) visitOften.get(i * 4);
+                                                                                                            double lat1 = coordinate1.getDouble("latitude");
+                                                                                                            double long1 = coordinate1.getDouble("longitude");
+                                                                                                            int grade = coordinate1.getInt("grade");
+
+                                                                                                            coordinate2 = (JSONObject) visitOften.get(i * 4 + 1);
+                                                                                                            double lat2 = coordinate2.getDouble("latitude");
+                                                                                                            double long2 = coordinate2.getDouble("longitude");
+
+                                                                                                            coordinate3 = (JSONObject) visitOften.get(i * 4 + 2);
+                                                                                                            double lat3 = coordinate3.getDouble("latitude");
+                                                                                                            double long3 = coordinate3.getDouble("longitude");
+
+                                                                                                            coordinate4 = (JSONObject) visitOften.get(i * 4 + 3);
+                                                                                                            double lat4 = coordinate4.getDouble("latitude");
+                                                                                                            double long4 = coordinate4.getDouble("longitude");
+
+                                                                                                            polygon.setCoords(Arrays.asList(
+                                                                                                                    new LatLng(lat1, long1),
+                                                                                                                    new LatLng(lat2, long2),
+                                                                                                                    new LatLng(lat3, long3),
+                                                                                                                    new LatLng(lat4, long4)
+                                                                                                            ));
+                                                                                                            polygon.setOutlineColor(Color.TRANSPARENT);
+                                                                                                            if (grade == 1 || grade == 2) {
+                                                                                                                polygon.setColor(Color.parseColor("#4D3E791A"));
+                                                                                                            } else {
+                                                                                                                polygon.setColor(Color.parseColor("#66FF302B"));
+                                                                                                            }
+                                                                                                            polygon.setMap(naverMap);
+
+                                                                                                            polygons.add(polygon);
+                                                                                                        } catch (JSONException e) {
+                                                                                                            e.printStackTrace();
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                            });
+
+                                                                                            prediction_realtime.setOnClickListener(new View.OnClickListener() {
+                                                                                                @Override
+                                                                                                public void onClick(View v) {
+                                                                                                    circleOverlay.setMap(null);
+
+                                                                                                    for (int i = 0; i < polygons.size(); i++) {
+                                                                                                        polygons.get(i).setMap(null);
+                                                                                                    }
+                                                                                                    retrofitAPI2.findPredictionLocation(accessToken, uid).enqueue(new Callback<ResponseBody>() {
+                                                                                                        @Override
+                                                                                                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                                                                                            if (response.isSuccessful()) {
+                                                                                                                try {
+                                                                                                                    JSONObject jsonObject = new JSONObject(response.body().string());
+                                                                                                                    boolean success = jsonObject.getBoolean("success");
+
+                                                                                                                    if (success == true) {
+                                                                                                                        JSONArray data = jsonObject.getJSONArray("data");
+                                                                                                                        Log.e("predict", data.toString());
+
+                                                                                                                        double lat, lon;
+
+                                                                                                                        try {
+                                                                                                                            JSONObject coordinate = (JSONObject) data.get(0);
+                                                                                                                            lat = coordinate.getDouble("latitude");
+                                                                                                                            lon = coordinate.getDouble("longitude");
+
+                                                                                                                            CameraUpdate cameraUpdate = CameraUpdate.scrollTo(new LatLng(lat, lon))
+                                                                                                                                    .animate(CameraAnimation.Fly, 2000);
+                                                                                                                            naverMap.moveCamera(cameraUpdate);
+                                                                                                                        } catch (JSONException e) {
+                                                                                                                            e.printStackTrace();
+                                                                                                                        }
+
+                                                                                                                        for (int i = 0; i < (data.length() / 4); i++) {
+                                                                                                                            PolygonOverlay polygon = new PolygonOverlay();
+
+                                                                                                                            try {
+                                                                                                                                coordinate1 = (JSONObject) data.get(i * 4);
+                                                                                                                                double lat1 = coordinate1.getDouble("latitude");
+                                                                                                                                double long1 = coordinate1.getDouble("longitude");
+
+                                                                                                                                coordinate2 = (JSONObject) data.get(i * 4 + 1);
+                                                                                                                                double lat2 = coordinate2.getDouble("latitude");
+                                                                                                                                double long2 = coordinate2.getDouble("longitude");
+
+                                                                                                                                coordinate3 = (JSONObject) data.get(i * 4 + 2);
+                                                                                                                                double lat3 = coordinate3.getDouble("latitude");
+                                                                                                                                double long3 = coordinate3.getDouble("longitude");
+
+                                                                                                                                coordinate4 = (JSONObject) data.get(i * 4 + 3);
+                                                                                                                                double lat4 = coordinate4.getDouble("latitude");
+                                                                                                                                double long4 = coordinate4.getDouble("longitude");
+
+                                                                                                                                polygon.setCoords(Arrays.asList(
+                                                                                                                                        new LatLng(lat1, long1),
+                                                                                                                                        new LatLng(lat2, long2),
+                                                                                                                                        new LatLng(lat3, long3),
+                                                                                                                                        new LatLng(lat4, long4)
+                                                                                                                                ));
+                                                                                                                                polygon.setOutlineColor(Color.TRANSPARENT);
+                                                                                                                                polygon.setColor(Color.parseColor("#4DF7BD03"));
+
+                                                                                                                                polygon.setMap(naverMap);
+
+                                                                                                                                polygons.add(polygon);
+                                                                                                                            } catch (JSONException e) {
+                                                                                                                                e.printStackTrace();
+                                                                                                                            }
+                                                                                                                        }
+                                                                                                                    }
+                                                                                                                } catch (JSONException e) {
+                                                                                                                    e.printStackTrace();
+                                                                                                                } catch (IOException e) {
+                                                                                                                    e.printStackTrace();
+                                                                                                                }
+                                                                                                            }
+                                                                                                        }
+
+                                                                                                        @Override
+                                                                                                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                                                                                                        }
+                                                                                                    });
+                                                                                                }
+                                                                                            });
                                                                                         }
                                                                                     } catch (JSONException e) {
                                                                                         e.printStackTrace();

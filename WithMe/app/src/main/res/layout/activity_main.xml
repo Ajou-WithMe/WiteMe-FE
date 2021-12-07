@@ -34,6 +34,39 @@
             android:layout_height="match_parent">
 
             <ImageButton
+                android:id="@+id/prediction_location"
+                android:layout_width="264px"
+                android:layout_height="100px"
+                android:layout_marginStart="24px"
+                android:layout_marginTop="150px"
+                android:visibility="invisible"
+                android:background="@drawable/prediction_location"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/often_visited"
+                android:layout_width="264px"
+                android:layout_height="110px"
+                android:layout_marginStart="36px"
+                android:layout_marginTop="140px"
+                android:visibility="invisible"
+                android:background="@drawable/often_visited"
+                app:layout_constraintStart_toEndOf="@+id/prediction_location"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/prediction_realtime"
+                android:layout_width="264px"
+                android:layout_height="110px"
+                android:layout_marginStart="36px"
+                android:layout_marginTop="140px"
+                android:visibility="invisible"
+                android:background="@drawable/prediction_realtime"
+                app:layout_constraintStart_toEndOf="@+id/often_visited"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
                 android:id="@+id/refresh"
                 android:layout_width="144px"
                 android:layout_height="144px"
@@ -107,6 +140,7 @@
                 android:background="@drawable/make_group"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
