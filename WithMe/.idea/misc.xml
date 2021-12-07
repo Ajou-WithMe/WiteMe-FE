@@ -63,6 +63,7 @@
         <entry key="app/src/main/res/layout/activity_sign_up4_2.xml" value="0.17119565217391305" />
         <entry key="app/src/main/res/layout/bottom_sheet_layout.xml" value="0.25" />
         <entry key="app/src/main/res/layout/bottom_sheet_layout_board.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/bottom_sheet_layout_protection.xml" value="0.335" />
         <entry key="app/src/main/res/layout/code_copy_dialog.xml" value="0.25" />
         <entry key="app/src/main/res/layout/description_frame1.xml" value="0.25" />
         <entry key="app/src/main/res/layout/description_frame2.xml" value="0.20606884057971014" />

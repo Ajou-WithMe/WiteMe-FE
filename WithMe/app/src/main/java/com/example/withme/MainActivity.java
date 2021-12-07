@@ -35,6 +35,7 @@ import com.example.withme.bulletin.WriteBulletin;
 import com.example.withme.bulletin.MyBulletin;
 import com.example.withme.bulletin.BulletinDetail;
 import com.example.withme.group.BottomSheetDialogMain;
+import com.example.withme.group.BottomSheetDialogProtection;
 import com.example.withme.group.GroupActivity1;
 import com.example.withme.intro.DescriptionActivity;
 import com.example.withme.retorfit.RetrofitAPI;
@@ -105,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private LinearLayout protectionPersonLayout;
     private NaverMap naverMap;
     private MapView mapView;
+    private TextView tv_settings, tv_bulletin;
     private Marker marker = new Marker();
     private PolygonOverlay polygon = new PolygonOverlay();
     private CircleOverlay circleOverlay = new CircleOverlay();
@@ -175,6 +177,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         prediction_realtime = findViewById(R.id.prediction_realtime);
         often_visited = findViewById(R.id.often_visited);
 
+        tv_bulletin = findViewById(R.id.tv_bulletin);
+        tv_settings = findViewById(R.id.tv_settings);
+
         coachMark = (ConstraintLayout) findViewById(R.id.coach_mark_master_view);
         navigationView = (ConstraintLayout) findViewById(R.id.navigationView);
         protectionPersonLayout = (LinearLayout) findViewById(R.id.protectionPersonLayout);
@@ -232,9 +237,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         group.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BottomSheetDialogMain bottomSheetDialogMain = new BottomSheetDialogMain();
-                bottomSheetDialogMain.show(getSupportFragmentManager(), "bottomSheet");
-                bottomSheetDialogMain.setArguments(bundle);
+                if (type == 2) {
+                    BottomSheetDialogProtection bottomSheetDialogProtection = new BottomSheetDialogProtection();
+                    bottomSheetDialogProtection.show(getSupportFragmentManager(), "bottomSheetProtection");
+                    bottomSheetDialogProtection.setArguments(bundle);
+                } else {
+                    BottomSheetDialogMain bottomSheetDialogMain = new BottomSheetDialogMain();
+                    bottomSheetDialogMain.show(getSupportFragmentManager(), "bottomSheet");
+                    bottomSheetDialogMain.setArguments(bundle);
+                }
             }
         });
 
@@ -422,9 +433,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                             Log.e("User Type", String.valueOf(type));
 
                             if (type == 2) {
-                                navigationView.setVisibility(View.GONE);
                                 naverMap.setLocationSource(fusedLocationSource);
                                 ActivityCompat.requestPermissions(MainActivity.this, PERMISSION, LOCATION_PERMISSION_REQUEST_CODE);
+                                bulletinBoard.setVisibility(View.GONE);
+                                settings.setVisibility(View.GONE);
+                                tv_bulletin.setVisibility(View.GONE);
+                                tv_settings.setVisibility(View.GONE);
                             } else { // 0 : 이메일, 1 : 카카오, 2 : 피보호자
                                 Intent getIntent = getIntent();
 

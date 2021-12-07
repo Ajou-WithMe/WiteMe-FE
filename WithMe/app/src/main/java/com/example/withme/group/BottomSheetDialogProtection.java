@@ -1,7 +1,6 @@
 package com.example.withme.group;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
-import static android.content.Context.MODE_PRIVATE;
 
 import android.app.Dialog;
 import android.content.ClipData;
@@ -20,38 +19,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import com.airbnb.lottie.L;
 import com.bumptech.glide.Glide;
 import com.example.withme.MainActivity;
 import com.example.withme.R;
-import com.example.withme.group.GroupAddActivity1;
-import com.example.withme.group.GroupAddActivity2;
-import com.example.withme.group.GroupDetailActivity;
-import com.example.withme.group.ProtectionPersonActivity1;
 import com.example.withme.retorfit.RetrofitAPI;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import com.google.gson.Gson;
 import com.kyleduo.switchbutton.SwitchButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -63,7 +51,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class BottomSheetDialogMain extends BottomSheetDialogFragment {
+public class BottomSheetDialogProtection extends BottomSheetDialogFragment {
 
     // 초기 변수 설정
     private View view;
@@ -86,7 +74,7 @@ public class BottomSheetDialogMain extends BottomSheetDialogFragment {
     int group_num, protector_num, protectionPerson_num;
     int i=0;
 
-    Retrofit retrofit = new retrofit2.Retrofit.Builder()
+    Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("http://withme-lb-1691720831.ap-northeast-2.elb.amazonaws.com")
             .addConverterFactory(GsonConverterFactory.create()) //gson converter 생성, gson은 JSON을 자바 클래스로 바꾸는데 사용된다.
             .build();
@@ -262,23 +250,7 @@ public class BottomSheetDialogMain extends BottomSheetDialogFragment {
                                                                 numProtector.setText(String.valueOf(protector_num + protectionPerson_num));
 
                                                                 if ( protectionPerson_num == 0) {
-                                                                    ImageView addButtonProtectionPerson = new ImageView(getActivity().getApplicationContext());
-                                                                    LinearLayout.LayoutParams addProtectionPerson= new LinearLayout.LayoutParams(588, 144);
-                                                                    addProtectionPerson.setMargins(42, 72, 0, 0);
-                                                                    addButtonProtectionPerson.setLayoutParams(addProtectionPerson);
-                                                                    addButtonProtectionPerson.setBackgroundResource(R.drawable.add_protection_person);
 
-                                                                    protectionPersonLayout.removeAllViews();
-                                                                    protectionPersonLayout.addView(addButtonProtectionPerson);
-
-                                                                    addButtonProtectionPerson.setOnClickListener(new View.OnClickListener() {
-                                                                        @Override
-                                                                        public void onClick(View v) {
-                                                                            Intent intent = new Intent(getActivity(), GroupActivity3.class);
-                                                                            intent.putExtra("code", code);
-                                                                            startActivity(intent);
-                                                                        }
-                                                                    });
                                                                 } else {
                                                                     for (int l = 0; l < protectionPerson_num; l++) {
                                                                         JSONObject protectionPerson = protectionPersons.getJSONObject(l);
@@ -308,25 +280,6 @@ public class BottomSheetDialogMain extends BottomSheetDialogFragment {
                                                                         textViewProtectionPerson.setTextSize(14);
                                                                         textViewProtectionPerson.setTextColor(Color.parseColor("#333333"));
 
-                                                                        ImageView reviseProtectionPerson = new ImageView(getActivity().getApplicationContext());
-                                                                        reviseProtectionPerson.setBackgroundResource(R.drawable.revise_protection_person);
-                                                                        LinearLayout.LayoutParams pencil = new LinearLayout.LayoutParams(108, 108);
-                                                                        reviseProtectionPerson.setLayoutParams(pencil);
-                                                                        pencil.gravity = Gravity.CENTER_VERTICAL;
-                                                                        reviseProtectionPerson.setX(100);
-
-                                                                        SwitchButton switchButton = new SwitchButton(getActivity().getApplicationContext());
-                                                                        LinearLayout.LayoutParams toggles = new LinearLayout.LayoutParams(141, 72);
-                                                                        toggles.setMargins(57, 0, 0, 0 );
-                                                                        switchButton.setLayoutParams(toggles);
-                                                                        toggles.gravity = Gravity.CENTER_VERTICAL;
-                                                                        switchButton.setX(110);
-                                                                        if (safeMove == 0) { // 안심이동이 꺼져있다면
-                                                                            switchButton.setChecked(false);
-                                                                        } else if (safeMove == 1) { // 안심이동이 켜져있다면
-                                                                            switchButton.setChecked(true);
-                                                                        }
-
                                                                         Glide.with(getActivity().getApplicationContext()).load(profile).into(circleImageViewProtectionPerson);
                                                                         if (profile.equals("null")) {
                                                                             circleImageViewProtectionPerson.setBackgroundResource(R.drawable.solo_white);
@@ -347,131 +300,10 @@ public class BottomSheetDialogMain extends BottomSheetDialogFragment {
 
                                                                         linearLayoutProtectionPerson.addView(circleImageViewProtectionPerson);
                                                                         linearLayoutProtectionPerson.addView(textViewProtectionPerson);
-                                                                        linearLayoutProtectionPerson.addView(reviseProtectionPerson);
-                                                                        linearLayoutProtectionPerson.addView(switchButton);
-
-                                                                        switchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                                                                            @Override
-                                                                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                                                                                if (isChecked) {
-                                                                                    Log.e("safeMove", "check");
-                                                                                    HashMap<String, Object> input = new HashMap<>();
-                                                                                    input.put("uid", protectionPersonUid);
-                                                                                    input.put("safemove", 1);
-                                                                                    retrofitAPI.changeSafeMove(accessToken, input).enqueue(new Callback<ResponseBody>() {
-                                                                                        @Override
-                                                                                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                                                                            if (response.isSuccessful()) {
-                                                                                                try {
-                                                                                                    JSONObject jsonObject = new JSONObject(response.body().string());
-                                                                                                    String data = jsonObject.getString("data");
-
-                                                                                                    Log.e("safeMove", data);
-                                                                                                } catch (JSONException e) {
-                                                                                                    e.printStackTrace();
-                                                                                                } catch (IOException e) {
-                                                                                                    e.printStackTrace();
-                                                                                                }
-                                                                                            }
-                                                                                        }
-
-                                                                                        @Override
-                                                                                        public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-                                                                                        }
-                                                                                    });
-                                                                                } else {
-                                                                                    Log.e("safeMove", "not check");
-                                                                                    HashMap<String, Object> input = new HashMap<>();
-                                                                                    input.put("uid", protectionPersonUid);
-                                                                                    input.put("safemove", 0);
-                                                                                    retrofitAPI.changeSafeMove(accessToken, input).enqueue(new Callback<ResponseBody>() {
-                                                                                        @Override
-                                                                                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                                                                            try {
-                                                                                                JSONObject jsonObject = new JSONObject(response.body().string());
-                                                                                                String data = jsonObject.getString("data");
-
-                                                                                                Log.e("safeMove", data);
-                                                                                            } catch (JSONException e) {
-                                                                                                e.printStackTrace();
-                                                                                            } catch (IOException e) {
-                                                                                                e.printStackTrace();
-                                                                                            }
-                                                                                        }
-
-                                                                                        @Override
-                                                                                        public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-                                                                                        }
-                                                                                    });
-                                                                                }
-                                                                            }
-                                                                        });
-
-                                                                        reviseProtectionPerson.setOnClickListener(new View.OnClickListener() {
-                                                                            @Override
-                                                                            public void onClick(View v) {
-                                                                                retrofitAPI.getAllprotection(accessToken).enqueue(new Callback<ResponseBody>() {
-                                                                                    @Override
-                                                                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                                                                        if (response.isSuccessful()) {
-                                                                                            try {
-                                                                                                JSONObject jsonObject = new JSONObject(response.body().string());
-                                                                                                boolean success = jsonObject.getBoolean("success");
-
-                                                                                                if (success == true) {
-                                                                                                    Intent intent = new Intent(getActivity(), ProtectionPersonActivity1.class);
-                                                                                                    JSONArray data = jsonObject.getJSONArray("data");
-                                                                                                    Log.e("Protection", String.valueOf(data));
-                                                                                                    int protectionPersonNum = data.length();
-                                                                                                    for (int i = 0; i<protectionPersonNum; i++) {
-                                                                                                        JSONObject protectionPerson = (JSONObject) data.get(i);
-                                                                                                        String protectionUID = protectionPerson.getString("uid");
-                                                                                                        String protectionName = protectionPerson.getString("name");
-
-                                                                                                        if (protectionPersonUid.equals(protectionUID)) {
-                                                                                                            intent.putExtra("name", protectionName);
-                                                                                                            intent.putExtra("uid", protectionPersonUid);
-                                                                                                        }
-                                                                                                    }
-                                                                                                    startActivity(intent);
-
-                                                                                                }
-                                                                                            } catch (JSONException e) {
-                                                                                                e.printStackTrace();
-                                                                                            } catch (IOException e) {
-                                                                                                e.printStackTrace();
-                                                                                            }
-                                                                                        }
-                                                                                    }
-                                                                                    @Override
-                                                                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-                                                                                    }
-                                                                                });
-                                                                            }
-                                                                        });
                                                                     }
-                                                                    ImageView addButtonProtectionPerson = new ImageView(getActivity().getApplicationContext());
-                                                                    LinearLayout.LayoutParams addProtectionPerson= new LinearLayout.LayoutParams(588, 144);
-                                                                    addProtectionPerson.setMargins(42, 72, 0, 0);
-                                                                    addButtonProtectionPerson.setLayoutParams(addProtectionPerson);
-                                                                    addButtonProtectionPerson.setBackgroundResource(R.drawable.add_protection_person);
-
-                                                                    protectionPersonLayout.addView(addButtonProtectionPerson);
 
                                                                     setStringArrayPref(getActivity().getApplicationContext(), "name", protectionPersonName);
                                                                     setStringArrayPref(getActivity().getApplicationContext(), "uid", protectionPersonUids);
-
-                                                                    addButtonProtectionPerson.setOnClickListener(new View.OnClickListener() {
-                                                                        @Override
-                                                                        public void onClick(View v) {
-                                                                            Intent intent = new Intent(getActivity(), GroupActivity3.class);
-                                                                            intent.putExtra("code", code);
-                                                                            startActivity(intent);
-                                                                        }
-                                                                    });
                                                                 }
 
                                                                 for (int k = 0; k < protector_num; k++) {
