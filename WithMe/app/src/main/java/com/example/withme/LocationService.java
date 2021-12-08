@@ -119,15 +119,18 @@ public class LocationService extends Service {
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if (response.isSuccessful()) {
                             try {
+
                                 JSONObject jsonObject = new JSONObject(response.body().string());
                                 boolean success = jsonObject.getBoolean("success");
+                                Log.e("data", jsonObject.toString());
                                 if (success == true) {
+                                    Log.e("input", input2.toString());
+
                                     int data = jsonObject.getInt("data");
+//                                    Log.e("out or not1", String.valueOf(data));
 
                                     if (data == 1) { // safe zone 내부로 판단
-//                                        Log.e("out or not", String.valueOf(data));
                                     } else { // 와부일 경우로 판단
-//                                        Log.e("out or not", String.valueOf(data));
                                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                                                 Intent.FLAG_ACTIVITY_SINGLE_TOP |

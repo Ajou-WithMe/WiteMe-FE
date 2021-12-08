@@ -100,7 +100,7 @@
         android:layout_width="906px"
         android:layout_height="141px"
         android:layout_marginTop="48px"
-        android:layout_marginBottom="296px"
+        android:layout_marginBottom="627px"
         android:background="@drawable/radius_2"
         android:backgroundTint="#FEE500"
         android:drawableLeft="@drawable/kakao"

@@ -291,12 +291,14 @@ public class LoginActivity extends AppCompatActivity {
                                 if (success == true) {
                                     JSONObject data = jsonObject.getJSONObject("data");
                                     String accessToken = data.getString("accessToken");
+                                    String uid = data.getString("uid");
 
                                     Log.e("Email Login", "로그인 성공");
-                                    Log.e("Email Login", accessToken);
+                                    Log.e("Email Login", uid);
 
                                     editor.putString("AccessToken", accessToken);
                                     editor.commit();
+                                    intent2.putExtra("uid", uid);
                                     startActivity(intent2);
                                 } else {
                                     Log.e("Not Equal Email", "못가");

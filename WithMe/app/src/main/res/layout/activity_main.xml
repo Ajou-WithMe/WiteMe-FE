@@ -33,6 +33,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <ImageView
+                android:id="@+id/protectionSettings"
+                android:layout_width="189px"
+                android:layout_height="180px"
+                android:layout_marginTop="60px"
+                android:visibility="gone"
+                android:background="@drawable/protection_settings"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
             <ImageButton
                 android:id="@+id/prediction_location"
                 android:layout_width="264px"

@@ -9,11 +9,13 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
 import android.app.ActivityManager;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,7 +25,9 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -46,6 +50,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
+import com.kyleduo.switchbutton.SwitchButton;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.CameraAnimation;
 import com.naver.maps.map.CameraUpdate;
@@ -67,6 +72,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.ResponseBody;
@@ -91,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private double latitude, longitude;
     private double latitude_protection, longitude_protection;
     private int disconnected, type;
+    private int nChecked = 0;
     private JSONObject coordinate1, coordinate2, coordinate3, coordinate4;
     private ArrayList<String> protectionPersonName = new ArrayList<>();
     private ArrayList<String> protectionPersonName_sec = new ArrayList<>();
@@ -103,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private JSONArray safeZoneCoord;
 
     private ConstraintLayout coachMark, navigationView;
+    private ImageView protectionSettings;
     private LinearLayout protectionPersonLayout;
     private NaverMap naverMap;
     private MapView mapView;
@@ -112,6 +120,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private CircleOverlay circleOverlay = new CircleOverlay();
     private CircleImageView circleImageView;
     private Button groupButton;
+    private Dialog dialog;
     private Handler mHandler;
     private FusedLocationProviderClient mFusedLocationClient;
     private boolean mLocationPermissionGranted = false;
@@ -137,6 +146,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             .addConverterFactory(GsonConverterFactory.create()) //gson converter 생성, gson은 JSON을 자바 클래스로 바꾸는데 사용된다.
             .build();
     RetrofitAPI retrofitAPI2 = retrofit2.create(RetrofitAPI.class);
+
+    public MainActivity() {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,6 +188,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         prediction_location = findViewById(R.id.prediction_location);
         prediction_realtime = findViewById(R.id.prediction_realtime);
         often_visited = findViewById(R.id.often_visited);
+        protectionSettings = findViewById(R.id.protectionSettings);
 
         tv_bulletin = findViewById(R.id.tv_bulletin);
         tv_settings = findViewById(R.id.tv_settings);
@@ -406,7 +419,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         public void run() {
                             Intent intent = getIntent();
                             int out = intent.getIntExtra("out", 3);
-//                            Log.e("out", String.valueOf(out));
+                            Log.e("out", String.valueOf(out));
                         }
                     });
                     try {
@@ -435,6 +448,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                             if (type == 2) {
                                 naverMap.setLocationSource(fusedLocationSource);
                                 ActivityCompat.requestPermissions(MainActivity.this, PERMISSION, LOCATION_PERMISSION_REQUEST_CODE);
+
+                                protectionSettings.setVisibility(View.VISIBLE);
                                 bulletinBoard.setVisibility(View.GONE);
                                 settings.setVisibility(View.GONE);
                                 tv_bulletin.setVisibility(View.GONE);
@@ -732,6 +747,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                                                                         boolean success = jsonObject.getBoolean("success");
 
                                                                                         if (success == true) {
+                                                                                            for (int i = 0; i< polygons.size(); i++) {
+                                                                                                polygons.get(i).setMap(null);
+                                                                                            }
+                                                                                            polygons.clear();
+
                                                                                             safeZoneCoord = jsonObject.getJSONArray("data");
                                                                                             for (int i = 0; i < (safeZoneCoord.length() / 4); i++) {
 
@@ -750,18 +770,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                                                                                 coordinate4 = (JSONObject) safeZoneCoord.get(i * 4 + 3);
                                                                                                 double lat4 = coordinate4.getDouble("latitude");
                                                                                                 double long4 = coordinate4.getDouble("longitude");
-
-                                                                                                polygon.setCoords(Arrays.asList(
+                                                                                                PolygonOverlay polygon_sa = new PolygonOverlay();
+                                                                                                polygon_sa.setCoords(Arrays.asList(
                                                                                                         new LatLng(lat1, long1),
                                                                                                         new LatLng(lat2, long2),
                                                                                                         new LatLng(lat3, long3),
                                                                                                         new LatLng(lat4, long4)
                                                                                                 ));
-                                                                                                polygon.setOutlineColor(Color.TRANSPARENT);
-                                                                                                polygon.setColor(Color.parseColor("#803E791A"));
-                                                                                                polygon.setMap(naverMap);
+                                                                                                polygon_sa.setOutlineColor(Color.TRANSPARENT);
+                                                                                                polygon_sa.setColor(Color.parseColor("#803E791A"));
+                                                                                                polygon_sa.setMap(naverMap);
 
-                                                                                                polygons.add(polygon);
+                                                                                                polygons.add(polygon_sa);
                                                                                             }
                                                                                         } else {
                                                                                             Log.e("findSafeZone", "false");
@@ -922,6 +942,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                                                         PolygonOverlay a = polygons.get(i);
                                                                         a.setMap(null);
                                                                     }
+                                                                    polygons.clear();
 
                                                                     prediction_location.setVisibility(View.VISIBLE);
                                                                     prediction_realtime.setVisibility(View.VISIBLE);
@@ -929,6 +950,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                                                                     Log.e("disconnected", protectionPersonDisconnected_sec.toString());
                                                                     if (protectionPersonDisconnected_sec.get(circleImageView.getId()) == 1) {
+                                                                        Log.e("disconnected", "disconnected");
+
                                                                         retrofitAPI2.findVisitOftenAndDistanceAfterMissing(accessToken, uid).enqueue(new Callback<ResponseBody>() {
                                                                             @Override
                                                                             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -1151,6 +1174,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                                                                         boolean success = jsonObject.getBoolean("success");
 
                                                                                         if (success == true) {
+
                                                                                             safeZoneCoord = jsonObject.getJSONArray("data");
                                                                                             for (int i = 0; i < (safeZoneCoord.length() / 4); i++) {
 
@@ -1170,15 +1194,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                                                                                 double lat4 = coordinate4.getDouble("latitude");
                                                                                                 double long4 = coordinate4.getDouble("longitude");
 
-                                                                                                polygon.setCoords(Arrays.asList(
+                                                                                                PolygonOverlay polygon_sa = new PolygonOverlay();
+                                                                                                polygon_sa.setCoords(Arrays.asList(
                                                                                                         new LatLng(lat1, long1),
                                                                                                         new LatLng(lat2, long2),
                                                                                                         new LatLng(lat3, long3),
                                                                                                         new LatLng(lat4, long4)
                                                                                                 ));
-                                                                                                polygon.setOutlineColor(Color.TRANSPARENT);
-                                                                                                polygon.setColor(Color.parseColor("#803E791A"));
-                                                                                                polygon.setMap(naverMap);
+                                                                                                polygon_sa.setOutlineColor(Color.TRANSPARENT);
+                                                                                                polygon_sa.setColor(Color.parseColor("#803E791A"));
+                                                                                                polygon_sa.setMap(naverMap);
 
                                                                                                 polygons.add(polygon);
                                                                                             }
@@ -1222,7 +1247,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                                                                                             latitude_protection = data.getDouble("latitude");
                                                                                                             longitude_protection = data.getDouble("longitude");
 
-                                                                                                            Log.e("location", latitude_protection + ", " + longitude_protection);
+//                                                                                                            Log.e("location", latitude_protection + ", " + longitude_protection);
 
                                                                                                             marker.setPosition(new LatLng(latitude_protection, longitude_protection));
                                                                                                             marker.setMap(naverMap);
@@ -1295,6 +1320,150 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
         ActivityCompat.requestPermissions(this, PERMISSION, LOCATION_PERMISSION_REQUEST_CODE);
+
+        protectionSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog = new Dialog(MainActivity.this);
+
+                openDialog();
+            }
+        });
+    }
+
+    private void openDialog() {
+        dialog.setContentView(R.layout.protection_setting_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().setGravity(Gravity.TOP);
+
+        ImageButton xButton = dialog.findViewById(R.id.xButton);
+        TextView logout = dialog.findViewById(R.id.logout);
+        SwitchButton ansim = dialog.findViewById(R.id.ansim);
+
+        Intent intent = getIntent();
+
+        String protectionId = intent.getStringExtra("uid");
+
+        retrofitAPI.getProtectionDetail(accessToken, protectionId).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body().string());
+                        boolean success = jsonObject.getBoolean("success");
+
+                        if (success == true) {
+                            JSONObject data = jsonObject.getJSONObject("data");
+
+                            Log.e("data", data.toString());
+                            int safeMove = data.getInt("safeMove");
+
+                            ansim.setChecked(safeMove != 0);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+
+        ansim.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!isChecked) {
+                    nChecked = 0;
+                    HashMap<String, Object> input = new HashMap<>();
+
+                    input.put("uid", protectionId);
+                    input.put("safemove", nChecked);
+                    retrofitAPI.changeSafeMove(accessToken, input).enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            if (response.isSuccessful()) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response.body().string());
+                                    boolean success = jsonObject.getBoolean("success");
+
+                                    if (success) {
+                                        Toast.makeText(MainActivity.this, "안심이동 설정 변경을 완료하였습니다.", Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                        }
+                    });
+                } else {
+                    nChecked = 1;
+                    HashMap<String, Object> input = new HashMap<>();
+
+                    input.put("uid", protectionId);
+                    input.put("safemove", nChecked);
+                    retrofitAPI.changeSafeMove(accessToken, input).enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            if (response.isSuccessful()) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response.body().string());
+                                    boolean success = jsonObject.getBoolean("success");
+
+                                    if (success == true) {
+                                        Toast.makeText(MainActivity.this, "안심이동 설정 변경을 완료하였습니다.", Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                        }
+                    });
+                }
+            }
+        });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DescriptionActivity.class);
+
+                SharedPreferences pref = getSharedPreferences("storeAccessToken", MODE_PRIVATE);
+                SharedPreferences.Editor editor1 = pref.edit();
+                editor1.remove("AccessToken");
+                editor1.apply();
+                stopLocationService();
+
+                startActivity(intent);
+
+            }
+        });
+
+        xButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
     private final Runnable m_Runnable = new Runnable()

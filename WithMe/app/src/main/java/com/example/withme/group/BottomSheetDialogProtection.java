@@ -88,7 +88,7 @@ public class BottomSheetDialogProtection extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.bottom_sheet_layout, container, false);
+        view = inflater.inflate(R.layout.bottom_sheet_layout_protection, container, false);
 
         addGroup = (TextView) view.findViewById(R.id.addGroup);
         groupDescription = (TextView) view.findViewById(R.id.groupDescription);
@@ -350,25 +350,6 @@ public class BottomSheetDialogProtection extends BottomSheetDialogFragment {
                                                                     textViewProtector.setLayoutParams(lp_text);
                                                                     linearLayoutProtector.addView(textViewProtector);
                                                                 }
-                                                                ImageView addButton = new ImageView(getActivity().getApplicationContext());
-                                                                ViewGroup.LayoutParams add= new LinearLayout.LayoutParams(144, 210);
-                                                                addButton.setLayoutParams(add);
-                                                                addButton.setBackgroundResource(R.drawable.plus);
-
-                                                                LinearLayout.LayoutParams lpProtector = new LinearLayout.LayoutParams(144, 210);
-                                                                lpProtector.setMargins(60,0,0,0);
-                                                                addButton.setLayoutParams(lpProtector);
-
-                                                                protectorLayout.addView(addButton);
-
-                                                                addButton.setOnClickListener(new View.OnClickListener() {
-                                                                    @Override
-                                                                    public void onClick(View v) {
-                                                                        dialog = new Dialog(getActivity());
-                                                                        openDialogCode(code);
-                                                                    }
-                                                                });
-
                                                             }
                                                         } catch (JSONException e) {
                                                             e.printStackTrace();

@@ -56,6 +56,7 @@ public class GroupActivity3 extends AppCompatActivity {
     private static final int SEARCH_ADDRESS_ACTIVITY = 10000;
     private static final int PASSWORD_ACTIVITY = 20000;
     private final int GET_GALLERY_IMAGE = 200;
+    private int checked = 0;
     private String name, id, address, detailAddress, fullAddress, code, beforePassword;
     private ImageView checkbox1, checkbox2, checkbox3, checkbox4, checkbox5;
     private LinearLayout nameLayout, IDLayout, passwordLayout, addressLayout, detailAddressLayout;
@@ -126,75 +127,84 @@ public class GroupActivity3 extends AppCompatActivity {
         startWithMe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                File file = new File(selectedImagePath);
-                RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), file);
-                MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+                if (checked == 0) {
 
-                retrofitAPI.uploadImage(accessToken, body).enqueue(new Callback<UploadImage>() {
-                    @Override
-                    public void onResponse(Call<UploadImage> call, Response<UploadImage> response) {
-                        UploadImage data = response.body();
+                } else {
+                    if (selectedImagePath != null) {
+                        File file = new File(selectedImagePath);
+                        RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), file);
+                        MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
 
-                        if (response.isSuccessful()) {
-                            Log.e("make Profile", selectedImagePath);
-                            if (!data.getData().equals("이미지 파일이 아닙니다.")) {
-                                imageFromServer = data.getData();
-                                Log.e("imageFromServer", imageFromServer);
+                        retrofitAPI.uploadImage(accessToken, body).enqueue(new Callback<UploadImage>() {
+                            @Override
+                            public void onResponse(Call<UploadImage> call, Response<UploadImage> response) {
+                                UploadImage data = response.body();
 
-                                HashMap<String, Object> input = new HashMap<>();
-                                input.put("name", name);
-                                input.put("email", id);
-                                input.put("pwd", beforePassword);
-                                input.put("address", fullAddress);
-                                input.put("code", code);
-                                input.put("profile", imageFromServer);
+                                if (response.isSuccessful()) {
+                                    Log.e("make Profile", selectedImagePath);
+                                    if (!data.getData().equals("이미지 파일이 아닙니다.")) {
+                                        imageFromServer = data.getData();
+                                        Log.e("imageFromServer", imageFromServer);
 
-                                Log.e("input", input.toString());
+                                        HashMap<String, Object> input = new HashMap<>();
+                                        input.put("name", name);
+                                        input.put("email", id);
+                                        input.put("pwd", beforePassword);
+                                        input.put("address", fullAddress);
+                                        input.put("code", code);
+                                        input.put("profile", imageFromServer);
 
-                                retrofitAPI.postProtection(accessToken, input).enqueue(new Callback<ResponseBody>() {
-                                    @Override
-                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                        if (response.isSuccessful()) {
-                                            JSONObject jsonObject = null;
-                                            try {
-                                                jsonObject = new JSONObject(response.body().string());
-                                                String data = jsonObject.getString("data");
-                                                boolean success = jsonObject.getBoolean("success");
+                                        Log.e("input", input.toString());
 
-                                                Log.e("Protection", String.valueOf(jsonObject));
+                                        retrofitAPI.postProtection(accessToken, input).enqueue(new Callback<ResponseBody>() {
+                                            @Override
+                                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                                if (response.isSuccessful()) {
+                                                    JSONObject jsonObject = null;
+                                                    try {
+                                                        jsonObject = new JSONObject(response.body().string());
+                                                        String data = jsonObject.getString("data");
+                                                        boolean success = jsonObject.getBoolean("success");
 
-                                                if (success == false) {
-                                                    Toast.makeText(GroupActivity3.this, "이미 회원가입된 아이디입니다.", Toast.LENGTH_SHORT).show();
-                                                } else {
-                                                    intent1.putExtra("uid", data);
-                                                    intent1.putExtra("latitude", latitude);
-                                                    intent1.putExtra("longitude", longitude);
-                                                    startActivity(intent1);
+                                                        Log.e("Protection", String.valueOf(jsonObject));
 
+                                                        if (success == false) {
+                                                            Toast.makeText(GroupActivity3.this, "이미 회원가입된 아이디입니다.", Toast.LENGTH_SHORT).show();
+                                                        } else {
+                                                            intent1.putExtra("uid", data);
+                                                            intent1.putExtra("latitude", latitude);
+                                                            intent1.putExtra("longitude", longitude);
+                                                            startActivity(intent1);
+
+                                                        }
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                    } catch (IOException e) {
+                                                        e.printStackTrace();
+                                                    }
                                                 }
-                                            } catch (JSONException e) {
-                                                e.printStackTrace();
-                                            } catch (IOException e) {
-                                                e.printStackTrace();
                                             }
-                                        }
-                                    }
 
-                                    @Override
-                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                        Log.e("Protection", "전송 실패");
+                                            @Override
+                                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                                Log.e("Protection", "전송 실패");
+                                            }
+                                        });
+
                                     }
-                                });
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<UploadImage> call, Throwable t) {
 
                             }
-                        }
+                        });
+                    } else {
+                        Toast.makeText(GroupActivity3.this, "프로필 사진을 등록하셔야 합니다.", Toast.LENGTH_SHORT).show();
                     }
 
-                    @Override
-                    public void onFailure(Call<UploadImage> call, Throwable t) {
-
-                    }
-                });
+                }
             }
         });
 
@@ -336,6 +346,7 @@ public class GroupActivity3 extends AppCompatActivity {
                     startWithMe.setTextColor(Color.parseColor("#222222"));
                     startWithMe.setText("다음");
                     startWithMe.setClickable(true);
+                    checked = 1;
                 } else {
                     // Either gone or invisible
                 }
